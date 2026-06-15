@@ -4,12 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ücretsiz Online PDF Araçları | PDFQuickTools</title>
+<title>PDFQuickTools - Free Online PDF Tools</title>
 
-<meta name="description" content="PDFQuickTools ile PDF birleştir, böl ve görsele dönüştür. Hızlı, ücretsiz ve tarayıcı tabanlı PDF araçları.">
-
-<link rel="alternate" hreflang="tr" href="https://pdfquicktools.net/index.html" />
-<link rel="alternate" hreflang="en" href="https://pdfquicktools.net/en/index.html" />
+<meta name="description" content="Free PDF tools: merge, split, image to PDF, PDF to JPG. Fast and browser-based.">
 
 <style>
 :root{
@@ -37,21 +34,35 @@ header{
   align-items:center;
 }
 
-header .brand{
-  font-weight:700;
-  font-size:14px;
-}
-
 header a{
   color:white;
   text-decoration:none;
-  font-size:13px;
-  margin-left:10px;
+  font-weight:600;
+  font-size:14px;
   opacity:0.9;
 }
 
 header a:hover{
   opacity:1;
+}
+
+/* EN BUTTON */
+.lang-btn{
+  background:#2563eb;
+  color:white;
+  padding:8px 14px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:15px;
+  text-decoration:none;
+  margin-left:10px;
+  transition:0.2s;
+  display:inline-block;
+}
+
+.lang-btn:hover{
+  background:#1d4ed8;
+  transform:scale(1.05);
 }
 
 /* HERO */
@@ -72,13 +83,6 @@ header a:hover{
   line-height:1.6;
 }
 
-/* CONTAINER */
-.container{
-  max-width:1000px;
-  margin:30px auto;
-  padding:0 20px;
-}
-
 /* LINKS */
 .links{
   text-align:center;
@@ -94,6 +98,12 @@ header a:hover{
 }
 
 /* GRID */
+.container{
+  max-width:1000px;
+  margin:30px auto;
+  padding:0 20px;
+}
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -106,8 +116,8 @@ header a:hover{
   padding:20px;
   border-radius:14px;
   box-shadow:0 6px 18px rgba(0,0,0,0.06);
-  transition:0.2s;
   border:1px solid #eef0f5;
+  transition:0.2s;
 }
 
 .card:hover{
@@ -122,6 +132,7 @@ header a:hover{
 .card p{
   color:var(--muted);
   font-size:14px;
+  line-height:1.5;
 }
 
 .card a{
@@ -135,7 +146,7 @@ header a:hover{
   font-size:13px;
 }
 
-/* FAQ */
+/* SECTIONS */
 section{
   background:white;
   margin-top:25px;
@@ -145,24 +156,17 @@ section{
   color:#374151;
 }
 
+/* FAQ */
 details{
-  background:#fff;
-  border:1px solid #e5e7eb;
-  padding:12px 14px;
-  border-radius:10px;
   margin-bottom:10px;
-  cursor:pointer;
+  background:#f9fafb;
+  padding:10px;
+  border-radius:8px;
 }
 
 summary{
-  font-size:14px;
+  cursor:pointer;
   font-weight:600;
-}
-
-details p{
-  margin-top:10px;
-  color:#6b7280;
-  font-size:14px;
 }
 
 /* FOOTER */
@@ -178,7 +182,6 @@ footer a{
   text-decoration:none;
 }
 
-/* MOBILE */
 @media(max-width:768px){
   .hero h1{font-size:26px;}
 }
@@ -188,27 +191,24 @@ footer a{
 
 <body>
 
-<!-- HEADER -->
 <header>
-  <div class="brand">PDFQuickTools</div>
+  <div>PDFQuickTools</div>
 
   <div>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-    <a href="/index.html">TR</a>
-    <a href="/en/index.html">EN</a>
+    <a href="/about.html">About</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/index.html" class="lang-btn">EN</a>
   </div>
 </header>
 
-<!-- HERO -->
 <div class="hero">
-  <h1>Ücretsiz PDF Araçları</h1>
-  <p>PDF dosyalarını birleştir, böl ve dönüştür. Tamamen ücretsiz ve tarayıcı içinde çalışır.</p>
+  <h1 data-tr="Ücretsiz PDF Araçları" data-en="Free PDF Tools Online"></h1>
+  <p data-tr="PDF dosyalarını birleştir, böl ve dönüştür." 
+     data-en="Merge, split and convert PDF files instantly in your browser."></p>
 </div>
 
 <div class="container">
 
-<!-- QUICK LINKS -->
 <div class="links">
   <a href="/tools/merge.html">Merge</a>
   <a href="/tools/split.html">Split</a>
@@ -216,83 +216,87 @@ footer a{
   <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
 </div>
 
-<!-- TOOLS -->
 <div class="grid">
 
   <div class="card">
-    <h2>PDF Birleştir</h2>
-    <p>Birden fazla PDF dosyasını tek dosyada birleştir</p>
-    <a href="/tools/merge.html">Aç</a>
+    <h2 data-tr="PDF Birleştir" data-en="Merge PDF"></h2>
+    <p data-tr="Birden fazla PDF'i tek dosyada birleştir" data-en="Combine multiple PDFs into one file"></p>
+    <a href="/tools/merge.html">Open</a>
   </div>
 
   <div class="card">
-    <h2>PDF Böl</h2>
-    <p>PDF sayfalarını kolayca ayır</p>
-    <a href="/tools/split.html">Aç</a>
+    <h2 data-tr="PDF Böl" data-en="Split PDF"></h2>
+    <p data-tr="PDF sayfalarını ayır" data-en="Separate PDF pages easily"></p>
+    <a href="/tools/split.html">Open</a>
   </div>
 
   <div class="card">
-    <h2>Görsel → PDF</h2>
-    <p>JPG ve PNG dosyalarını PDF’e çevir</p>
-    <a href="/tools/image-to-pdf.html">Aç</a>
+    <h2 data-tr="Görsel → PDF" data-en="Image → PDF"></h2>
+    <p data-tr="Görselleri PDF'e çevir" data-en="Convert images into PDF files"></p>
+    <a href="/tools/image-to-pdf.html">Open</a>
   </div>
 
   <div class="card">
     <h2>PDF → JPG</h2>
-    <p>PDF sayfalarını görsellere dönüştür</p>
-    <a href="/tools/pdf-to-jpg.html">Aç</a>
+    <p data-tr="PDF sayfalarını görsele çevir" data-en="Convert PDF pages into images"></p>
+    <a href="/tools/pdf-to-jpg.html">Open</a>
   </div>
 
 </div>
 
-<!-- ABOUT -->
 <section>
-  <h2>Hakkında</h2>
-  <p>PDFQuickTools tamamen ücretsiz, hızlı ve güvenli PDF araçları sunar.</p>
+  <h2 data-tr="Hakkında" data-en="About"></h2>
+  <p data-tr="PDFQuickTools ücretsiz ve hızlı PDF araçları sunar."
+     data-en="PDFQuickTools provides free and fast PDF tools."></p>
 </section>
 
-<!-- WHY -->
 <section>
-  <h2>Neden Biz?</h2>
-  <p>✔ Kurulum yok</p>
-  <p>✔ Ücretsiz kullanım</p>
-  <p>✔ Tarayıcı içinde işlem</p>
+  <h2 data-tr="Neden Biz?" data-en="Why Choose Us?"></h2>
+  <p>✔ <span data-tr="Kurulum yok" data-en="No installation"></span></p>
+  <p>✔ <span data-tr="Ücretsiz kullanım" data-en="Free forever"></span></p>
+  <p>✔ <span data-tr="Tarayıcı içinde işlem" data-en="Works in browser"></span></p>
 </section>
 
-<!-- FAQ -->
 <section>
-  <h2>Sık Sorulan Sorular</h2>
+  <h2 data-tr="Sık Sorulan Sorular" data-en="FAQ"></h2>
 
   <details>
-    <summary>PDFQuickTools ücretsiz mi?</summary>
-    <p>Evet, tüm araçlar tamamen ücretsizdir.</p>
+    <summary data-tr="PDFQuickTools ücretsiz mi?" data-en="Is PDFQuickTools free?"></summary>
+    <p data-tr="Evet tamamen ücretsizdir." data-en="Yes, it is completely free."></p>
   </details>
 
   <details>
-    <summary>Kurulum gerekir mi?</summary>
-    <p>Hayır, tarayıcı içinde çalışır.</p>
+    <summary data-tr="Kurulum gerekir mi?" data-en="Do I need installation?"></summary>
+    <p data-tr="Hayır, tarayıcı içinde çalışır." data-en="No, it works in browser."></p>
   </details>
 
   <details>
-    <summary>Dosyalar yükleniyor mu?</summary>
-    <p>Hayır, işlemler cihazınızda yapılır.</p>
-  </details>
-
-  <details>
-    <summary>PDF → JPG nasıl çalışır?</summary>
-    <p>Tüm işlemler tarayıcı içinde JavaScript ile yapılır.</p>
+    <summary data-tr="Dosyalar yükleniyor mu?" data-en="Are files uploaded?"></summary>
+    <p data-tr="Hayır, cihazında çalışır." data-en="No, everything runs locally."></p>
   </details>
 
 </section>
 
 </div>
 
-<!-- FOOTER -->
 <footer>
+  PDFQuickTools © |
   <a href="/about.html">About</a> |
   <a href="/privacy.html">Privacy</a> |
   <a href="/contact.html">Contact</a>
 </footer>
+
+<script>
+function detectLang(){
+  const lang = navigator.language || navigator.userLanguage;
+  const isEN = lang.startsWith("en");
+
+  document.querySelectorAll("[data-tr]").forEach(el=>{
+    el.innerHTML = isEN ? el.dataset.en : el.dataset.tr;
+  });
+}
+detectLang();
+</script>
 
 </body>
 </html>
