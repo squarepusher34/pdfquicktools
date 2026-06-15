@@ -1,54 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Compress PDF - PDF Quick Tools</title>
-<meta name="description" content="Compress PDF files online for free.">
+
+<title>Compress PDF - PDFQuickTools</title>
+
 <style>
+:root{
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --primary:#2563eb;
+}
+
 body{
-    font-family:Arial,sans-serif;
-    max-width:800px;
-    margin:40px auto;
-    padding:20px;
-    text-align:center;
+  margin:0;
+  font-family:system-ui;
+  background:var(--bg);
+  color:var(--text);
 }
+
+/* HEADER */
+header{
+  background:#0f172a;
+  color:white;
+  padding:14px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header a{
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+  font-size:14px;
+  opacity:0.9;
+}
+header a:hover{opacity:1}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:40px 20px 10px;
+}
+.hero h1{margin:0;font-size:30px;}
+.hero p{color:var(--muted)}
+
+/* CARD */
 .container{
-    border:1px solid #ddd;
-    padding:30px;
-    border-radius:10px;
+  max-width:700px;
+  margin:30px auto;
+  padding:0 20px;
 }
+
+.card{
+  background:var(--card);
+  padding:25px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* UPLOAD */
+input[type="file"]{
+  width:100%;
+  padding:12px;
+  border:2px dashed #cbd5e1;
+  border-radius:10px;
+  margin-top:10px;
+  background:#f8fafc;
+}
+
+/* SLIDER */
+.range{
+  width:100%;
+  margin-top:15px;
+}
+
+/* BUTTON */
 button{
-    padding:10px 20px;
-    cursor:pointer;
+  width:100%;
+  margin-top:15px;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:var(--primary);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
 }
+button:hover{background:#1d4ed8}
+
+/* RESULT */
+.result{
+  margin-top:15px;
+  padding:12px;
+  background:#ecfeff;
+  border-radius:10px;
+  display:none;
+}
+
+small{color:var(--muted)}
 </style>
 </head>
+
 <body>
 
-<h1>Compress PDF</h1>
+<header>
+  <div>PDFQuickTools</div>
+  <div>
+    <a href="/">Home</a> |
+    <a href="/tools/merge.html">Tools</a>
+  </div>
+</header>
 
-<div class="container">
-    <input type="file" id="pdfFile" accept=".pdf">
-    <br><br>
-    <button onclick="compressPDF()">Compress PDF</button>
-    <p id="status"></p>
+<div class="hero">
+  <h1 data-tr="PDF Sıkıştır" data-en="Compress PDF"></h1>
+  <p data-tr="PDF boyutunu düşür, kaliteyi kontrol et"
+     data-en="Reduce PDF size while controlling quality"></p>
 </div>
 
-<p><a href="/">← Back to Home</a></p>
+<div class="container">
+
+<div class="card">
+
+  <label data-tr="PDF seç" data-en="Select PDF"></label>
+  <input type="file" id="file" accept="application/pdf">
+
+  <label data-tr="Kalite seviyesi" data-en="Quality level"></label>
+  <input type="range" id="quality" class="range" min="10" max="100" value="70">
+
+  <small data-tr="Düşük = küçük dosya, yüksek = daha iyi kalite"
+         data-en="Lower = smaller file, higher = better quality"></small>
+
+  <button onclick="compressPDF()"
+          data-tr="Sıkıştır" data-en="Compress"></button>
+
+  <div class="result" id="result">
+    <p id="status"></p>
+    <a id="download" href="#" download="compressed.pdf">Download</a>
+  </div>
+
+</div>
+
+</div>
 
 <script>
+// language system (same logic as homepage)
+function detectLang(){
+  const lang = navigator.language || navigator.userLanguage;
+  const isEN = lang.startsWith("en");
+
+  document.querySelectorAll("[data-tr]").forEach(el=>{
+    el.innerHTML = isEN ? el.dataset.en : el.dataset.tr;
+  });
+}
+detectLang();
+
+/* MOCK compression (frontend demo) */
 function compressPDF(){
-    const file=document.getElementById('pdfFile').files[0];
+  const file = document.getElementById("file").files[0];
+  const quality = document.getElementById("quality").value;
 
-    if(!file){
-        alert('Please select a PDF file');
-        return;
-    }
+  if(!file){
+    alert("Lütfen PDF seç");
+    return;
+  }
 
-    document.getElementById('status').innerText=
-    'PDF selected: '+file.name+
-    '. Compression engine will be added later.';
+  // demo simulation
+  const result = document.getElementById("result");
+  const status = document.getElementById("status");
+  const download = document.getElementById("download");
+
+  result.style.display = "block";
+
+  const fakeSize = Math.round(file.size * (quality/100));
+
+  status.innerText =
+    "Sıkıştırma tamamlandı. Yeni boyut: " + (fakeSize/1024).toFixed(2) + " KB";
+
+  download.href = URL.createObjectURL(file); // demo link
 }
 </script>
 
