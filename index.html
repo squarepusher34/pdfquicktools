@@ -17,7 +17,7 @@
   "@type": "WebSite",
   "name": "PDFQuickTools",
   "url": "https://pdfquicktools.net/",
-  "description": "Free online PDF tools to merge, split and convert images to PDF.",
+  "description": "PDF birleştirme, bölme ve görselden PDF oluşturma araçları.",
   "potentialAction": {
     "@type": "SearchAction",
     "target": "https://pdfquicktools.net/?q={search_term_string}",
@@ -75,45 +75,27 @@ h1{ font-size:34px; }
 .card:hover{ transform:translateY(-4px); }
 
 a{
+  display:inline-block;
+  margin-top:10px;
   color:#2563eb;
-  text-decoration:none;
   font-weight:600;
+  text-decoration:none;
 }
 
 a:hover{ text-decoration:underline; }
 
-/* LEFT MENU FIX */
+/* NAV */
 .nav-left{
   position:absolute;
   left:15px;
   top:50%;
   transform:translateY(-50%);
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-/* group 1 */
-.nav-group{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-  padding-bottom:8px;
-  border-bottom:1px solid rgba(255,255,255,0.2);
-}
-
-/* group 2 */
-.nav-group:last-child{
-  border-bottom:none;
 }
 
 .nav-left a{
   color:white;
-  font-size:13px;
-  background:rgba(255,255,255,0.08);
-  padding:4px 8px;
-  border-radius:6px;
-  width:max-content;
+  margin-right:10px;
+  font-size:14px;
 }
 
 /* LANG */
@@ -123,10 +105,11 @@ a:hover{ text-decoration:underline; }
   top:50%;
   transform:translateY(-50%);
   color:white;
+  text-decoration:none;
+  font-weight:600;
   background:#2563eb;
   padding:6px 12px;
   border-radius:8px;
-  text-decoration:none;
 }
 
 section{
@@ -135,6 +118,26 @@ section{
   padding:25px;
   border-radius:12px;
   text-align:left;
+  box-shadow:0 10px 20px rgba(0,0,0,0.05);
+  color:#444;
+  line-height:1.7;
+}
+
+footer{
+  margin-top:40px;
+  padding:20px;
+  text-align:center;
+  color:#666;
+}
+
+footer a{
+  margin:0 8px;
+  color:#2563eb;
+  text-decoration:none;
+}
+
+@media(max-width:768px){
+  .grid{grid-template-columns:1fr}
 }
 </style>
 
@@ -144,20 +147,9 @@ section{
 
 <header>
 
-  <!-- LEFT MENU FIXED -->
   <div class="nav-left">
-
-    <div class="nav-group">
-      <a href="/about.html">About</a>
-      <a href="/contact.html">Contact</a>
-    </div>
-
-    <div class="nav-group">
-      <a href="/seo/jpg-to-pdf.html">JPG</a>
-      <a href="/seo/png-to-pdf.html">PNG</a>
-      <a href="/seo/photo-to-pdf.html">PHOTO</a>
-    </div>
-
+    <a href="/about.html">Hakkında</a>
+    <a href="/contact.html">İletişim</a>
   </div>
 
   <h2 style="margin:0;font-size:20px;">
@@ -172,35 +164,78 @@ section{
 <h1>Ücretsiz Online PDF Araçları</h1>
 
 <div class="intro">
-  PDFQuickTools, PDF dosyalarıyla çalışmak için geliştirilmiş ücretsiz bir web platformudur.
+  PDFQuickTools, PDF dosyalarıyla çalışmak için geliştirilmiş hızlı ve ücretsiz bir web platformudur.
+  PDF birleştirme, bölme ve görselden PDF oluşturma işlemlerini tarayıcı içinde yapabilirsiniz.
 </div>
 
+<!-- INTERNAL SEO LINKS -->
 <div style="margin-bottom:25px;">
-  <a href="/tools/merge.html">Merge PDF</a> |
-  <a href="/tools/split.html">Split PDF</a> |
-  <a href="/tools/image-to-pdf.html">Image to PDF</a>
+  <a href="/tools/merge.html">PDF Birleştir</a> |
+  <a href="/tools/split.html">PDF Böl</a> |
+  <a href="/tools/image-to-pdf.html">Görselden PDF</a>
 </div>
 
 <div class="grid">
 
   <div class="card">
     <h2>PDF Birleştir</h2>
-    <p>Birleştir</p>
+    <p>Birden fazla PDF dosyasını tek dosyada birleştirin</p>
+    <a href="/tools/merge.html">Aç</a>
   </div>
 
   <div class="card">
     <h2>PDF Böl</h2>
-    <p>Böl</p>
+    <p>PDF sayfalarını kolayca ayırın</p>
+    <a href="/tools/split.html">Aç</a>
   </div>
 
   <div class="card">
     <h2>Görsel → PDF</h2>
-    <p>Dönüştür</p>
+    <p>JPG veya PNG görselleri PDF'e dönüştürün</p>
+    <a href="/tools/image-to-pdf.html">Aç</a>
   </div>
 
 </div>
 
+<!-- ABOUT -->
+<section>
+  <h2>PDFQuickTools Hakkında</h2>
+  <p>
+    PDFQuickTools hızlı, güvenli ve ücretsiz PDF araçları sunar.
+  </p>
+  <p>
+    Herhangi bir kurulum veya kayıt gerekmez.
+  </p>
+</section>
+
+<!-- WHY -->
+<section>
+  <h2>Neden PDFQuickTools?</h2>
+  <p>✔ Kurulum gerekmez</p>
+  <p>✔ %100 ücretsiz kullanım</p>
+  <p>✔ Hızlı ve güvenli işlem</p>
+  <p>✔ Gizlilik odaklı tasarım</p>
+</section>
+
+<!-- FAQ -->
+<section>
+  <h2>Sık Sorulan Sorular</h2>
+
+  <p><strong>PDFQuickTools ücretsiz mi?</strong><br>Evet, tüm araçlar tamamen ücretsizdir.</p>
+
+  <p><strong>Kurulum gerekir mi?</strong><br>Hayır, tarayıcı içinde çalışır.</p>
+
+  <p><strong>Dosyalar yükleniyor mu?</strong><br>Hayır, işlemler cihazınızda yapılır.</p>
+
+</section>
+
 </div>
+
+<footer>
+  <a href="/about.html">Hakkında</a> |
+  <a href="/privacy.html">Gizlilik</a> |
+  <a href="/contact.html">İletişim</a>
+</footer>
 
 </body>
 </html>
