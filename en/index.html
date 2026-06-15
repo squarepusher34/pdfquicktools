@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PDFQuickTools - Free Online PDF Tools</title>
-<meta name="description" content="Merge, split and compress PDF files online for free. No signup required.">
+<meta name="description" content="Merge, split and convert images to PDF online for free. No signup required.">
 
 <style>
 body{
@@ -20,6 +20,7 @@ header{
   color:white;
   padding:25px;
   text-align:center;
+  position:relative;
 }
 
 .container{
@@ -51,6 +52,10 @@ p{
   box-shadow:0 10px 20px rgba(0,0,0,0.08);
 }
 
+.card h2{
+  margin-top:0;
+}
+
 a{
   display:inline-block;
   margin-top:10px;
@@ -59,68 +64,64 @@ a{
   text-decoration:none;
 }
 
-.lang{
+a:hover{
+  text-decoration:underline;
+}
+
+.lang-btn{
   position:absolute;
-  top:15px;
   right:15px;
+  top:50%;
+  transform:translateY(-50%);
   color:white;
+  text-decoration:none;
+  font-weight:600;
+  background:#2563eb;
+  padding:6px 12px;
+  border-radius:8px;
 }
 
 @media(max-width:768px){
   .grid{grid-template-columns:1fr}
 }
 </style>
+
 </head>
 
 <body>
 
-<header style="position:relative;display:flex;justify-content:center;align-items:center;">
-
+<header>
   <h2 style="margin:0;font-size:20px;">
     PDFQuickTools - Free PDF Tools
   </h2>
 
-  <a href="/index.html" style="
-    position:absolute;
-    right:15px;
-    top:50%;
-    transform:translateY(-50%);
-    color:white;
-    text-decoration:none;
-    font-weight:600;
-    background:#2563eb;
-    padding:6px 12px;
-    border-radius:8px;
-  ">
-    TR
-  </a>
-
+  <a class="lang-btn" href="/index.html">TR</a>
 </header>
 
 <div class="container">
 
 <h1>Free PDF Tools Online</h1>
-<p>Merge, split and compress PDF files instantly</p>
+<p>Merge, split and convert images to PDF instantly</p>
 
 <div class="grid">
 
-<div class="card">
-<h2>Merge PDF</h2>
-<p>Combine multiple PDFs into one file</p>
-<a href="/tools/merge.html">Open</a>
-</div>
+  <div class="card">
+    <h2>Merge PDF</h2>
+    <p>Combine multiple PDFs into one file</p>
+    <a href="/tools/merge.html">Open</a>
+  </div>
 
-<div class="card">
-<h2>Split PDF</h2>
-<p>Separate PDF pages easily</p>
-<a href="/tools/split.html">Open</a>
-</div>
+  <div class="card">
+    <h2>Split PDF</h2>
+    <p>Separate PDF pages easily</p>
+    <a href="/tools/split.html">Open</a>
+  </div>
 
-<div class="card">
-<h2>Compress PDF</h2>
-<p>Reduce PDF file size</p>
-<a href="/tools/compress.html">Open</a>
-</div>
+  <div class="card">
+    <h2>Image → PDF</h2>
+    <p>Convert JPG or PNG files into PDF</p>
+    <a href="/tools/image-to-pdf.html">Open</a>
+  </div>
 
 </div>
 
