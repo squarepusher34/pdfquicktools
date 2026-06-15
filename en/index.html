@@ -34,10 +34,16 @@ header{
   align-items:center;
 }
 
+header .brand{
+  font-weight:700;
+  font-size:14px;
+}
+
 header a{
   color:white;
   text-decoration:none;
   font-size:13px;
+  margin-left:10px;
   opacity:0.9;
 }
 
@@ -63,7 +69,7 @@ header a:hover{
   line-height:1.6;
 }
 
-/* LINKS BAR */
+/* LINKS */
 .links{
   text-align:center;
   margin:25px 0;
@@ -77,13 +83,14 @@ header a:hover{
   font-size:14px;
 }
 
-/* GRID */
+/* CONTAINER */
 .container{
   max-width:1000px;
   margin:30px auto;
   padding:0 20px;
 }
 
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -160,10 +167,11 @@ footer a{
 <body>
 
 <header>
-  <div>PDFQuickTools</div>
+  <div class="brand">PDFQuickTools</div>
+
   <div>
-    <a href="/about.html">About</a> |
-    <a href="/contact.html">Contact</a> |
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
     <a href="/index.html">TR</a>
   </div>
 </header>
