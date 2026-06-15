@@ -22,48 +22,77 @@ body{
   color:var(--text);
 }
 
-/* HEADER */
-header{
-  background:#0f172a;
-  color:white;
-  padding:14px 20px;
+/* TOP BAR */
+.top-bar{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  padding:12px 20px;
+  background:#0f172a;
+  color:white;
 }
 
-header a{
+.top-bar a{
   color:white;
   text-decoration:none;
-  font-weight:600;
   font-size:14px;
   opacity:0.9;
 }
-header a:hover{opacity:1}
+
+.top-bar a:hover{opacity:1}
+
+.top-bar .title{
+  font-weight:700;
+  font-size:15px;
+}
 
 /* HERO */
 .hero{
   text-align:center;
-  padding:40px 20px 10px;
+  padding:30px 20px 10px;
 }
-.hero h1{margin:0;font-size:30px;}
-.hero p{color:var(--muted)}
 
-/* CARD */
+.hero h1{
+  margin:0;
+  font-size:30px;
+}
+
+.hero p{
+  color:var(--muted);
+}
+
+/* INFO STRIP */
+.info{
+  max-width:700px;
+  margin:15px auto;
+  text-align:center;
+  color:#6b7280;
+  font-size:14px;
+}
+
+.info small{
+  display:block;
+  margin-top:4px;
+  font-size:12px;
+}
+
+/* CONTAINER */
 .container{
   max-width:700px;
-  margin:30px auto;
+  margin:20px auto;
   padding:0 20px;
 }
 
+/* CARD */
 .card{
   background:var(--card);
   padding:25px;
   border-radius:14px;
   box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  border:1px solid #eef0f5;
 }
 
-/* UPLOAD */
+/* FILE INPUT */
 input[type="file"]{
   width:100%;
   padding:12px;
@@ -73,7 +102,7 @@ input[type="file"]{
   background:#f8fafc;
 }
 
-/* SLIDER */
+/* RANGE */
 .range{
   width:100%;
   margin-top:15px;
@@ -91,7 +120,10 @@ button{
   font-weight:700;
   cursor:pointer;
 }
-button:hover{background:#1d4ed8}
+
+button:hover{
+  background:#1d4ed8;
+}
 
 /* RESULT */
 .result{
@@ -102,24 +134,32 @@ button:hover{background:#1d4ed8}
   display:none;
 }
 
-small{color:var(--muted)}
+small{
+  color:var(--muted);
+}
 </style>
 </head>
 
 <body>
 
-<header>
-  <div>PDFQuickTools</div>
-  <div>
-    <a href="/">Home</a> |
-    <a href="/tools/merge.html">Tools</a>
-  </div>
-</header>
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="/index.html">← Ana sayfa</a>
+  <div class="title">Compress PDF</div>
+  <a href="/tools/merge.html">Tools</a>
+</div>
 
+<!-- HERO -->
 <div class="hero">
   <h1 data-tr="PDF Sıkıştır" data-en="Compress PDF"></h1>
   <p data-tr="PDF boyutunu düşür, kaliteyi kontrol et"
      data-en="Reduce PDF size while controlling quality"></p>
+</div>
+
+<!-- INFO MESSAGE -->
+<div class="info" id="statusText">
+  Dosya seçilmedi  
+  <small>Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</small>
 </div>
 
 <div class="container">
@@ -148,7 +188,7 @@ small{color:var(--muted)}
 </div>
 
 <script>
-// language system (same logic as homepage)
+// language
 function detectLang(){
   const lang = navigator.language || navigator.userLanguage;
   const isEN = lang.startsWith("en");
@@ -159,7 +199,17 @@ function detectLang(){
 }
 detectLang();
 
-/* MOCK compression (frontend demo) */
+// file status UI
+document.getElementById("file").addEventListener("change", function(){
+  const statusText = document.getElementById("statusText");
+  if(this.files.length > 0){
+    statusText.innerHTML = "Dosya seçildi: " + this.files[0].name;
+  } else {
+    statusText.innerHTML = "Dosya seçilmedi <small>Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</small>";
+  }
+});
+
+// mock compression
 function compressPDF(){
   const file = document.getElementById("file").files[0];
   const quality = document.getElementById("quality").value;
@@ -169,7 +219,6 @@ function compressPDF(){
     return;
   }
 
-  // demo simulation
   const result = document.getElementById("result");
   const status = document.getElementById("status");
   const download = document.getElementById("download");
@@ -181,7 +230,7 @@ function compressPDF(){
   status.innerText =
     "Sıkıştırma tamamlandı. Yeni boyut: " + (fakeSize/1024).toFixed(2) + " KB";
 
-  download.href = URL.createObjectURL(file); // demo link
+  download.href = URL.createObjectURL(file);
 }
 </script>
 
