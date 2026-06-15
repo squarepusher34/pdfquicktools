@@ -4,8 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PDFQuickTools - Free Online PDF Tools</title>
-<meta name="description" content="Merge, split and convert images to PDF online for free. No signup required.">
+<title>Free Online PDF Tools - Merge, Split & Image to PDF | PDFQuickTools</title>
+
+<meta name="description" content="PDFQuickTools is a free online platform to merge PDF files, split pages and convert images to PDF instantly in your browser. No signup required.">
+
+<meta name="keywords" content="pdf tools, merge pdf online, split pdf, image to pdf, free pdf converter">
 
 <style>
 body{
@@ -34,8 +37,11 @@ h1{
   font-size:34px;
 }
 
-p{
+.intro{
+  max-width:750px;
+  margin:0 auto 30px;
   color:#555;
+  line-height:1.6;
 }
 
 .grid{
@@ -50,6 +56,11 @@ p{
   padding:25px;
   border-radius:16px;
   box-shadow:0 10px 20px rgba(0,0,0,0.08);
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
 }
 
 .card h2{
@@ -81,6 +92,17 @@ a:hover{
   border-radius:8px;
 }
 
+section{
+  margin-top:50px;
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  text-align:left;
+  box-shadow:0 10px 20px rgba(0,0,0,0.05);
+  color:#444;
+  line-height:1.7;
+}
+
 @media(max-width:768px){
   .grid{grid-template-columns:1fr}
 }
@@ -101,29 +123,44 @@ a:hover{
 <div class="container">
 
 <h1>Free PDF Tools Online</h1>
-<p>Merge, split and convert images to PDF instantly</p>
+
+<div class="intro">
+  PDFQuickTools is a free browser-based platform that allows you to work with PDF files easily.
+  You can merge multiple PDFs, split pages, and convert images to PDF instantly without uploading files.
+</div>
 
 <div class="grid">
 
   <div class="card">
     <h2>Merge PDF</h2>
-    <p>Combine multiple PDFs into one file</p>
+    <p>Combine multiple PDF files into one document</p>
     <a href="/tools/merge.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Split PDF</h2>
-    <p>Separate PDF pages easily</p>
+    <p>Separate PDF pages easily and quickly</p>
     <a href="/tools/split.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Image → PDF</h2>
-    <p>Convert JPG or PNG files into PDF</p>
+    <p>Convert JPG or PNG images into PDF files</p>
     <a href="/tools/image-to-pdf.html">Open</a>
   </div>
 
 </div>
+
+<section>
+  <h2>About PDFQuickTools</h2>
+  <p>
+    PDFQuickTools is designed to provide fast, secure and free PDF utilities directly in your browser.
+    No installation or registration is required.
+  </p>
+  <p>
+    All processing happens locally, ensuring privacy and speed for all users.
+  </p>
+</section>
 
 </div>
 
