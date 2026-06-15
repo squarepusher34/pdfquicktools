@@ -70,24 +70,19 @@ h1{ font-size:34px; }
   padding:25px;
   border-radius:16px;
   box-shadow:0 10px 20px rgba(0,0,0,0.08);
-  transition:0.2s;
 }
 
 .card:hover{ transform:translateY(-4px); }
 
-.card h2{ margin-top:0; }
-
 a{
-  display:inline-block;
-  margin-top:10px;
   color:#2563eb;
-  font-weight:600;
   text-decoration:none;
+  font-weight:600;
 }
 
 a:hover{ text-decoration:underline; }
 
-/* LEFT MENU */
+/* LEFT MENU FIX */
 .nav-left{
   position:absolute;
   left:15px;
@@ -95,31 +90,43 @@ a:hover{ text-decoration:underline; }
   transform:translateY(-50%);
   display:flex;
   flex-direction:column;
-  gap:6px;
+  gap:10px;
+}
+
+/* group 1 */
+.nav-group{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(255,255,255,0.2);
+}
+
+/* group 2 */
+.nav-group:last-child{
+  border-bottom:none;
 }
 
 .nav-left a{
   color:white;
   font-size:13px;
-  text-decoration:none;
   background:rgba(255,255,255,0.08);
   padding:4px 8px;
   border-radius:6px;
   width:max-content;
 }
 
-/* RIGHT LANG */
+/* LANG */
 .lang-btn{
   position:absolute;
   right:15px;
   top:50%;
   transform:translateY(-50%);
   color:white;
-  text-decoration:none;
-  font-weight:600;
   background:#2563eb;
   padding:6px 12px;
   border-radius:8px;
+  text-decoration:none;
 }
 
 section{
@@ -128,26 +135,6 @@ section{
   padding:25px;
   border-radius:12px;
   text-align:left;
-  box-shadow:0 10px 20px rgba(0,0,0,0.05);
-  color:#444;
-  line-height:1.7;
-}
-
-footer{
-  margin-top:40px;
-  padding:20px;
-  text-align:center;
-  color:#666;
-}
-
-footer a{
-  margin:0 8px;
-  color:#2563eb;
-  text-decoration:none;
-}
-
-@media(max-width:768px){
-  .grid{grid-template-columns:1fr}
 }
 </style>
 
@@ -157,15 +144,20 @@ footer a{
 
 <header>
 
-  <!-- LEFT MENU -->
+  <!-- LEFT MENU FIXED -->
   <div class="nav-left">
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
 
-    <!-- SEO LINKS -->
-    <a href="/seo/jpg-to-pdf.html">JPG</a>
-    <a href="/seo/png-to-pdf.html">PNG</a>
-    <a href="/seo/photo-to-pdf.html">PHOTO</a>
+    <div class="nav-group">
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+
+    <div class="nav-group">
+      <a href="/seo/jpg-to-pdf.html">JPG</a>
+      <a href="/seo/png-to-pdf.html">PNG</a>
+      <a href="/seo/photo-to-pdf.html">PHOTO</a>
+    </div>
+
   </div>
 
   <h2 style="margin:0;font-size:20px;">
@@ -181,73 +173,34 @@ footer a{
 
 <div class="intro">
   PDFQuickTools, PDF dosyalarıyla çalışmak için geliştirilmiş ücretsiz bir web platformudur.
-  Birleştirme, bölme ve görselden PDF dönüşümü işlemlerini tamamen tarayıcı içinde yapabilirsiniz.
 </div>
 
-<!-- TOOL LINKS -->
 <div style="margin-bottom:25px;">
-  <a href="/tools/merge.html">Merge PDF Online</a> |
-  <a href="/tools/split.html">Split PDF Pages</a> |
-  <a href="/tools/image-to-pdf.html">Image to PDF Converter</a>
+  <a href="/tools/merge.html">Merge PDF</a> |
+  <a href="/tools/split.html">Split PDF</a> |
+  <a href="/tools/image-to-pdf.html">Image to PDF</a>
 </div>
 
-<!-- CARDS -->
 <div class="grid">
 
   <div class="card">
     <h2>PDF Birleştir</h2>
-    <p>Birden fazla PDF dosyasını tek dosyada birleştirin</p>
-    <a href="/tools/merge.html">Aç</a>
+    <p>Birleştir</p>
   </div>
 
   <div class="card">
     <h2>PDF Böl</h2>
-    <p>PDF sayfalarını kolayca ayırın</p>
-    <a href="/tools/split.html">Aç</a>
+    <p>Böl</p>
   </div>
 
   <div class="card">
     <h2>Görsel → PDF</h2>
-    <p>JPG veya PNG görselleri PDF'e dönüştürün</p>
-    <a href="/tools/image-to-pdf.html">Aç</a>
+    <p>Dönüştür</p>
   </div>
 
 </div>
 
-<!-- ABOUT -->
-<section>
-  <h2>PDFQuickTools Hakkında</h2>
-  <p>PDFQuickTools hızlı, güvenli ve ücretsiz PDF araçları sunar.</p>
-  <p>Tüm işlemler tarayıcı içinde gerçekleşir, dosyalar sunucuya yüklenmez.</p>
-</section>
-
-<!-- SEO BOOST SECTION -->
-<section>
-  <h2>Popular Guides</h2>
-
-  <p><a href="/seo/jpg-to-pdf.html">JPG to PDF Guide</a></p>
-  <p><a href="/seo/png-to-pdf.html">PNG to PDF Guide</a></p>
-  <p><a href="/seo/photo-to-pdf.html">Photo to PDF Guide</a></p>
-  <p><a href="/seo/merge-pdf-online-free.html">Merge PDF Online Guide</a></p>
-  <p><a href="/seo/merge-pdf-mobile.html">Merge PDF on Mobile</a></p>
-</section>
-
-<!-- FAQ -->
-<section>
-  <h2>Frequently Asked Questions</h2>
-
-  <p><strong>Is PDFQuickTools free?</strong><br>Yes, all tools are completely free.</p>
-  <p><strong>Do I need to install anything?</strong><br>No, everything works in browser.</p>
-  <p><strong>Are my files uploaded?</strong><br>No, processing happens locally.</p>
-</section>
-
 </div>
-
-<footer>
-  <a href="/about.html">About</a> |
-  <a href="/privacy.html">Privacy</a> |
-  <a href="/contact.html">Contact</a>
-</footer>
 
 </body>
 </html>
