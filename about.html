@@ -1,63 +1,93 @@
-<div style="
-  max-width:900px;
-  margin:30px auto;
-  padding:20px;
-  background:white;
-  border-radius:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.05);
-  text-align:left;
-  line-height:1.6;
-">
-<a href="/index.html" style="
-  position:fixed;
-  top:15px;
-  left:15px;
-  background:#2563eb;
-  color:white;
-  padding:8px 12px;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:600;
-  z-index:999;
-">
-  ⬅ Home
-</a>
-<h2>About PDFQuickTools</h2>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hakkımızda | PDFQuickTools</title>
 
-<p>
-PDFQuickTools, kullanıcıların PDF dosyalarını hızlı ve kolay bir şekilde yönetebilmesi için oluşturulmuş ücretsiz bir çevrimiçi araç platformudur.
-</p>
+<style>
+body {
+  font-family: system-ui;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  margin: 0;
+  padding: 40px;
+}
 
-<p>
-Platformumuz PDF birleştirme, PDF bölme ve diğer belge yönetimi işlemlerini basit hale getirmeyi amaçlar.
-</p>
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
 
-<p>
-Kullanıcı deneyimi, hız ve gizlilik önceliklerimiz arasındadır.
-</p>
+h1 {
+  color: #2563eb;
+  margin-bottom: 20px;
+}
 
-<p>
-Gelecekte daha fazla PDF ve belge aracı ekleyerek platformu geliştirmeye devam etmeyi hedefliyoruz.
-</p>
+.section {
+  margin-bottom: 25px;
+}
 
-<h2>About PDFQuickTools</h2>
+.label {
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 5px;
+}
 
-<p>
-PDFQuickTools is a free online platform designed to help users manage PDF files quickly and easily.
-</p>
+p {
+  color: #444;
+  line-height: 1.6;
+  margin: 5px 0;
+}
 
-<p>
-Our platform aims to simplify document management tasks such as merging PDFs, splitting PDFs, and other file operations.
-</p>
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 16px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.2s;
+}
 
-<p>
-User experience, speed, and privacy are our top priorities.
-</p>
+.btn:hover {
+  background: #1d4ed8;
+}
+</style>
 
-<p>
-We plan to continue improving the platform by adding more PDF and document tools in the future.
-</p>
+</head>
 
+<body>
 
+<div class="container">
+
+  <h1>Hakkımızda / About Us</h1>
+
+  <!-- TÜRKÇE -->
+  <div class="section">
+    <div class="label">Türkçe</div>
+    <p>PDFQuickTools, tamamen ücretsiz PDF araçları sunar.</p>
+    <p>PDF birleştirme, bölme ve görsel → PDF işlemleri yapabilirsiniz.</p>
+    <p>Dosyalarınız sunucuya yüklenmez, tüm işlemler tarayıcınızda gerçekleşir.</p>
+  </div>
+
+  <!-- ENGLISH -->
+  <div class="section">
+    <div class="label">English</div>
+    <p>PDFQuickTools provides completely free PDF tools.</p>
+    <p>You can merge, split PDFs and convert images to PDF.</p>
+    <p>Your files are never uploaded; all processing happens in your browser.</p>
+  </div>
+
+  <!-- HOME BUTTON -->
+  <a class="btn" href="/index.html">← Ana Sayfa / Home</a>
 
 </div>
+
+</body>
+</html>
