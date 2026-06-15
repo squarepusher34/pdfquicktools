@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compress PDF - PDF Quick Tools</title>
+<meta name="description" content="Compress PDF files online for free.">
+<style>
+body{
+    font-family:Arial,sans-serif;
+    max-width:800px;
+    margin:40px auto;
+    padding:20px;
+    text-align:center;
+}
+.container{
+    border:1px solid #ddd;
+    padding:30px;
+    border-radius:10px;
+}
+button{
+    padding:10px 20px;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<h1>Compress PDF</h1>
+
+<div class="container">
+    <input type="file" id="pdfFile" accept=".pdf">
+    <br><br>
+    <button onclick="compressPDF()">Compress PDF</button>
+    <p id="status"></p>
+</div>
+
+<p><a href="/">← Back to Home</a></p>
+
+<script>
+function compressPDF(){
+    const file=document.getElementById('pdfFile').files[0];
+
+    if(!file){
+        alert('Please select a PDF file');
+        return;
+    }
+
+    document.getElementById('status').innerText=
+    'PDF selected: '+file.name+
+    '. Compression engine will be added later.';
+}
+</script>
+
+</body>
+</html>
