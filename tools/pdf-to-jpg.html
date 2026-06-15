@@ -8,71 +8,82 @@
 
 <style>
 body{
-  font-family:system-ui;
-  background:#f6f7fb;
   margin:0;
+  font-family:system-ui;
+  background:#f3f4f6;
   color:#111;
 }
 
-/* HEADER */
+/* HEADER = MERGE İLE AYNI */
 header{
   background:#0f172a;
   color:white;
-  padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-header a{
-  color:white;
-  text-decoration:none;
-  font-size:14px;
+  padding:18px;
+  text-align:center;
   font-weight:600;
 }
 
 /* CONTAINER */
 .container{
-  max-width:700px;
+  max-width:800px;
   margin:40px auto;
+  padding:20px;
+}
+
+/* CARD = MERGE İLE AYNI */
+.card{
   background:white;
-  padding:25px;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+h1{
+  margin-top:0;
+}
+
+/* INPUT */
+input{
+  margin:20px 0;
+  padding:15px;
+  width:100%;
+  border:2px dashed #cbd5e1;
   border-radius:12px;
+  background:#fafafa;
 }
 
 /* BUTTON */
 button{
-  padding:10px 15px;
+  width:100%;
+  padding:14px;
   background:#2563eb;
   color:white;
-  border:0;
-  border-radius:8px;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
   cursor:pointer;
-  margin-top:10px;
-}
-
-/* PROGRESS BAR */
-.progress{
-  width:100%;
-  background:#eee;
-  border-radius:10px;
-  overflow:hidden;
-  margin-top:15px;
-  display:none;
-}
-
-.bar{
-  height:10px;
-  width:0%;
-  background:#2563eb;
   transition:0.2s;
 }
 
-/* OUTPUT */
-#downloadBtn{
-  display:none;
+button:hover{
+  background:#1d4ed8;
+}
+
+/* NOTE */
+.note{
   margin-top:15px;
-  background:#16a34a;
+  font-size:13px;
+  color:#6b7280;
+}
+
+/* BACK = MERGE İLE AYNI */
+.back{
+  display:block;
+  margin-top:20px;
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:500;
 }
 </style>
 </head>
@@ -80,30 +91,30 @@ button{
 <body>
 
 <header>
-  <a href="/">← Home</a>
-  <div>PDFQuickTools</div>
-  <a href="/tools/merge.html">Merge PDF</a>
+PDFQuickTools • PDF → JPG
 </header>
 
 <div class="container">
 
+<div class="card">
+
 <h1>PDF → JPG Converter</h1>
+<p>PDF sayfalarını görsellere çevir</p>
 
 <input type="file" id="file" accept="application/pdf">
 
 <button onclick="convert()">Convert</button>
 
-<div class="progress" id="progress">
-  <div class="bar" id="bar"></div>
-</div>
+<p class="note">Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</p>
 
-<button id="downloadBtn" onclick="downloadZip()">Download ZIP</button>
+<a class="back" href="/">← Ana sayfa</a>
 
 <div id="output"></div>
 
 </div>
 
-<!-- LIBRARIES -->
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -111,7 +122,6 @@ button{
 <script>
 
 let zip = new JSZip();
-let images = [];
 
 async function convert() {
 
@@ -121,14 +131,7 @@ async function convert() {
   const url = URL.createObjectURL(file);
   const pdf = await pdfjsLib.getDocument(url).promise;
 
-  const progress = document.getElementById("progress");
-  const bar = document.getElementById("bar");
-
-  progress.style.display = "block";
-  bar.style.width = "0%";
-
   zip = new JSZip();
-  images = [];
 
   for (let i = 1; i <= pdf.numPages; i++) {
 
@@ -149,19 +152,14 @@ async function convert() {
     const imgData = canvas.toDataURL("image/jpeg", 0.9);
 
     zip.file(`page-${i}.jpg`, imgData.split(',')[1], {base64:true});
-
-    let percent = Math.round((i / pdf.numPages) * 100);
-    bar.style.width = percent + "%";
   }
 
-  document.getElementById("downloadBtn").style.display = "block";
-  document.getElementById("output").innerHTML = "Done! Ready to download ZIP.";
-}
-
-function downloadZip(){
   zip.generateAsync({type:"blob"}).then(function(content) {
     saveAs(content, "pdf-to-jpg.zip");
   });
+
+  document.getElementById("output").innerHTML =
+    "Done! ZIP ready.";
 }
 
 </script>
