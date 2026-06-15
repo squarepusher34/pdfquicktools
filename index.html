@@ -6,7 +6,7 @@
 
 <title>PDFQuickTools - Free Online PDF Tools</title>
 
-<meta name="description" content="Free PDF tools: merge, split, image to PDF, PDF to JPG. Fast and browser-based.">
+<meta name="description" content="Free PDF tools: merge, split, compress, image to PDF, PDF to JPG. Fast and browser-based.">
 
 <style>
 :root{
@@ -40,30 +40,10 @@ header a{
   font-weight:600;
   font-size:14px;
   opacity:0.9;
-}
-
-header a:hover{
-  opacity:1;
-}
-
-/* EN BUTTON */
-.lang-btn{
-  background:#2563eb;
-  color:white;
-  padding:8px 14px;
-  border-radius:12px;
-  font-weight:800;
-  font-size:15px;
-  text-decoration:none;
   margin-left:10px;
-  transition:0.2s;
-  display:inline-block;
 }
 
-.lang-btn:hover{
-  background:#1d4ed8;
-  transform:scale(1.05);
-}
+header a:hover{opacity:1}
 
 /* HERO */
 .hero{
@@ -110,7 +90,7 @@ header a:hover{
   gap:18px;
 }
 
-/* CARD */
+/* CARD (TEK SİSTEM) */
 .card{
   background:var(--card);
   padding:20px;
@@ -122,6 +102,7 @@ header a:hover{
 
 .card:hover{
   transform:translateY(-4px);
+  box-shadow:0 10px 25px rgba(37,99,235,0.15);
 }
 
 .card h2{
@@ -186,36 +167,37 @@ footer a{
   .hero h1{font-size:26px;}
 }
 </style>
-
 </head>
 
 <body>
 
 <header>
-  <div>PDFQuickTools</div>
-
+  <div><strong>PDFQuickTools</strong></div>
   <div>
-    <a href="/about.html">About</a> |
-    <a href="/contact.html">Contact</a> |
-    <a href="en/index.html" class="lang-btn">EN</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+    <a href="en/index.html" style="background:#2563eb;padding:6px 10px;border-radius:10px;">EN</a>
   </div>
 </header>
 
 <div class="hero">
   <h1 data-tr="Ücretsiz PDF Araçları" data-en="Free PDF Tools Online"></h1>
-  <p data-tr="PDF dosyalarını birleştir, böl ve dönüştür." 
-     data-en="Merge, split and convert PDF files instantly in your browser."></p>
+  <p data-tr="PDF dosyalarını birleştir, böl, sıkıştır ve dönüştür."
+     data-en="Merge, split, compress and convert PDF files instantly in your browser."></p>
 </div>
 
 <div class="container">
 
+<!-- QUICK LINKS -->
 <div class="links">
   <a href="/tools/merge.html">Merge</a>
   <a href="/tools/split.html">Split</a>
   <a href="/tools/image-to-pdf.html">Image → PDF</a>
   <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
+  <a href="/tools/pdf-compress.html">Compress</a>
 </div>
 
+<!-- GRID -->
 <div class="grid">
 
   <div class="card">
@@ -237,48 +219,51 @@ footer a{
   </div>
 
   <div class="card">
-    <h2>PDF → JPG</h2>
+    <h2 data-tr="PDF → JPG" data-en="PDF → JPG"></h2>
     <p data-tr="PDF sayfalarını görsele çevir" data-en="Convert PDF pages into images"></p>
     <a href="/tools/pdf-to-jpg.html">Open</a>
   </div>
 
-  <div class="tool-card">
-    <h3>Compress PDF</h3>
-    <p>Reduce PDF file size online.</p>
-    <a href="/tools/pdf-compress.html">Open Tool</a>
-</div>
+  <div class="card">
+    <h2 data-tr="PDF Sıkıştır" data-en="Compress PDF"></h2>
+    <p data-tr="PDF boyutunu küçült" data-en="Reduce PDF file size"></p>
+    <a href="/tools/pdf-compress.html">Open</a>
+  </div>
 
 </div>
 
+<!-- ABOUT -->
 <section>
   <h2 data-tr="Hakkında" data-en="About"></h2>
   <p data-tr="PDFQuickTools ücretsiz ve hızlı PDF araçları sunar."
      data-en="PDFQuickTools provides free and fast PDF tools."></p>
 </section>
 
+<!-- WHY -->
 <section>
   <h2 data-tr="Neden Biz?" data-en="Why Choose Us?"></h2>
   <p>✔ <span data-tr="Kurulum yok" data-en="No installation"></span></p>
   <p>✔ <span data-tr="Ücretsiz kullanım" data-en="Free forever"></span></p>
-  <p>✔ <span data-tr="Tarayıcı içinde işlem" data-en="Works in browser"></span></p>
+  <p>✔ <span data-tr="Tarayıcı içinde çalışır" data-en="Works in browser"></span></p>
 </section>
 
+<!-- FAQ -->
 <section>
   <h2 data-tr="Sık Sorulan Sorular" data-en="FAQ"></h2>
 
   <details>
-    <summary data-tr="PDFQuickTools ücretsiz mi?" data-en="Is PDFQuickTools free?"></summary>
-    <p data-tr="Evet tamamen ücretsizdir." data-en="Yes, it is completely free."></p>
+    <summary data-tr="Ücretsiz mi?" data-en="Is it free?"></summary>
+    <p data-tr="Evet tamamen ücretsizdir." data-en="Yes, completely free."></p>
   </details>
 
   <details>
     <summary data-tr="Kurulum gerekir mi?" data-en="Do I need installation?"></summary>
-    <p data-tr="Hayır, tarayıcı içinde çalışır." data-en="No, it works in browser."></p>
+    <p data-tr="Hayır, tarayıcıda çalışır." data-en="No, it works in browser."></p>
   </details>
 
   <details>
     <summary data-tr="Dosyalar yükleniyor mu?" data-en="Are files uploaded?"></summary>
-    <p data-tr="Hayır, cihazında çalışır." data-en="No, everything runs locally."></p>
+    <p data-tr="Hayır, işlemler cihazında yapılır." data-en="No, processing is local."></p>
   </details>
 
 </section>
