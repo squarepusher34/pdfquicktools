@@ -1,49 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PDF to JPG Converter Online Free | PDFQuickTools</title>
-
-<meta name="description" content="Convert PDF files to JPG images online for free. No signup, fast and secure PDF to image converter.">
-
-<style>
-body{
-  font-family:system-ui;
-  background:#f6f7fb;
-  margin:0;
-}
-
-.container{
-  max-width:700px;
-  margin:40px auto;
-  background:white;
-  padding:25px;
-  border-radius:12px;
-}
-
-button{
-  padding:10px 15px;
-  background:#2563eb;
-  color:white;
-  border:0;
-  border-radius:8px;
-  cursor:pointer;
-  margin-top:10px;
-}
-
-input{
-  margin:10px 0;
-}
-img{
-  max-width:100%;
-  margin-top:10px;
-}
-</style>
-</head>
-
 <body>
+<header style="display:flex;justify-content:space-between;align-items:center;padding:15px;background:#0f172a;color:white;">
+  <a href="/" style="color:white;text-decoration:none;">← Home</a>
+  <span>PDFQuickTools</span>
+  <a href="/tools/merge.html" style="color:white;text-decoration:none;">Merge PDF</a>
+</header>
 
 <div class="container">
 
@@ -56,46 +16,3 @@ img{
 <div id="output"></div>
 
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
-<script>
-async function convert() {
-
-  const file = document.getElementById("file").files[0];
-  if (!file) return alert("Select a PDF");
-
-  const output = document.getElementById("output");
-  output.innerHTML = "Processing...";
-
-  const url = URL.createObjectURL(file);
-  const pdf = await pdfjsLib.getDocument(url).promise;
-
-  output.innerHTML = "";
-
-  for (let i = 1; i <= pdf.numPages; i++) {
-
-    const page = await pdf.getPage(i);
-    const viewport = page.getViewport({ scale: 2 });
-
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-
-    await page.render({
-      canvasContext: ctx,
-      viewport: viewport
-    }).promise;
-
-    const img = document.createElement("img");
-    img.src = canvas.toDataURL("image/jpeg");
-
-    output.appendChild(img);
-  }
-}
-</script>
-
-</body>
-</html>
