@@ -8,6 +8,9 @@
 
 <meta name="description" content="PDFQuickTools ile PDF birleştir, böl ve görsele dönüştür. Hızlı, ücretsiz ve tarayıcı tabanlı PDF araçları.">
 
+<link rel="alternate" hreflang="tr" href="https://pdfquicktools.net/index.html" />
+<link rel="alternate" hreflang="en" href="https://pdfquicktools.net/en/index.html" />
+
 <style>
 :root{
   --bg:#f4f6fb;
@@ -34,10 +37,16 @@ header{
   align-items:center;
 }
 
+header .brand{
+  font-weight:700;
+  font-size:14px;
+}
+
 header a{
   color:white;
   text-decoration:none;
   font-size:13px;
+  margin-left:10px;
   opacity:0.9;
 }
 
@@ -63,13 +72,28 @@ header a:hover{
   line-height:1.6;
 }
 
-/* GRID */
+/* CONTAINER */
 .container{
   max-width:1000px;
   margin:30px auto;
   padding:0 20px;
 }
 
+/* LINKS */
+.links{
+  text-align:center;
+  margin:25px 0;
+}
+
+.links a{
+  margin:0 6px;
+  color:var(--primary);
+  text-decoration:none;
+  font-weight:600;
+  font-size:14px;
+}
+
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -88,7 +112,6 @@ header a:hover{
 
 .card:hover{
   transform:translateY(-4px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 .card h2{
@@ -99,7 +122,6 @@ header a:hover{
 .card p{
   color:var(--muted);
   font-size:14px;
-  line-height:1.5;
 }
 
 .card a{
@@ -113,21 +135,7 @@ header a:hover{
   font-size:13px;
 }
 
-/* LINKS BAR */
-.links{
-  text-align:center;
-  margin:25px 0;
-}
-
-.links a{
-  margin:0 6px;
-  color:var(--primary);
-  text-decoration:none;
-  font-weight:600;
-  font-size:14px;
-}
-
-/* SECTIONS */
+/* FAQ */
 section{
   background:white;
   margin-top:25px;
@@ -135,6 +143,26 @@ section{
   border-radius:12px;
   box-shadow:0 6px 18px rgba(0,0,0,0.04);
   color:#374151;
+}
+
+details{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  padding:12px 14px;
+  border-radius:10px;
+  margin-bottom:10px;
+  cursor:pointer;
+}
+
+summary{
+  font-size:14px;
+  font-weight:600;
+}
+
+details p{
+  margin-top:10px;
+  color:#6b7280;
+  font-size:14px;
 }
 
 /* FOOTER */
@@ -160,21 +188,27 @@ footer a{
 
 <body>
 
+<!-- HEADER -->
 <header>
-  <div>PDFQuickTools</div>
+  <div class="brand">PDFQuickTools</div>
+
   <div>
-    <a href="/about.html">About</a> |
+    <a href="/about.html">About</a>
     <a href="/contact.html">Contact</a>
+    <a href="/index.html">TR</a>
+    <a href="/en/index.html">EN</a>
   </div>
 </header>
 
+<!-- HERO -->
 <div class="hero">
   <h1>Ücretsiz PDF Araçları</h1>
-  <p>PDF dosyalarını birleştir, böl, dönüştür. Tamamen ücretsiz ve tarayıcı içinde çalışır.</p>
+  <p>PDF dosyalarını birleştir, böl ve dönüştür. Tamamen ücretsiz ve tarayıcı içinde çalışır.</p>
 </div>
 
 <div class="container">
 
+<!-- QUICK LINKS -->
 <div class="links">
   <a href="/tools/merge.html">Merge</a>
   <a href="/tools/split.html">Split</a>
@@ -182,6 +216,7 @@ footer a{
   <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
 </div>
 
+<!-- TOOLS -->
 <div class="grid">
 
   <div class="card">
@@ -210,11 +245,13 @@ footer a{
 
 </div>
 
+<!-- ABOUT -->
 <section>
   <h2>Hakkında</h2>
   <p>PDFQuickTools tamamen ücretsiz, hızlı ve güvenli PDF araçları sunar.</p>
 </section>
 
+<!-- WHY -->
 <section>
   <h2>Neden Biz?</h2>
   <p>✔ Kurulum yok</p>
@@ -222,8 +259,35 @@ footer a{
   <p>✔ Tarayıcı içinde işlem</p>
 </section>
 
+<!-- FAQ -->
+<section>
+  <h2>Sık Sorulan Sorular</h2>
+
+  <details>
+    <summary>PDFQuickTools ücretsiz mi?</summary>
+    <p>Evet, tüm araçlar tamamen ücretsizdir.</p>
+  </details>
+
+  <details>
+    <summary>Kurulum gerekir mi?</summary>
+    <p>Hayır, tarayıcı içinde çalışır.</p>
+  </details>
+
+  <details>
+    <summary>Dosyalar yükleniyor mu?</summary>
+    <p>Hayır, işlemler cihazınızda yapılır.</p>
+  </details>
+
+  <details>
+    <summary>PDF → JPG nasıl çalışır?</summary>
+    <p>Tüm işlemler tarayıcı içinde JavaScript ile yapılır.</p>
+  </details>
+
+</section>
+
 </div>
 
+<!-- FOOTER -->
 <footer>
   <a href="/about.html">About</a> |
   <a href="/privacy.html">Privacy</a> |
