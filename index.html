@@ -3,52 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDFQuickTools - Ücretsiz PDF Araçları</title>
-<meta name="description" content="PDF birleştir, böl, görsel ekle. Ücretsiz online PDF araçları.">
+
+<title>PDFQuickTools - Free Online PDF Tools (Merge, Split, Image to PDF)</title>
+
+<meta name="description" content="PDFQuickTools ile PDF birleştirme, bölme ve görselden PDF oluşturma işlemlerini ücretsiz yapın. Hızlı, güvenli ve tarayıcı tabanlı PDF araçları.">
+
+<meta name="keywords" content="pdf merge, pdf split, image to pdf, free pdf tools, online pdf editor">
+
 <style>
 html, body { height: 100%; margin: 0; }
-body { font-family: system-ui; background: #f6f7fb; display: flex; flex-direction: column; }
-header { background: #0f172a; color: #fff; padding: 20px; text-align: center; position: relative; }
-header a { position: absolute; top: 15px; right: 15px; color: white; text-decoration: none; font-weight: 600; background: #2563eb; padding: 8px 12px; border-radius: 8px; }
-.container { max-width: 900px; margin: 40px auto; padding: 20px; flex: 1; }
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.card { background: #fff; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,.1); transition: 0.2s; }
-.card:hover { transform: translateY(-4px); }
-a { color: #2563eb; text-decoration: none; font-weight: bold; }
-footer { text-align: center; padding: 20px; margin-top: auto; background: #ffffff; border-top: 1px solid #e5e7eb; }
-footer a { margin: 0 8px; font-weight: 500; }
-@media(max-width:768px){ .grid{ grid-template-columns:1fr } }
+body { font-family: system-ui; background: #f6f7fb; display: flex; flex-direction: column; color:#111; }
+
+header {
+  background: #0f172a;
+  color: #fff;
+  padding: 25px;
+  text-align: center;
+  position: relative;
+}
+
+header a {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  background: #2563eb;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  flex: 1;
+}
+
+h1 {
+  font-size: 34px;
+}
+
+.intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,.08);
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card h2 {
+  margin-bottom: 10px;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+section {
+  margin-top: 50px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  line-height: 1.7;
+  color:#444;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+}
+
+footer a {
+  margin: 0 8px;
+  font-weight: 500;
+}
+
+@media(max-width:768px){
+  .grid{ grid-template-columns:1fr }
+}
 </style>
+
 </head>
+
 <body>
+
 <header>
   <a href="/en/index.html">EN</a>
   <h1>PDFQuickTools</h1>
-  <p>Ücretsiz PDF Araçları</p>
+  <p>Free Online PDF Tools</p>
 </header>
+
 <div class="container">
-  <div class="grid">
-    <div class="card">
-      <h2>PDF Birleştir</h2>
-      <p>Birden fazla PDF'i tek dosya yap</p>
-      <a href="/tools/merge.html">Aç</a>
-    </div>
-    <div class="card">
-      <h2>PDF Böl</h2>
-      <p>PDF sayfalarını ayır</p>
-      <a href="/tools/split.html">Aç</a>
-    </div>
-    <div class="card">
-      <h2>Görsel → PDF</h2>
-      <p>JPG veya PNG dosyalarını PDF'e dönüştür</p>
-      <a href="/tools/image-to-pdf.html">Aç</a>
-    </div>
+
+  <!-- H1 SEO -->
+  <h1>Free PDF Tools Online</h1>
+
+  <!-- SEO INTRO TEXT (IMPORTANT FOR ADSENSE) -->
+  <div class="intro">
+    PDFQuickTools is a free online platform that allows you to merge PDF files, split PDF pages, and convert images to PDF instantly.
+    No signup required. Everything runs securely in your browser.
   </div>
+
+  <!-- TOOLS -->
+  <div class="grid">
+
+    <div class="card">
+      <h2>PDF Merge</h2>
+      <p>Combine multiple PDF files into one</p>
+      <a href="/tools/merge.html">Open</a>
+    </div>
+
+    <div class="card">
+      <h2>PDF Split</h2>
+      <p>Separate PDF pages easily</p>
+      <a href="/tools/split.html">Open</a>
+    </div>
+
+    <div class="card">
+      <h2>Image → PDF</h2>
+      <p>Convert JPG or PNG images into PDF</p>
+      <a href="/tools/image-to-pdf.html">Open</a>
+    </div>
+
+  </div>
+
+  <!-- SEO CONTENT SECTION (IMPORTANT FOR ADSENSE) -->
+  <section>
+    <h2>About PDFQuickTools</h2>
+    <p>
+      PDFQuickTools provides free and fast PDF utilities directly in your browser. You can merge multiple PDF files,
+      split pages, and convert images to PDF without uploading files to any server.
+    </p>
+    <p>
+      The tool is designed for speed, privacy, and ease of use. All processing happens locally on your device.
+    </p>
+  </section>
+
 </div>
+
 <footer>
-  <a href="/about.html">Hakkımızda</a> |
-  <a href="/privacy.html">Gizlilik Politikası</a> |
-  <a href="/contact.html">İletişim</a>
+  <a href="/about.html">About</a> |
+  <a href="/privacy.html">Privacy Policy</a> |
+  <a href="/contact.html">Contact</a>
 </footer>
+
 </body>
 </html>
