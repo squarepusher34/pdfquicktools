@@ -7,188 +7,128 @@
 <title>Compress PDF - PDFQuickTools</title>
 
 <style>
-:root{
-  --bg:#f4f6fb;
-  --card:#ffffff;
-  --text:#1f2937;
-  --muted:#6b7280;
-  --primary:#2563eb;
-}
-
 body{
   margin:0;
   font-family:system-ui;
-  background:var(--bg);
-  color:var(--text);
+  background:#f3f4f6;
+  color:#111;
 }
 
-/* TOP BAR */
-.top-bar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 20px;
+/* HEADER = MERGE İLE AYNI */
+header{
   background:#0f172a;
   color:white;
-}
-
-.top-bar a{
-  color:white;
-  text-decoration:none;
-  font-size:14px;
-  opacity:0.9;
-}
-
-.top-bar a:hover{opacity:1}
-
-.top-bar .title{
-  font-weight:700;
-  font-size:15px;
-}
-
-/* HERO */
-.hero{
+  padding:18px;
   text-align:center;
-  padding:30px 20px 10px;
-}
-
-.hero h1{
-  margin:0;
-  font-size:30px;
-}
-
-.hero p{
-  color:var(--muted);
-}
-
-/* INFO STRIP */
-.info{
-  max-width:700px;
-  margin:15px auto;
-  text-align:center;
-  color:#6b7280;
-  font-size:14px;
-}
-
-.info small{
-  display:block;
-  margin-top:4px;
-  font-size:12px;
+  font-weight:600;
 }
 
 /* CONTAINER */
 .container{
-  max-width:700px;
-  margin:20px auto;
-  padding:0 20px;
+  max-width:800px;
+  margin:40px auto;
+  padding:20px;
 }
 
-/* CARD */
+/* CARD = MERGE İLE AYNI */
 .card{
-  background:var(--card);
-  padding:25px;
-  border-radius:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.06);
-  border:1px solid #eef0f5;
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  text-align:center;
 }
 
-/* FILE INPUT */
-input[type="file"]{
+/* TITLE */
+h1{
+  margin-top:0;
+}
+
+/* INPUT */
+input{
+  margin:20px 0;
+  padding:15px;
   width:100%;
-  padding:12px;
   border:2px dashed #cbd5e1;
-  border-radius:10px;
-  margin-top:10px;
-  background:#f8fafc;
-}
-
-/* RANGE */
-.range{
-  width:100%;
-  margin-top:15px;
+  border-radius:12px;
+  background:#fafafa;
 }
 
 /* BUTTON */
 button{
   width:100%;
-  margin-top:15px;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  background:var(--primary);
+  padding:14px;
+  background:#2563eb;
   color:white;
-  font-weight:700;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
   cursor:pointer;
+  transition:0.2s;
 }
 
 button:hover{
   background:#1d4ed8;
 }
 
-/* RESULT */
-.result{
+/* NOTE */
+.note{
   margin-top:15px;
-  padding:12px;
-  background:#ecfeff;
-  border-radius:10px;
-  display:none;
+  font-size:13px;
+  color:#6b7280;
 }
 
-small{
-  color:var(--muted);
+/* BACK */
+.back{
+  display:block;
+  margin-top:20px;
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:500;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  <a href="/index.html">← Ana sayfa</a>
-  <div class="title">Compress PDF</div>
-  <a href="/index.html">Tools</a>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <h1 data-tr="PDF Sıkıştır" data-en="Compress PDF"></h1>
-  <p data-tr="PDF boyutunu düşür, kaliteyi kontrol et"
-     data-en="Reduce PDF size while controlling quality"></p>
-</div>
-
-<!-- INFO MESSAGE -->
-<div class="info" id="statusText">
-  Dosya seçilmedi  
-  <small>Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</small>
-</div>
+<header>
+PDFQuickTools • Compress PDF
+</header>
 
 <div class="container">
 
 <div class="card">
 
-  <label data-tr="PDF seç" data-en="Select PDF"></label>
-  <input type="file" id="file" accept="application/pdf">
+<h1 data-tr="PDF Sıkıştır" data-en="Compress PDF"></h1>
+<p data-tr="PDF boyutunu düşür, kaliteyi kontrol et"
+   data-en="Reduce PDF size while controlling quality"></p>
 
-  <label data-tr="Kalite seviyesi" data-en="Quality level"></label>
-  <input type="range" id="quality" class="range" min="10" max="100" value="70">
+<label data-tr="PDF seç" data-en="Select PDF"></label>
+<input type="file" id="file" accept="application/pdf">
 
-  <small data-tr="Düşük = küçük dosya, yüksek = daha iyi kalite"
-         data-en="Lower = smaller file, higher = better quality"></small>
+<label data-tr="Kalite (10-100)" data-en="Quality (10-100)"></label>
+<input type="range" id="quality" min="10" max="100" value="70">
 
-  <button onclick="compressPDF()"
-          data-tr="Sıkıştır" data-en="Compress"></button>
+<button onclick="compressPDF()"
+        data-tr="Sıkıştır" data-en="Compress"></button>
 
-  <div class="result" id="result">
-    <p id="status"></p>
-    <a id="download" href="#" download="compressed.pdf">Download</a>
-  </div>
+<p class="note" id="statusText">
+Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.
+</p>
+
+<a class="back" href="/index.html">← Ana sayfa</a>
+
+<div id="result" style="display:none;margin-top:15px;">
+  <p id="status"></p>
+  <a id="download" href="#" download="compressed.pdf">Download</a>
+</div>
 
 </div>
 
 </div>
 
 <script>
-// language
+// simple language
 function detectLang(){
   const lang = navigator.language || navigator.userLanguage;
   const isEN = lang.startsWith("en");
@@ -199,17 +139,18 @@ function detectLang(){
 }
 detectLang();
 
-// file status UI
+// status change
 document.getElementById("file").addEventListener("change", function(){
   const statusText = document.getElementById("statusText");
+
   if(this.files.length > 0){
-    statusText.innerHTML = "Dosya seçildi: " + this.files[0].name;
+    statusText.innerText = "Dosya seçildi: " + this.files[0].name;
   } else {
-    statusText.innerHTML = "Dosya seçilmedi <small>Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</small>";
+    statusText.innerText = "Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.";
   }
 });
 
-// mock compression
+// mock compress
 function compressPDF(){
   const file = document.getElementById("file").files[0];
   const quality = document.getElementById("quality").value;
