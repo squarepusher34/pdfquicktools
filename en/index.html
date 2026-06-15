@@ -4,142 +4,154 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Free Online PDF Tools - Merge, Split & Image to PDF | PDFQuickTools</title>
+<title>Free PDF Tools Online | Merge, Split, Convert | PDFQuickTools</title>
 
-<meta name="description" content="PDFQuickTools is a free online platform to merge PDF files, split pages and convert images to PDF instantly in your browser. No signup required.">
-
-<meta name="keywords" content="pdf tools, merge pdf online, split pdf, image to pdf, free pdf converter">
-
-<!-- SEO SCHEMA -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "PDFQuickTools",
-  "url": "https://pdfquicktools.net/",
-  "description": "Free online PDF tools to merge, split and convert images to PDF.",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://pdfquicktools.net/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
+<meta name="description" content="Free online PDF tools to merge, split and convert PDF files. Fast, secure and browser-based. No signup required.">
 
 <style>
+:root{
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --primary:#2563eb;
+}
+
 body{
   margin:0;
   font-family:system-ui;
-  background:#f6f7fb;
-  color:#111;
+  background:var(--bg);
+  color:var(--text);
 }
 
+/* HEADER */
 header{
   background:#0f172a;
   color:white;
-  padding:25px;
-  text-align:center;
-  position:relative;
+  padding:14px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.container{
-  max-width:900px;
-  margin:40px auto;
-  padding:20px;
-  text-align:center;
+header a{
+  color:white;
+  text-decoration:none;
+  font-size:13px;
+  opacity:0.9;
 }
 
-h1{ font-size:34px; }
+header a:hover{
+  opacity:1;
+}
 
-.intro{
-  max-width:750px;
-  margin:0 auto 30px;
-  color:#555;
+/* HERO */
+.hero{
+  text-align:center;
+  padding:50px 20px 20px;
+}
+
+.hero h1{
+  font-size:34px;
+  margin:0;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:650px;
+  margin:10px auto 0;
   line-height:1.6;
+}
+
+/* LINKS BAR */
+.links{
+  text-align:center;
+  margin:25px 0;
+}
+
+.links a{
+  margin:0 6px;
+  color:var(--primary);
+  text-decoration:none;
+  font-weight:600;
+  font-size:14px;
+}
+
+/* GRID */
+.container{
+  max-width:1000px;
+  margin:30px auto;
+  padding:0 20px;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-  margin-top:30px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
 }
 
+/* CARD */
 .card{
-  background:white;
-  padding:25px;
-  border-radius:16px;
-  box-shadow:0 10px 20px rgba(0,0,0,0.08);
+  background:var(--card);
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  border:1px solid #eef0f5;
   transition:0.2s;
 }
 
-.card:hover{ transform:translateY(-4px); }
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
 
-.card h2{ margin-top:0; }
+.card h2{
+  margin:0 0 6px;
+  font-size:18px;
+}
 
-a{
+.card p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.card a{
   display:inline-block;
   margin-top:10px;
-  color:#2563eb;
-  font-weight:600;
-  text-decoration:none;
-}
-
-a:hover{ text-decoration:underline; }
-
-/* NAV */
-.nav-left{
-  position:absolute;
-  left:15px;
-  top:50%;
-  transform:translateY(-50%);
-}
-
-.nav-left a{
+  padding:8px 12px;
+  background:var(--primary);
   color:white;
-  margin-right:10px;
-  font-size:14px;
-}
-
-.lang-btn{
-  position:absolute;
-  right:15px;
-  top:50%;
-  transform:translateY(-50%);
-  color:white;
-  text-decoration:none;
-  font-weight:600;
-  background:#2563eb;
-  padding:6px 12px;
   border-radius:8px;
+  text-decoration:none;
+  font-size:13px;
 }
 
+/* SECTIONS */
 section{
-  margin-top:50px;
   background:white;
-  padding:25px;
+  margin-top:25px;
+  padding:22px;
   border-radius:12px;
-  text-align:left;
-  box-shadow:0 10px 20px rgba(0,0,0,0.05);
-  color:#444;
-  line-height:1.7;
+  box-shadow:0 6px 18px rgba(0,0,0,0.04);
+  color:#374151;
 }
 
+/* FOOTER */
 footer{
-  margin-top:40px;
-  padding:20px;
   text-align:center;
-  color:#666;
+  padding:25px;
+  color:#6b7280;
 }
 
 footer a{
+  color:var(--primary);
   margin:0 8px;
-  color:#2563eb;
   text-decoration:none;
 }
 
 @media(max-width:768px){
-  .grid{grid-template-columns:1fr}
+  .hero h1{font-size:26px;}
 }
 </style>
 
@@ -148,34 +160,26 @@ footer a{
 <body>
 
 <header>
-
-  <div class="nav-left">
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
+  <div>PDFQuickTools</div>
+  <div>
+    <a href="/about.html">About</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/index.html">TR</a>
   </div>
-
-  <h2 style="margin:0;font-size:20px;">
-    PDFQuickTools - Free PDF Tools
-  </h2>
-
-  <a class="lang-btn" href="/index.html">TR</a>
 </header>
+
+<div class="hero">
+  <h1>Free PDF Tools Online</h1>
+  <p>Merge, split and convert PDF files instantly in your browser. No signup required.</p>
+</div>
 
 <div class="container">
 
-<h1>Free PDF Tools Online</h1>
-
-<div class="intro">
-  PDFQuickTools is a fast and free browser-based PDF utility platform.
-  You can merge multiple PDFs, split pages and convert images to PDF instantly without uploading files or installing software.
-</div>
-
-<!-- INTERNAL SEO LINKS -->
-<div style="margin-bottom:25px;">
-  <a href="/tools/merge.html">Merge PDF Online</a> |
-  <a href="/tools/split.html">Split PDF Pages</a> |
-  <a href="/tools/image-to-pdf.html">Image to PDF Converter</a> |
-  <a href="/tools/pdf-to-jpg.html">PDF to JPG</a>
+<div class="links">
+  <a href="/tools/merge.html">Merge</a>
+  <a href="/tools/split.html">Split</a>
+  <a href="/tools/image-to-pdf.html">Image → PDF</a>
+  <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
 </div>
 
 <div class="grid">
@@ -188,54 +192,34 @@ footer a{
 
   <div class="card">
     <h2>Split PDF</h2>
-    <p>Separate PDF pages easily and quickly</p>
+    <p>Separate PDF pages easily</p>
     <a href="/tools/split.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Image → PDF</h2>
-    <p>Convert JPG or PNG images into PDF files</p>
+    <p>Convert images into PDF files</p>
     <a href="/tools/image-to-pdf.html">Open</a>
   </div>
 
   <div class="card">
-  <h2>PDF → JPG</h2>
-  <p>Convert PDF pages into JPG images</p>
-  <a href="/tools/pdf-to-jpg.html">Open</a>
-</div>
+    <h2>PDF → JPG</h2>
+    <p>Convert PDF pages into images</p>
+    <a href="/tools/pdf-to-jpg.html">Open</a>
+  </div>
 
 </div>
 
-<!-- ABOUT -->
 <section>
-  <h2>About PDFQuickTools</h2>
-  <p>
-    PDFQuickTools is designed to provide fast, secure and free PDF tools for everyday use.
-  </p>
-  <p>
-    No installation or signup required. Everything runs directly in your browser.
-  </p>
+  <h2>About</h2>
+  <p>PDFQuickTools is a free browser-based PDF toolkit designed for speed and simplicity.</p>
 </section>
 
-<!-- WHY SECTION -->
 <section>
-  <h2>Why Choose PDFQuickTools?</h2>
+  <h2>Why Choose Us?</h2>
   <p>✔ No installation required</p>
-  <p>✔ 100% free to use</p>
-  <p>✔ Fast and secure processing</p>
-  <p>✔ Privacy focused design</p>
-</section>
-
-<!-- FAQ -->
-<section>
-  <h2>Frequently Asked Questions</h2>
-
-  <p><strong>Is PDFQuickTools free?</strong><br>Yes, all tools are completely free.</p>
-
-  <p><strong>Do I need to install anything?</strong><br>No, everything works in your browser.</p>
-
-  <p><strong>Are my files uploaded?</strong><br>No, processing happens locally in your browser.</p>
-
+  <p>✔ Free forever</p>
+  <p>✔ Fast processing</p>
 </section>
 
 </div>
