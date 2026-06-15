@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDF Böl - PDFQuickTools</title>
+<meta name="description" content="PDF sayfalarını ücretsiz böl">
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+body{margin:0;font-family:system-ui;background:#f3f4f6}
+header{background:#0f172a;color:white;padding:18px;text-align:center}
+.container{max-width:800px;margin:40px auto;padding:20px}
+.card{background:white;padding:30px;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.08);text-align:center}
+input,button{width:100%;margin-top:15px;padding:14px;border-radius:12px}
+input{border:2px dashed #cbd5e1;background:#fafafa}
+button{background:#2563eb;color:white;border:none;cursor:pointer}
+button:hover{background:#1d4ed8}
+a{display:block;margin-top:20px;color:#2563eb;text-decoration:none}
+</style>
+</head>
+
+<body>
+
+<header>PDFQuickTools • PDF Böl</header>
+
+<div class="container">
+<div class="card">
+
+<h1>PDF Böl</h1>
+<p>PDF dosyanı seç, tüm sayfaları ayır ve indir</p>
+
+<input type="file" id="file" accept="application/pdf">
+
+<button onclick="splitPDF()">PDF Böl</button>
+
+<a href="/">← Ana sayfa</a>
+
+</div>
+</div>
+
+<script>
+async function splitPDF(){
+  const { PDFDocument } = PDFLib;
+
+  const file = document.getElementById("file").files[0];
+  if(!file){
+    alert("PDF seç");
+    return;
+  }
+
+  const bytes = await file.arrayBuffer();
+  const pdf = await PDFDocument.load(bytes);
+
+  for(let i=0;i<pdf.getPageCount();i++){
+    const newPdf = await PDFDocument.create();
+    const [page] = await newPdf.copyPages(pdf,[i]);
+    newPdf.addPage(page);
+
+    const data = await newPdf.save();
+
+    const blob = new Blob([data],{type:"application/pdf"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `page-${i+1}.pdf`;
+    a.click();
+  }
+}
+</script>
+
+</body>
+</html>

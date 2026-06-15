@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDF Birleştir - PDFQuickTools</title>
+<meta name="description" content="Ücretsiz PDF birleştirme aracı">
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#f3f4f6;
+  color:#111;
+}
+
+header{
+  background:#0f172a;
+  color:white;
+  padding:18px;
+  text-align:center;
+  font-weight:600;
+}
+
+.container{
+  max-width:800px;
+  margin:40px auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+h1{
+  margin-top:0;
+}
+
+input{
+  margin:20px 0;
+  padding:15px;
+  width:100%;
+  border:2px dashed #cbd5e1;
+  border-radius:12px;
+  background:#fafafa;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+.note{
+  margin-top:15px;
+  font-size:13px;
+  color:#6b7280;
+}
+
+.back{
+  display:block;
+  margin-top:20px;
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:500;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+PDFQuickTools • PDF Birleştir
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h1>PDF Dosyalarını Birleştir</h1>
+<p>Birden fazla PDF seç, tek dosya indir</p>
+
+<input type="file" id="files" multiple accept="application/pdf">
+
+<button onclick="mergePDF()">PDF’leri Birleştir</button>
+
+<p class="note">Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</p>
+
+<a class="back" href="/">← Ana sayfa</a>
+
+</div>
+
+</div>
+
+<script>
+async function mergePDF(){
+  const { PDFDocument } = PDFLib;
+
+  const files = document.getElementById("files").files;
+
+  if(files.length < 2){
+    alert("En az 2 PDF seçmelisin");
+    return;
+  }
+
+  const mergedPdf = await PDFDocument.create();
+
+  for(let file of files){
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFDocument.load(bytes);
+
+    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+    pages.forEach(p => mergedPdf.addPage(p));
+  }
+
+  const result = await mergedPdf.save();
+
+  const blob = new Blob([result], {type:"application/pdf"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "merged.pdf";
+  a.click();
+}
+</script>
+
+</body>
+</html>

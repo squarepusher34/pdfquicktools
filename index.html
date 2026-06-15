@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDFQuickTools - Ücretsiz PDF Araçları</title>
+<meta name="description" content="PDF birleştir, böl, görsel ekle. Ücretsiz online PDF araçları.">
+<style>
+html, body { height: 100%; margin: 0; }
+body { font-family: system-ui; background: #f6f7fb; display: flex; flex-direction: column; }
+header { background: #0f172a; color: #fff; padding: 20px; text-align: center; position: relative; }
+header a { position: absolute; top: 15px; right: 15px; color: white; text-decoration: none; font-weight: 600; background: #2563eb; padding: 8px 12px; border-radius: 8px; }
+.container { max-width: 900px; margin: 40px auto; padding: 20px; flex: 1; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card { background: #fff; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,.1); transition: 0.2s; }
+.card:hover { transform: translateY(-4px); }
+a { color: #2563eb; text-decoration: none; font-weight: bold; }
+footer { text-align: center; padding: 20px; margin-top: auto; background: #ffffff; border-top: 1px solid #e5e7eb; }
+footer a { margin: 0 8px; font-weight: 500; }
+@media(max-width:768px){ .grid{ grid-template-columns:1fr } }
+</style>
+</head>
+<body>
+<header>
+  <a href="/en/index.html">EN</a>
+  <h1>PDFQuickTools</h1>
+  <p>Ücretsiz PDF Araçları</p>
+</header>
+<div class="container">
+  <div class="grid">
+    <div class="card">
+      <h2>PDF Birleştir</h2>
+      <p>Birden fazla PDF'i tek dosya yap</p>
+      <a href="/tools/merge.html">Aç</a>
+    </div>
+    <div class="card">
+      <h2>PDF Böl</h2>
+      <p>PDF sayfalarını ayır</p>
+      <a href="/tools/split.html">Aç</a>
+    </div>
+    <div class="card">
+      <h2>Görsel → PDF</h2>
+      <p>JPG veya PNG dosyalarını PDF'e dönüştür</p>
+      <a href="/tools/image-to-pdf.html">Aç</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <a href="/about.html">Hakkımızda</a> |
+  <a href="/privacy.html">Gizlilik Politikası</a> |
+  <a href="/contact.html">İletişim</a>
+</footer>
+</body>
+</html>
