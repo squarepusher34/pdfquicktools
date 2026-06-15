@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PDF to JPG Converter Online Free | PDFQuickTools</title>
-
-<meta name="description" content="Convert PDF files to JPG images online for free. No signup, fast and secure PDF to image converter.">
+<title>PDF to JPG Converter | PDFQuickTools</title>
 
 <style>
 body{
@@ -16,7 +14,7 @@ body{
   color:#111;
 }
 
-/* NAVBAR */
+/* HEADER */
 header{
   background:#0f172a;
   color:white;
@@ -29,18 +27,8 @@ header{
 header a{
   color:white;
   text-decoration:none;
+  font-size:14px;
   font-weight:600;
-  font-size:14px;
-}
-
-header a:hover{
-  text-decoration:underline;
-}
-
-.brand{
-  font-weight:700;
-  font-size:14px;
-  opacity:0.9;
 }
 
 /* CONTAINER */
@@ -63,53 +51,84 @@ button{
   margin-top:10px;
 }
 
-input{
-  margin:10px 0;
+/* PROGRESS BAR */
+.progress{
+  width:100%;
+  background:#eee;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:15px;
+  display:none;
 }
 
-img{
-  max-width:100%;
-  margin-top:10px;
+.bar{
+  height:10px;
+  width:0%;
+  background:#2563eb;
+  transition:0.2s;
+}
+
+/* OUTPUT */
+#downloadBtn{
+  display:none;
+  margin-top:15px;
+  background:#16a34a;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <header>
   <a href="/">← Home</a>
-  <div class="brand">PDFQuickTools</div>
+  <div>PDFQuickTools</div>
   <a href="/tools/merge.html">Merge PDF</a>
 </header>
 
 <div class="container">
 
-<h1>PDF to JPG Converter</h1>
+<h1>PDF → JPG Converter</h1>
 
 <input type="file" id="file" accept="application/pdf">
 
 <button onclick="convert()">Convert</button>
 
+<div class="progress" id="progress">
+  <div class="bar" id="bar"></div>
+</div>
+
+<button id="downloadBtn" onclick="downloadZip()">Download ZIP</button>
+
 <div id="output"></div>
 
 </div>
 
+<!-- LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <script>
+
+let zip = new JSZip();
+let images = [];
+
 async function convert() {
 
   const file = document.getElementById("file").files[0];
   if (!file) return alert("Select a PDF");
 
-  const output = document.getElementById("output");
-  output.innerHTML = "Processing...";
-
   const url = URL.createObjectURL(file);
   const pdf = await pdfjsLib.getDocument(url).promise;
 
-  output.innerHTML = "";
+  const progress = document.getElementById("progress");
+  const bar = document.getElementById("bar");
+
+  progress.style.display = "block";
+  bar.style.width = "0%";
+
+  zip = new JSZip();
+  images = [];
 
   for (let i = 1; i <= pdf.numPages; i++) {
 
@@ -127,12 +146,24 @@ async function convert() {
       viewport: viewport
     }).promise;
 
-    const img = document.createElement("img");
-    img.src = canvas.toDataURL("image/jpeg");
+    const imgData = canvas.toDataURL("image/jpeg", 0.9);
 
-    output.appendChild(img);
+    zip.file(`page-${i}.jpg`, imgData.split(',')[1], {base64:true});
+
+    let percent = Math.round((i / pdf.numPages) * 100);
+    bar.style.width = percent + "%";
   }
+
+  document.getElementById("downloadBtn").style.display = "block";
+  document.getElementById("output").innerHTML = "Done! Ready to download ZIP.";
 }
+
+function downloadZip(){
+  zip.generateAsync({type:"blob"}).then(function(content) {
+    saveAs(content, "pdf-to-jpg.zip");
+  });
+}
+
 </script>
 
 </body>
