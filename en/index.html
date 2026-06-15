@@ -34,17 +34,12 @@ header{
   align-items:center;
 }
 
-header .brand{
-  font-weight:700;
-  font-size:14px;
-}
-
 header a{
   color:white;
   text-decoration:none;
   font-size:13px;
-  margin-left:10px;
   opacity:0.9;
+  margin-left:10px;
 }
 
 header a:hover{
@@ -69,7 +64,7 @@ header a:hover{
   line-height:1.6;
 }
 
-/* LINKS */
+/* LINKS BAR */
 .links{
   text-align:center;
   margin:25px 0;
@@ -83,14 +78,13 @@ header a:hover{
   font-size:14px;
 }
 
-/* CONTAINER */
+/* GRID */
 .container{
   max-width:1000px;
   margin:30px auto;
   padding:0 20px;
 }
 
-/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -109,6 +103,34 @@ header a:hover{
 
 .card:hover{
   transform:translateY(-4px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card h2{
+  margin:0 0 6px;
+  font-size:18px;
+}
+
+.card p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* OPEN BUTTON */
+.card a{
+  display:inline-block;
+  margin-top:10px;
+  padding:8px 12px;
+  background:var(--primary);
+  color:white;
+  border-radius:8px;
+  text-decoration:none;
+  font-size:13px;
+}
+
+.card a:hover{
+  background:#1d4ed8;
 }
 
 /* SECTIONS */
@@ -119,27 +141,6 @@ section{
   border-radius:12px;
   box-shadow:0 6px 18px rgba(0,0,0,0.04);
   color:#374151;
-}
-
-/* FAQ */
-details{
-  background:#fff;
-  border:1px solid #e5e7eb;
-  padding:12px 14px;
-  border-radius:10px;
-  margin-bottom:10px;
-  cursor:pointer;
-}
-
-summary{
-  font-size:14px;
-  font-weight:600;
-}
-
-details p{
-  margin-top:10px;
-  color:#6b7280;
-  font-size:14px;
 }
 
 /* FOOTER */
@@ -165,8 +166,7 @@ footer a{
 <body>
 
 <header>
-  <div class="brand">PDFQuickTools</div>
-
+  <div><strong>PDFQuickTools</strong></div>
   <div>
     <a href="/about.html">About</a>
     <a href="/contact.html">Contact</a>
@@ -181,6 +181,7 @@ footer a{
 
 <div class="container">
 
+<!-- QUICK LINKS -->
 <div class="links">
   <a href="/tools/merge.html">Merge</a>
   <a href="/tools/split.html">Split</a>
@@ -188,26 +189,31 @@ footer a{
   <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
 </div>
 
+<!-- TOOLS -->
 <div class="grid">
 
   <div class="card">
     <h2>Merge PDF</h2>
     <p>Combine multiple PDF files into one document</p>
+    <a href="/tools/merge.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Split PDF</h2>
     <p>Separate PDF pages easily</p>
+    <a href="/tools/split.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Image → PDF</h2>
     <p>Convert images into PDF files</p>
+    <a href="/tools/image-to-pdf.html">Open</a>
   </div>
 
   <div class="card">
     <h2>PDF → JPG</h2>
     <p>Convert PDF pages into images</p>
+    <a href="/tools/pdf-to-jpg.html">Open</a>
   </div>
 
 </div>
@@ -215,40 +221,30 @@ footer a{
 <!-- ABOUT -->
 <section>
   <h2>About</h2>
-  <p>PDFQuickTools is a free browser-based PDF toolkit designed for speed and simplicity.</p>
+  <p>
+    PDFQuickTools is a free browser-based PDF toolkit designed for speed, simplicity and privacy.
+    No uploads, no signup.
+  </p>
 </section>
 
 <!-- WHY -->
 <section>
   <h2>Why Choose Us?</h2>
   <p>✔ No installation required</p>
-  <p>✔ Free forever</p>
-  <p>✔ Fast processing</p>
+  <p>✔ 100% free forever</p>
+  <p>✔ Fast browser processing</p>
+  <p>✔ Privacy focused (files stay on your device)</p>
 </section>
 
-<!-- FAQ -->
+<!-- FAQ (TR style translated) -->
 <section>
   <h2>Frequently Asked Questions</h2>
 
-  <details>
-    <summary>Is PDFQuickTools free?</summary>
-    <p>Yes, all tools are completely free.</p>
-  </details>
+  <p><strong>Is PDFQuickTools free?</strong><br>Yes, all tools are completely free.</p>
 
-  <details>
-    <summary>Do I need to install anything?</summary>
-    <p>No, everything runs directly in your browser.</p>
-  </details>
+  <p><strong>Do I need to install anything?</strong><br>No, everything works in your browser.</p>
 
-  <details>
-    <summary>Are my files uploaded?</summary>
-    <p>No, processing happens locally in your browser.</p>
-  </details>
-
-  <details>
-    <summary>How does PDF to JPG work?</summary>
-    <p>All processing is done using JavaScript directly in your browser.</p>
-  </details>
+  <p><strong>Are my files uploaded?</strong><br>No, everything is processed locally in your browser.</p>
 
 </section>
 
