@@ -20,10 +20,10 @@ body{
   background:#f3f4f6;
 }
 
-/* TOP BAR */
+/* TOP BAR (DAHA SİYAH + COMPACT) */
 .topbar{
   background:#0f172a;
-  padding:12px 20px;
+  padding:10px 16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -33,48 +33,43 @@ body{
   color:white;
   text-decoration:none;
   font-weight:600;
+  font-size:13px;
 }
 
-/* HERO (YENİ EKLENDİ - ÜST BOŞLUK DOLDURUR) */
-.hero{
-  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+/* TOOL BAŞLIK KISMI (MAVİ AMA SİMPLİFIED) */
+.header-strip{
+  background:#2563eb;
   color:white;
-  text-align:center;
-  padding:35px 20px;
+  padding:14px 16px;
 }
 
-.hero h1{
+.header-strip h1{
   margin:0;
-  font-size:28px;
+  font-size:18px;
+  font-weight:600;
 }
 
-.hero p{
-  margin-top:8px;
+.header-strip p{
+  margin:4px 0 0;
+  font-size:12px;
   opacity:0.9;
-  font-size:14px;
 }
 
-/* AD */
-.ad{
-  text-align:center;
-  margin:15px 0;
-}
-
-/* CONTAINER */
+/* CONTAINER (DAHA YUKARI ALINDI) */
 .container{
   max-width:850px;
-  margin:20px auto;
+  margin:15px auto; /* BOŞLUK AZALTILDI */
   background:white;
-  padding:25px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* INPUTS */
+/* INPUT */
 input, button{
   width:100%;
-  margin-top:12px;
-  padding:12px;
+  margin-top:10px;
+  padding:11px;
   border-radius:10px;
   font-size:14px;
 }
@@ -97,12 +92,18 @@ button:hover{
 /* PREVIEW */
 #preview{
   width:100%;
-  margin-top:20px;
+  margin-top:15px;
   border:1px solid #ddd;
   border-radius:10px;
 }
 
-/* FOOT NOTE */
+/* AD */
+.ad{
+  text-align:center;
+  margin:10px 0;
+}
+
+/* NOTE */
 .note{
   text-align:center;
   font-size:12px;
@@ -120,10 +121,10 @@ button:hover{
   <a href="/tools.html">Tools</a>
 </div>
 
-<!-- HERO (ÜSTÜ DOLDURAN KISIM) -->
-<div class="hero">
-  <h1>PDF Watermark Tool</h1>
-  <p>PDF dosyanı yükle, metin filigranı ekle ve tek tıkla indir</p>
+<!-- HEADER (ARTIK “WATERMARK TOOL” YOK, DAHA CLEAN) -->
+<div class="header-strip">
+  <h1>PDF Filigran Ekleme</h1>
+  <p>PDF’ine hızlıca watermark ekle ve indir</p>
 </div>
 
 <!-- AD -->
@@ -141,11 +142,9 @@ button:hover{
 
 <div class="container">
 
-<h2>Watermark Ayarları</h2>
-
 <input type="file" id="file" accept="application/pdf"/>
 
-<input type="text" id="text" placeholder="Watermark text">
+<input type="text" id="text" placeholder="Filigran yazısı">
 
 <input type="color" id="color" value="#888888">
 
@@ -167,7 +166,7 @@ button:hover{
 
 <a id="download" style="display:none;"></a>
 
-<p class="note">PDF işlemleri cihazınızda gerçekleşir.</p>
+<p class="note">İşlem tamamen cihazında yapılır.</p>
 
 </div>
 
@@ -183,7 +182,7 @@ async function preview(){
   const pdf = await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
   const page = await pdf.getPage(1);
 
-  const viewport = page.getViewport({scale:1.5});
+  const viewport = page.getViewport({scale:1.6});
 
   const canvas = document.getElementById("preview");
   const ctx = canvas.getContext("2d");
