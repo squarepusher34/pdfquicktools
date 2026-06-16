@@ -4,9 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PDFQuickTools - Free Online PDF Tools</title>
+<title>PDFQuickTools - Ücretsiz PDF Araçları</title>
 
-<meta name="description" content="Free PDF tools: merge, split, compress, image to PDF, PDF to JPG. Fast and browser-based.">
+<meta name="description" content="PDF birleştirme, bölme, sıkıştırma ve dönüştürme araçları. Tamamen ücretsiz ve tarayıcı tabanlı.">
+
+<!-- ADSENSE -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXX"
+     crossorigin="anonymous"></script>
 
 <style>
 :root{
@@ -39,11 +43,9 @@ header a{
   text-decoration:none;
   font-weight:600;
   font-size:14px;
-  opacity:0.9;
   margin-left:10px;
+  opacity:0.9;
 }
-
-header a:hover{opacity:1}
 
 /* HERO */
 .hero{
@@ -63,18 +65,11 @@ header a:hover{opacity:1}
   line-height:1.6;
 }
 
-/* LINKS */
-.links{
+/* ADS */
+.ad-block{
+  margin:25px auto;
   text-align:center;
-  margin:25px 0;
-}
-
-.links a{
-  margin:0 6px;
-  color:var(--primary);
-  text-decoration:none;
-  font-weight:600;
-  font-size:14px;
+  max-width:1000px;
 }
 
 /* GRID */
@@ -90,31 +85,16 @@ header a:hover{opacity:1}
   gap:18px;
 }
 
-/* CARD (TEK SİSTEM) */
 .card{
-  background:var(--card);
+  background:#fff;
   padding:20px;
   border-radius:14px;
   box-shadow:0 6px 18px rgba(0,0,0,0.06);
   border:1px solid #eef0f5;
-  transition:0.2s;
 }
 
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 10px 25px rgba(37,99,235,0.15);
-}
-
-.card h2{
-  margin:0 0 6px;
-  font-size:18px;
-}
-
-.card p{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.5;
-}
+.card h2{margin:0;font-size:18px}
+.card p{color:var(--muted);font-size:14px}
 
 .card a{
   display:inline-block;
@@ -134,10 +114,8 @@ section{
   padding:22px;
   border-radius:12px;
   box-shadow:0 6px 18px rgba(0,0,0,0.04);
-  color:#374151;
 }
 
-/* FAQ */
 details{
   margin-bottom:10px;
   background:#f9fafb;
@@ -157,13 +135,22 @@ footer{
   color:#6b7280;
 }
 
-footer a{
-  color:var(--primary);
-  margin:0 8px;
-  text-decoration:none;
+/* MOBILE STICKY AD */
+.mobile-sticky-ad{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  z-index:9999;
+  padding:6px 0;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+  display:none;
 }
 
 @media(max-width:768px){
+  .mobile-sticky-ad{display:block;}
+  body{padding-bottom:90px;}
   .hero h1{font-size:26px;}
 }
 </style>
@@ -174,119 +161,114 @@ footer a{
 <header>
   <div><strong>PDFQuickTools</strong></div>
   <div>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-    <a href="en/index.html" style="background:#2563eb;padding:6px 10px;border-radius:10px;">EN</a>
+    <a href="/about.html">Hakkında</a>
+    <a href="/contact.html">İletişim</a>
   </div>
 </header>
 
+<!-- HERO -->
 <div class="hero">
-  <h1 data-tr="Ücretsiz PDF Araçları" data-en="Free PDF Tools Online"></h1>
-  <p data-tr="PDF dosyalarını birleştir, böl, sıkıştır ve dönüştür."
-     data-en="Merge, split, compress and convert PDF files instantly in your browser."></p>
+  <h1>Ücretsiz PDF Araçları</h1>
+  <p>PDF dosyalarınızı birleştirin, bölün, sıkıştırın ve dönüştürün. Tamamen ücretsiz ve tarayıcıda çalışır.</p>
 </div>
 
-<div class="container">
-
-<!-- QUICK LINKS -->
-<div class="links">
-  <a href="/tools/merge.html">Merge</a>
-  <a href="/tools/split.html">Split</a>
-  <a href="/tools/image-to-pdf.html">Image → PDF</a>
-  <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
-  <a href="/tools/pdf-compress.html">Compress</a>
+<!-- REKLAM 1 -->
+<div class="ad-block">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXX"
+       data-ad-slot="1111111111"
+       data-ad-format="auto"></ins>
 </div>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 <!-- GRID -->
+<div class="container">
+
 <div class="grid">
 
   <div class="card">
-    <h2 data-tr="PDF Birleştir" data-en="Merge PDF"></h2>
-    <p data-tr="Birden fazla PDF'i tek dosyada birleştir" data-en="Combine multiple PDFs into one file"></p>
-    <a href="/tools/merge.html">Open</a>
+    <h2>PDF Birleştir</h2>
+    <p>Birden fazla PDF dosyasını tek dosyada birleştirin</p>
+    <a href="/tools/merge.html">Aç</a>
   </div>
 
   <div class="card">
-    <h2 data-tr="PDF Böl" data-en="Split PDF"></h2>
-    <p data-tr="PDF sayfalarını ayır" data-en="Separate PDF pages easily"></p>
-    <a href="/tools/split.html">Open</a>
+    <h2>PDF Böl</h2>
+    <p>PDF sayfalarını ayırın</p>
+    <a href="/tools/split.html">Aç</a>
   </div>
 
   <div class="card">
-    <h2 data-tr="Görsel → PDF" data-en="Image → PDF"></h2>
-    <p data-tr="Görselleri PDF'e çevir" data-en="Convert images into PDF files"></p>
-    <a href="/tools/image-to-pdf.html">Open</a>
+    <h2>Görsel → PDF</h2>
+    <p>Resimleri PDF dosyasına dönüştürün</p>
+    <a href="/tools/image-to-pdf.html">Aç</a>
   </div>
 
   <div class="card">
-    <h2 data-tr="PDF → JPG" data-en="PDF → JPG"></h2>
-    <p data-tr="PDF sayfalarını görsele çevir" data-en="Convert PDF pages into images"></p>
-    <a href="/tools/pdf-to-jpg.html">Open</a>
-  </div>
-
-  <div class="card">
-    <h2 data-tr="PDF Sıkıştır" data-en="Compress PDF"></h2>
-    <p data-tr="PDF boyutunu küçült" data-en="Reduce PDF file size"></p>
-    <a href="/tools/pdf-compress.html">Open</a>
+    <h2>PDF Sıkıştır</h2>
+    <p>PDF boyutunu küçültün</p>
+    <a href="/tools/pdf-compress.html">Aç</a>
   </div>
 
 </div>
 
-<!-- ABOUT -->
+<!-- HAKKINDA -->
 <section>
-  <h2 data-tr="Hakkında" data-en="About"></h2>
-  <p data-tr="PDFQuickTools ücretsiz ve hızlı PDF araçları sunar."
-     data-en="PDFQuickTools provides free and fast PDF tools."></p>
+  <h2>Hakkında</h2>
+  <p>PDFQuickTools tamamen ücretsiz PDF araçları sunar. Tüm işlemler tarayıcı içinde gerçekleşir.</p>
 </section>
 
-<!-- WHY -->
+<!-- NEDEN BİZ -->
 <section>
-  <h2 data-tr="Neden Biz?" data-en="Why Choose Us?"></h2>
-  <p>✔ <span data-tr="Kurulum yok" data-en="No installation"></span></p>
-  <p>✔ <span data-tr="Ücretsiz kullanım" data-en="Free forever"></span></p>
-  <p>✔ <span data-tr="Tarayıcı içinde çalışır" data-en="Works in browser"></span></p>
+  <h2>Neden Biz?</h2>
+  <p>✔ Kurulum gerekmez</p>
+  <p>✔ Ücretsiz kullanım</p>
+  <p>✔ Tarayıcıda çalışır</p>
 </section>
 
 <!-- FAQ -->
 <section>
-  <h2 data-tr="Sık Sorulan Sorular" data-en="FAQ"></h2>
+  <h2>Sık Sorulan Sorular</h2>
 
   <details>
-    <summary data-tr="Ücretsiz mi?" data-en="Is it free?"></summary>
-    <p data-tr="Evet tamamen ücretsizdir." data-en="Yes, completely free."></p>
+    <summary>Ücretsiz mi?</summary>
+    <p>Evet, tamamen ücretsizdir.</p>
   </details>
 
   <details>
-    <summary data-tr="Kurulum gerekir mi?" data-en="Do I need installation?"></summary>
-    <p data-tr="Hayır, tarayıcıda çalışır." data-en="No, it works in browser."></p>
+    <summary>Kurulum gerekir mi?</summary>
+    <p>Hayır, tarayıcıda çalışır.</p>
   </details>
 
   <details>
-    <summary data-tr="Dosyalar yükleniyor mu?" data-en="Are files uploaded?"></summary>
-    <p data-tr="Hayır, işlemler cihazında yapılır." data-en="No, processing is local."></p>
+    <summary>Dosyalar yükleniyor mu?</summary>
+    <p>Hayır, işlemler cihazınızda yapılır.</p>
   </details>
 
 </section>
 
 </div>
 
+<!-- FOOTER -->
 <footer>
-  PDFQuickTools © |
-  <a href="/about.html">About</a> |
-  <a href="/privacy.html">Privacy</a> |
-  <a href="/contact.html">Contact</a>
+  PDFQuickTools ©
 </footer>
 
-<script>
-function detectLang(){
-  const lang = navigator.language || navigator.userLanguage;
-  const isEN = lang.startsWith("en");
+<!-- MOBILE STICKY AD -->
+<div class="mobile-sticky-ad">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXX"
+       data-ad-slot="4444444444"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+</div>
 
-  document.querySelectorAll("[data-tr]").forEach(el=>{
-    el.innerHTML = isEN ? el.dataset.en : el.dataset.tr;
-  });
-}
-detectLang();
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 </body>
