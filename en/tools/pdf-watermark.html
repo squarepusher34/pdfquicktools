@@ -1,245 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#15172b" />
 
-<title>PDF Watermark | PDFQuickTools</title>
+    <title>PDF Watermark | PDFQuickTools</title>
+    <meta
+      name="description"
+      content="Add text watermarks to your PDF files instantly in your browser"
+    />
 
-<script async 
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
-crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://googleapis.com" />
+    <link rel="preconnect" href="https://gstatic.com" crossorigin />
+    <link
+      href="https://googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
 
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- ADSENSE -->
+    <script
+      async
+      src="https://googlesyndication.com"
+      crossorigin="anonymous"
+    ></script>
 
-<style>
-body{
-  margin:0;
-  font-family:system-ui;
-  background:#f3f4f6;
-}
+    <!-- KÜTÜPHANELER -->
+    <script src="https://unpkg.com"></script>
+    <script src="https://cloudflare.com"></script>
 
-/* TOP BAR */
-.topbar{
-  background:#0f172a;
-  padding:10px 16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+    <style>
+      /* ---------- tokens ---------- */
+      :root {
+        --ink: #15172b;
+        --paper: #faf7f2;
+        --card: #ffffff;
+        --coral: #ff5a4e;
+        --coral-deep: #df4538;
+        --blue: #3b6fed;
+        --blue-deep: #2554c7;
+        --muted: #716c63;
+        --border: #e8e2d8;
+        --success: #7cf29c;
+        --success-ink: #0f5132;
 
-.topbar a{
-  color:white;
-  text-decoration:none;
-  font-weight:600;
-  font-size:13px;
-}
+        --display: "Fraunces", serif;
+        --body: "Inter", system-ui, sans-serif;
+        --mono: "IBM Plex Mono", monospace;
 
-/* HEADER */
-.header-strip{
-  background:#2563eb;
-  color:white;
-  padding:14px 16px;
-}
+        --container: 680px;
+        --shadow-soft: 0 10px 28px -14px rgba(21, 23, 43, 0.16);
+        --shadow-lift: 0 20px 40px -16px rgba(21, 23, 43, 0.22);
+      }
 
-.header-strip h1{
-  margin:0;
-  font-size:18px;
-  font-weight:600;
-}
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
 
-.header-strip p{
-  margin:4px 0 0;
-  font-size:12px;
-  opacity:0.9;
-}
+      body {
+        margin: 0;
+        font-family: var(--body);
+        background: var(--paper);
+        background-image: radial-gradient(
+          circle at 1px 1px,
+          rgba(21, 23, 43, 0.05) 1px,
+          transparent 0
+        );
+        background-size: 16px 16px;
+        color: var(--ink);
+        line-height: 1.6;
+      }
 
-/* CONTAINER */
-.container{
-  max-width:850px;
-  margin:15px auto;
-  background:white;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
 
-/* INPUT */
-input, button{
-  width:100%;
-  margin-top:10px;
-  padding:11px;
-  border-radius:10px;
-  font-size:14px;
-}
+      *:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 3px;
+        border-radius: 6px;
+      }
 
-input[type="file"]{
-  border:2px dashed #ccc;
-}
+      /* ---------- header ---------- */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(21, 23, 43, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .header-inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 14px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 18px;
+        color: #fff;
+        letter-spacing: -0.01em;
+      }
+      .brand-mark {
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(160deg, var(--coral), var(--coral-deep));
+        padding: 6px 7px 5px;
+        border-radius: 5px;
+        letter-spacing: 0.03em;
+        clip-path: polygon(0 0, 75% 0, 100% 35%, 100% 100%, 0 100%);
+      }
 
-button{
-  background:#2563eb;
-  color:white;
-  border:none;
-  cursor:pointer;
-}
+      /* ---------- main container ---------- */
+      .container {
+        max-width: var(--container);
+        margin: 40px auto;
+        padding-inline: 24px;
+      }
 
-button:hover{
-  background:#1d4ed8;
-}
+      /* ---------- card düzeni ---------- */
+      .ticket {
+        position: relative;
+        background: var(--card);
+        border-radius: 12px;
+        padding: 40px 32px 32px;
+        box-shadow: var(--shadow-soft);
+        border: 1px solid var(--border);
+      }
 
-/* PREVIEW */
-#preview{
-  width:100%;
-  margin-top:15px;
-  border:1px solid #ddd;
-  border-radius:10px;
-}
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--blue);
+        margin: 0 0 12px;
+        text-align: center;
+      }
 
-/* NOTE */
-.note{
-  text-align:center;
-  font-size:12px;
-  color:#6b7280;
-  margin-top:10px;
-}
-</style>
-</head>
+      h2 {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        letter-spacing: -0.01em;
+        margin: 0 0 8px;
+        text-align: center;
+      }
 
-<body>
+      .lede {
+        color: var(--muted);
+        font-size: 1rem;
+        margin: 0 0 32px;
+        text-align: center;
+      }
 
-<!-- TOP -->
-<div class="topbar">
-  <a href="/en/index.html">← Home</a>
-  <a href="/en/tools.html">Tools</a>
-</div>
+      /* ---------- input elements ---------- */
+      input[type="file"],
+      input[type="text"] {
+        width: 100%;
+        margin-bottom: 16px;
+        padding: 16px;
+        border-radius: 12px;
+        font-family: var(--body);
+        font-size: 14px;
+        box-sizing: border-box;
+      }
 
-<!-- HEADER -->
-<div class="header-strip">
-  <h1>PDF Watermark Tool</h1>
-  <p>Add watermark to your PDF quickly</p>
-</div>
+      input[type="file"] {
+        border: 2px dashed var(--border);
+        background: var(--paper);
+        color: var(--muted);
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+      }
 
-<div class="container">
+      input[type="file"]:hover {
+        border-color: var(--coral);
+        background: rgba(255, 90, 78, 0.02);
+      }
 
-<input type="file" id="file" accept="application/pdf"/>
+      input[type="text"] {
+        border: 1px solid var(--border);
+        background: var(--paper);
+        color: var(--ink);
+        transition: border-color 0.2s;
+      }
 
-<input type="text" id="text" placeholder="Watermark text">
+      /* ---------- control panel row ---------- */
+      .control-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 16px;
+        align-items: center;
+        background: var(--paper);
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        margin-bottom: 20px;
+      }
 
-<input type="color" id="color" value="#888888">
+      .color-picker-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
 
-<label>Opacity</label>
-<input type="range" id="opacity" min="10" max="100" value="30">
+      .color-picker-wrapper label {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--muted);
+      }
 
-<label>Font Size</label>
-<input type="range" id="size" min="20" max="120" value="50">
+      input[type="color"] {
+        -webkit-appearance: none;
+        border: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        cursor: pointer;
+        background: none;
+      }
 
-<label>Rotation</label>
-<input type="range" id="rotation" min="0" max="360" value="45">
+      input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+      input[type="color"]::-webkit-color-swatch {
+        border: 2px solid var(--border);
+        border-radius: 50%;
+      }
 
-<button onclick="preview()">Preview</button>
-<button onclick="createPDF()">Apply & Download</button>
+      .sliders-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
 
-<canvas id="preview"></canvas>
+      .slider-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
 
-<p id="status"></p>
+      .slider-item label {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--ink);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
 
-<a id="download" style="display:none;"></a>
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--coral);
+        cursor: pointer;
+      }
 
-<p class="note">Everything is processed locally in your browser.</p>
+      /* ---------- buttons ---------- */
+      .btn-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
 
-</div>
+      @media (max-width: 480px) {
+        .btn-group {
+          grid-template-columns: 1fr;
+        }
+      }
 
-<script>
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      button {
+        width: 100%;
+        padding: 16px;
+        font-family: var(--body);
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+      }
 
-async function preview(){
+      button.btn-preview {
+        background: var(--blue);
+        color: white;
+        box-shadow: 0 4px 12px rgba(59, 111, 237, 0.15);
+      }
+      button.btn-preview:hover {
+        background: var(--blue-deep);
+        transform: translateY(-1px);
+      }
 
-  const file = document.getElementById("file").files[0];
-  if(!file) return alert("Select PDF");
+      button.btn-download {
+        background: linear-gradient(160deg, var(--coral), var(--coral-deep));
+        color: white;
+        box-shadow: 0 4px 12px rgba(223, 69, 56, 0.15);
+      }
+      button.btn-download:hover {
+        transform: translateY(-1px);
+      }
 
-  const pdf = await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
-  const page = await pdf.getPage(1);
+      /* ---------- preview container & canvas ---------- */
+      .preview-box {
+        width: 100%;
+        overflow: auto;
+        display: none;
+        justify-content: center;
+        background: var(--paper);
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        margin-bottom: 16px;
+      }
 
-  const viewport = page.getViewport({scale:1.6});
+      #preview {
+        max-width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: white;
+      }
 
-  const canvas = document.getElementById("preview");
-  const ctx = canvas.getContext("2d");
+      #status {
+        font-family: var(--mono);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--blue);
+        text-align: center;
+        margin: 12px 0;
+      }
 
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
+      /* ---------- Yeşil Download Butonu Standardı ---------- */
+      a#download {
+        display: none;
+        margin-top: 20px;
+        padding: 16px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 15px;
+        background: var(--success);
+        color: var(--success-ink);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(124, 242, 156, 0.2);
+        transition: transform 0.2s, box-shadow 0.2s;
+        width: 100%;
+      }
+      a#download:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(124, 242, 156, 0.3);
+      }
 
-  await page.render({canvasContext:ctx, viewport}).promise;
+      .note {
+        font-size: 13px;
+        color: var(--muted);
+        text-align: center;
+        margin: 16px 0 0;
+      }
 
-  drawWatermark(ctx, canvas);
-}
+      /* ---------- ads styling ---------- */
+      .ad-block {
+        margin: 24px auto 0;
+        text-align: center;
+        width: 100%;
+        clear: both;
+      }
 
-function drawWatermark(ctx, canvas){
+      .perforation {
+        height: 3px;
+        margin: 24px 0 24px;
+        background-image: radial-gradient(
+          circle,
+          var(--paper) 1.6px,
+          transparent 1.7px
+        );
+        background-size: 11px 100%;
+        background-repeat: repeat-x;
+      }
 
-  const text = document.getElementById("text").value || "WATERMARK";
-  const color = document.getElementById("color").value;
-  const opacity = document.getElementById("opacity").value / 100;
-  const size = document.getElementById("size").value;
-  const rotation = document.getElementById("rotation").value;
+      /* ---------- footer elements ---------- */
+      .back {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 500;
+        transition: color 0.2s;
+        margin-top: 24px;
+      }
+      .back:hover {
+        color: var(--ink);
+      }
+    </style>
+  </head>
 
-  ctx.save();
-  ctx.translate(canvas.width/2, canvas.height/2);
-  ctx.rotate(rotation * Math.PI / 180);
+  <body>
+    <header>
+      <div class="header-inner">
+        <a href="/" class="brand">
+          <span class="brand-mark">PDF</span> PDFQuickTools
+        </a>
+      </div>
+    </header>
 
-  ctx.globalAlpha = opacity;
-  ctx.fillStyle = color;
-  ctx.font = `${size}px Arial`;
-  ctx.textAlign = "center";
+    <div class="container">
+      <div class="ticket">
+        <div class="eyebrow">PROTECT & SECURITY</div>
+        <h2>PDF Watermark Tool</h2>
+        <p class="lede">
+          Add text watermarks to your PDF files quickly and safely
+        </p>
 
-  ctx.fillText(text, 0, 0);
+        <input type="file" id="file" accept="application/pdf" />
 
-  ctx.restore();
-}
+        <input
+          type="text"
+          id="text"
+          placeholder="Watermark text (e.g. CONFIDENTIAL)"
+        />
 
-async function createPDF(){
+        <div class="control-row">
+          <div class="color-picker-wrapper">
+            <label for="color">Color</label>
+            <input type="color" id="color" value="#888888" />
+          </div>
 
-  const file = document.getElementById("file").files[0];
-  if(!file) return alert("Select PDF");
+          <div class="sliders-group">
+            <div class="slider-item">
+              <label>Opacity</label>
+              <input type="range" id="opacity" min="10" max="100" value="30" />
+            </div>
 
-  const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
-  const pages = pdfDoc.getPages();
+            <div class="slider-item">
+              <label>Font Size</label>
+              <input type="range" id="size" min="20" max="120" value="50" />
+            </div>
 
-  const text = document.getElementById("text").value || "WATERMARK";
-  const opacity = document.getElementById("opacity").value / 100;
-  const size = document.getElementById("size").value;
-  const rotation = document.getElementById("rotation").value;
+            <div class="slider-item">
+              <label>Rotation</label>
+              <input type="range" id="rotation" min="0" max="360" value="45" />
+            </div>
+          </div>
+        </div>
 
-  pages.forEach(page => {
-
-    const { width, height } = page.getSize();
-
-    page.drawText(text, {
-      x: width/2,
-      y: height/2,
-      size: parseInt(size),
-      opacity: opacity,
-      rotate: PDFLib.degrees(parseInt(rotation)),
-      color: PDFLib.rgb(0.5,0.5,0.5)
-    });
-
-  });
-
-  const bytes = await pdfDoc.save();
-
-  const blob = new Blob([bytes], {type:"application/pdf"});
-  const url = URL.createObjectURL(blob);
-
-  const download = document.getElementById("download");
-  download.href = url;
-  download.download = "watermarked.pdf";
-  download.style.display = "block";
-  download.innerText = "Download PDF ✔";
-
-  document.getElementById("status").innerText = "Completed ✔";
-}
-</script>
-
-</body>
+        <div class="btn-group">
+          <button class="btn-preview" onclick="preview()">
+            Preview Layout
+          </button>
+          <button class="btn-download" onclick="createPDF()">
+            Apply Watermark
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
