@@ -6,7 +6,7 @@
 
 <title>PDF Rotate | PDFQuickTools</title>
 
-<!-- ADSENSE (SADECE 1 KERE HEAD İÇİNDE) -->
+<!-- ADSENSE -->
 <script async 
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
 crossorigin="anonymous"></script>
@@ -72,11 +72,15 @@ button{
 
 button:hover{background:#1d4ed8}
 
+/* PREVIEW */
 #preview{
   margin-top:20px;
+  width:100%;
+  max-width:100%;
+  display:block;
   border:1px solid #ddd;
   border-radius:10px;
-  max-height:400px;
+  background:white;
 }
 
 /* ADS */
@@ -133,6 +137,7 @@ button:hover{background:#1d4ed8}
 <input type="file" id="file" accept="application/pdf"/>
 
 <select id="rotation">
+  <option value="0">0°</option>
   <option value="90">90°</option>
   <option value="180">180°</option>
   <option value="270">270°</option>
@@ -165,8 +170,6 @@ button:hover{background:#1d4ed8}
 
 <script>
 
-let currentPdf = null;
-
 async function previewPDF(){
   const file = document.getElementById("file").files[0];
   if(!file) return alert("PDF seç");
@@ -183,20 +186,20 @@ async function previewPDF(){
 
   const viewport = page.getViewport({ scale: 1.3 });
 
-  // 🔥 ROTASYONA GÖRE KANVAS BOYUTU
   const angle = rotation * Math.PI / 180;
 
   const sin = Math.abs(Math.sin(angle));
   const cos = Math.abs(Math.cos(angle));
 
-  canvas.width = viewport.width * cos + viewport.height * sin;
-  canvas.height = viewport.width * sin + viewport.height * cos;
+  const dpr = window.devicePixelRatio || 1;
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  canvas.width = (viewport.width * cos + viewport.height * sin) * dpr;
+  canvas.height = (viewport.width * sin + viewport.height * cos) * dpr;
 
-  // 🔥 MERKEZE AL + DÖNDÜR
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
   ctx.save();
-  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.translate(canvas.width / (2 * dpr), canvas.height / (2 * dpr));
   ctx.rotate(angle);
 
   await page.render({
@@ -207,6 +210,37 @@ async function previewPDF(){
   ctx.restore();
 
   document.getElementById("status").innerText = "Önizleme hazır ✔";
+}
+
+async function rotatePDF(){
+  const file = document.getElementById("file").files[0];
+  if(!file) return alert("PDF seç");
+
+  const rotation = parseInt(document.getElementById("rotation").value);
+
+  const arrayBuffer = await file.arrayBuffer();
+
+  const { PDFDocument, degrees } = PDFLib;
+
+  const pdfDoc = await PDFDocument.load(arrayBuffer);
+  const pages = pdfDoc.getPages();
+
+  pages.forEach(page => {
+    page.setRotation(degrees(rotation));
+  });
+
+  const pdfBytes = await pdfDoc.save();
+
+  const blob = new Blob([pdfBytes], {type:"application/pdf"});
+  const url = URL.createObjectURL(blob);
+
+  const download = document.getElementById("download");
+  download.href = url;
+  download.download = "rotated.pdf";
+  download.innerText = "Download PDF ✔";
+  download.style.display = "inline-block";
+
+  document.getElementById("status").innerText = "Tamamlandı ✔";
 }
 
 </script>
