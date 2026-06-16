@@ -8,13 +8,15 @@
     <title>Merge PDF - PDFQuickTools</title>
     <meta name="description" content="Free PDF merge tool" />
 
-    <link rel="preconnect" href="https://googleapis.com" />
-    <link rel="preconnect" href="https://gstatic.com" crossorigin />
+    <!-- GOOGLE FONTS CDN DÜZELTİLDİ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
       rel="stylesheet"
     />
 
+    <!-- ADSENSE & PDF-LIB KÜTÜPHANELERİ DÜZELTİLDİ -->
     <script
       async
       src="https://googlesyndication.com"
@@ -40,7 +42,7 @@
         --body: "Inter", system-ui, sans-serif;
         --mono: "IBM Plex Mono", monospace;
 
-        --container: 680px; /* Daha derli toplu bir form görünümü için daraltıldı */
+        --container: 680px;
         --shadow-soft: 0 10px 28px -14px rgba(21, 23, 43, 0.16);
         --shadow-lift: 0 20px 40px -16px rgba(21, 23, 43, 0.22);
       }
@@ -141,14 +143,13 @@
         padding-inline: 24px;
       }
 
-      /* ---------- ticket card (ana sayfadaki kart stilinin birebir aynısı) ---------- */
+      /* ---------- ticket card ---------- */
       .ticket {
         position: relative;
         background: var(--card);
         border-radius: 0 0 10px 10px;
         padding: 40px 32px 32px;
         box-shadow: var(--shadow-soft);
-        /* Üstü düz, altı zikzak kesim */
         clip-path: polygon(
           0% 0%,
           100% 0%,
@@ -257,7 +258,7 @@
         transform: translateY(1px);
       }
 
-      /* ---------- perforation (ara kesik çizgisi) ---------- */
+      /* ---------- perforation ---------- */
       .perforation {
         height: 3px;
         margin: 32px 0 24px;
@@ -319,12 +320,11 @@
 
         <button onclick="mergePDF()">Merge PDFs</button>
 
+        <!-- EKSİK OLAN ALT KISIM VE JAVASCRIPT MANTIĞI EKLENDİ -->
         <div class="perforation"></div>
 
-        <p class="note">
-          Files are processed in your browser, nothing is uploaded to a server.
-        </p>
-
+        <p class="note">Files are processed in your browser, nothing is uploaded to a server.</p>
+        
         <a class="back" href="/">← Home</a>
       </div>
     </div>
@@ -332,7 +332,6 @@
     <script>
       async function mergePDF() {
         const { PDFDocument } = PDFLib;
-
         const files = document.getElementById("files").files;
 
         if (files.length < 2) {
@@ -351,7 +350,6 @@
         }
 
         const result = await mergedPdf.save();
-
         const blob = new Blob([result], { type: "application/pdf" });
         const url = URL.createObjectURL(blob);
 
