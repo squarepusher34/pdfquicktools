@@ -22,7 +22,7 @@ body {
   background: #f3f4f6;
 }
 
-/* TOPBAR (IMAGE → PDF İLE AYNI) */
+/* TOPBAR (STANDARD) */
 .topbar {
   background: #0f172a;
   padding: 12px 20px;
@@ -31,16 +31,27 @@ body {
   align-items: center;
 }
 
-.topbar a {
+.brand a {
   color: white;
   text-decoration: none;
-  font-weight: 600;
-  margin-left: 12px;
+  font-weight: 700;
+  font-size: 15px;
 }
 
 .menu {
   display: flex;
-  gap: 12px;
+  gap: 14px;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.menu a:hover {
+  opacity: 0.8;
 }
 
 /* CONTAINER */
@@ -70,6 +81,7 @@ input[type="range"] {
   width: 100%;
 }
 
+/* BUTTON */
 button {
   width: 100%;
   padding: 14px;
@@ -103,9 +115,12 @@ a#download {
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <a href="/index.html">← Home</a>
+  <div class="brand">
+    <a href="/index.html">PDFQuickTools</a>
+  </div>
 
   <div class="menu">
+    <a href="/index.html">Home</a>
     <a href="/tools/merge.html">Merge</a>
     <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
     <a href="/tools/pdf-compress.html">Compress</a>
@@ -134,7 +149,7 @@ a#download {
 
 <script>
 
-// QUALITY SLIDER
+// slider
 const qualitySlider = document.getElementById("quality");
 const qualityValue = document.getElementById("qualityValue");
 
@@ -142,7 +157,7 @@ qualitySlider.addEventListener("input", () => {
   qualityValue.innerText = qualitySlider.value;
 });
 
-// MAIN FUNCTION
+// main function
 async function compressPDF() {
   const file = document.getElementById("file").files[0];
   if (!file) return alert("PDF seç");
