@@ -86,4 +86,6 @@ export default async function handler(req, res) {
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
+  console.log("CLIENT_ID:", process.env.ADOBE_CLIENT_ID);
+  console.log("CLIENT_SECRET:", process.env.ADOBE_CLIENT_SECRET);
 }
