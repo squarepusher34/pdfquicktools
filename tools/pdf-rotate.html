@@ -4,17 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>PDF Rotate | PDFQuickTools</title>  
+<title>PDF Rotate | PDFQuickTools</title>
 
-<!-- ADSENSE -->
 <script async 
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
 crossorigin="anonymous"></script>
 
-<!-- PDF LIB -->
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-
-<!-- PDF.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <script>
@@ -29,6 +25,17 @@ body{
   background:#f3f4f6;
 }
 
+/* FULL WIDTH CONTAINER FIX */
+.container{
+  width:100%;
+  max-width:100%;
+  margin:0;
+  padding:20px;
+  background:white;
+  box-sizing:border-box;
+  text-align:center;
+}
+
 /* TOP BAR */
 .topbar{
   background:#0f172a;
@@ -40,28 +47,17 @@ body{
   font-weight:600;
 }
 
-/* CONTAINER */
-.container{
-  max-width:800px;
-  margin:40px auto;
-  background:white;
-  padding:25px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
-  text-align:center;
-}
-
+/* INPUTS */
 input, select, button{
   width:100%;
   margin-top:12px;
   padding:12px;
   border-radius:10px;
   font-size:14px;
+  box-sizing:border-box;
 }
 
-input{
-  border:2px dashed #ccc;
-}
+input{border:2px dashed #ccc}
 
 button{
   background:#2563eb;
@@ -69,14 +65,13 @@ button{
   border:none;
   cursor:pointer;
 }
-
 button:hover{background:#1d4ed8}
 
-/* PREVIEW */
+/* 🔥 FULL SCREEN PREVIEW FIX */
 #preview{
   margin-top:20px;
   width:100%;
-  max-width:100%;
+  height:auto;
   display:block;
   border:1px solid #ddd;
   border-radius:10px;
@@ -112,27 +107,13 @@ button:hover{background:#1d4ed8}
 
 <body>
 
-<!-- TOP -->
 <div class="topbar">
   <a href="/index.html">← Ana Sayfa</a>
 </div>
 
-<!-- ADS TOP -->
-<div class="ad-block">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-6722827238956891"
-       data-ad-slot="1111111111"
-       data-ad-format="auto"></ins>
-</div>
-
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 <div class="container">
 
-<h2>PDF Rotate</h2>
+<h2>PDF Rotate + Preview</h2>
 
 <input type="file" id="file" accept="application/pdf"/>
 
@@ -154,20 +135,6 @@ button:hover{background:#1d4ed8}
 
 </div>
 
-<!-- MOBILE ADS -->
-<div class="mobile-ad">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-6722827238956891"
-       data-ad-slot="4444444444"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-</div>
-
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 <script>
 
 async function previewPDF(){
@@ -184,7 +151,7 @@ async function previewPDF(){
 
   const rotation = parseInt(document.getElementById("rotation").value);
 
-  const viewport = page.getViewport({ scale: 1.3 });
+  const viewport = page.getViewport({ scale: 1.8 }); // 🔥 büyütüldü
 
   const angle = rotation * Math.PI / 180;
 
@@ -198,8 +165,10 @@ async function previewPDF(){
 
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
   ctx.save();
-  ctx.translate(canvas.width / (2 * dpr), canvas.height / (2 * dpr));
+  ctx.translate(canvas.width/(2*dpr), canvas.height/(2*dpr));
   ctx.rotate(angle);
 
   await page.render({
@@ -225,9 +194,7 @@ async function rotatePDF(){
   const pdfDoc = await PDFDocument.load(arrayBuffer);
   const pages = pdfDoc.getPages();
 
-  pages.forEach(page => {
-    page.setRotation(degrees(rotation));
-  });
+  pages.forEach(page => page.setRotation(degrees(rotation)));
 
   const pdfBytes = await pdfDoc.save();
 
@@ -237,8 +204,8 @@ async function rotatePDF(){
   const download = document.getElementById("download");
   download.href = url;
   download.download = "rotated.pdf";
-  download.innerText = "Download PDF ✔";
   download.style.display = "inline-block";
+  download.innerText = "Download PDF ✔";
 
   document.getElementById("status").innerText = "Tamamlandı ✔";
 }
