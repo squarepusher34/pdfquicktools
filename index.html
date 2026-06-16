@@ -1,26 +1,79 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDFQuickTools - Ücretsiz PDF Araçları</title>
-    <meta name="description" content="PDF birleştirme, bölme, sıkıştırma ve dönüştürme araçları. Tamamen ücretsiz ve tarayıcı tabanlı.">
-    <!-- ADSENSE -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891" crossorigin="anonymous"></script>
-    <style>
-        .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 20px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDFQuickTools - Ücretsiz PDF Araçları</title>
+<meta name="description" content="PDF birleştirme, bölme, sıkıştırma ve dönüştürme araçları">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
+crossorigin="anonymous"></script>
+
+<style>
+:root {
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --primary: #2563eb;
 }
 
+body {
+    margin: 0;
+    font-family: system-ui;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* HEADER */
+header {
+    background: #0f172a;
+    color: white;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    margin-left: 12px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+header a:hover {
+    opacity: 1;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 50px 20px 10px;
+}
+
+.hero h1 {
+    font-size: 34px;
+    margin: 0;
+}
+
+.hero p {
+    color: var(--muted);
+    max-width: 650px;
+    margin: 10px auto;
+}
+
+/* LINKS BAR */
 .links {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-    margin: 20px 0;
+    margin: 20px auto;
     padding: 0 20px;
+    max-width: 1000px;
 }
 
 .links a {
@@ -28,168 +81,207 @@
     padding: 10px 14px;
     border-radius: 10px;
     text-decoration: none;
-    color: #2563eb;
+    color: var(--primary);
     font-weight: 600;
-    border: 1px solid #eef0f5;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid #e5e7eb;
     transition: 0.2s;
 }
 
 .links a:hover {
-    transform: translateY(-2px);
-    background: #2563eb;
+    background: var(--primary);
     color: white;
+    transform: translateY(-2px);
 }
 
-.lang-btn {
-    background: #2563eb;
-    padding: 6px 12px;
-    border-radius: 10px;
-    font-weight: 600;
+/* GRID */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
 }
-    </style>
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+/* CARD */
+.card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: var(--primary);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+/* SECTIONS */
+section {
+    background: white;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+
+/* FAQ */
+details {
+    background: #f9fafb;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 25px;
+    color: var(--muted);
+}
+</style>
+
 </head>
+
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div><strong>PDFQuickTools</strong></div>
-        <div>
-            <a href="/about.html">Hakkında</a>
-            <a href="/contact.html">İletişim</a>
-            <a href="/en/index.html" class="lang-btn">EN</a>
-        </div>
-    </header>
-
-    <!-- HERO -->
-    <div class="hero">
-        <h1>Ücretsiz PDF Araçları</h1>
-        <p>PDF dosyalarınızı birleştirin, bölün, sıkıştırın ve dönüştürün.</p>
+<!-- HEADER -->
+<header>
+    <div><strong>PDFQuickTools</strong></div>
+    <div>
+        <a href="/about.html">Hakkında</a>
+        <a href="/contact.html">İletişim</a>
+        <a href="/en/index.html">EN</a>
     </div>
+</header>
 
-    <!-- TOOL QUICK LINKS -->
-    <div class="links">
-        <a href="/tools/merge.html">PDF Birleştir</a>
-        <a href="/tools/split.html">PDF Böl</a>
-        <a href="/tools/image-to-pdf.html">Png → PDF</a>
-        <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
-        <a href="/tools/pdf-compress.html">Sıkıştır</a>
-        <a href="/tools/pdf-rotate.html">Döndür</a>
-        <a href="/tools/pdf-watermark.html">Filigran</a>
-        <a href="/tools/jpg-to-pdf.html">JPG → PDF</a>
-        <a href="/tools/pdf-page-numbers.html">Page Numbers</a>
-    </div>
+<!-- HERO -->
+<div class="hero">
+    <h1>Ücretsiz PDF Araçları</h1>
+    <p>PDF dosyalarını birleştir, böl, sıkıştır ve dönüştür</p>
+</div>
 
-    <!-- AD -->
-    <div class="ad-block">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXX" data-ad-slot="1111111111" data-ad-format="auto"></ins>
-    </div>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!-- QUICK LINKS -->
+<div class="links">
+    <a href="/tools/merge.html">Birleştir</a>
+    <a href="/tools/split.html">Böl</a>
+    <a href="/tools/image-to-pdf.html">PNG→PDF</a>
+    <a href="/tools/pdf-to-jpg.html">PDF→JPG</a>
+    <a href="/tools/pdf-compress.html">Sıkıştır</a>
+    <a href="/tools/pdf-rotate.html">Döndür</a>
+    <a href="/tools/pdf-watermark.html">Filigran</a>
+    <a href="/tools/jpg-to-pdf.html">JPG→PDF</a>
+    <a href="/tools/pdf-page-numbers.html">Numara</a>
+</div>
 
-    <!-- GRID -->
-    <div class="container">
-        <div class="grid">
-            <div class="card">
-                <h2>PDF Birleştir</h2>
-                <p>Birden fazla PDF dosyasını tek dosyada birleştir</p>
-                <a href="/tools/merge.html">Aç</a>
-            </div>
+<!-- GRID -->
+<div class="container">
+    <div class="grid">
 
-            <div class="card">
-                <h2>PDF Böl</h2>
-                <p>PDF sayfalarını ayır</p>
-                <a href="/tools/split.html">Aç</a>
-            </div>
-
-            <div class="card">
-                <h2>Görsel → PDF</h2>
-                <p>Resimleri PDF'e çevir</p>
-                <a href="/tools/image-to-pdf.html">Aç</a>
-            </div>
-
-            <div class="card">
-                <h2>PDF → JPG</h2>
-                <p>PDF sayfalarını görsele çevir</p>
-                <a href="/tools/pdf-to-jpg.html">Aç</a>
-            </div>
-
-            <div class="card">
-                <h2>PDF Sıkıştır</h2>
-                <p>PDF boyutunu küçült</p>
-                <a href="/tools/pdf-compress.html">Aç</a>
-            </div>
-
-            <div class="card">
-                <h2>PDF Döndür</h2>
-                <p>PDF Döndür</p>
-                <a href="/tools/pdf-rotate.html">Aç</a>
-            </div>
-
-            <div class="card">
-                <h2>PDF Filigran</h2>
-                <p>PDF Filigran ekle</p>
-                <a href="/tools/pdf-watermark.html">Aç</a>
-            </div>
-
-            <div class="card">
-                <h2>JPG → PDF</h2>
-                <p>JPG → PDF</p>
-                <a href="/tools/jpg-to-pdf.html">Aç</a>
-            </div>
-
-            <div class="card">
-                <h2>PDF Numaralandır</h2>
-                <p>PDF Sayfa Numaralandırma</p>
-                <a href="/tools/pdf-page-numbers.html">Aç</a>
-            </div>
-       
+        <div class="card">
+            <h2>PDF Birleştir</h2>
+            <p>Birden fazla PDF tek dosya</p>
+            <a href="/tools/merge.html">Aç</a>
         </div>
 
-        <!-- ABOUT -->
-        <section>
-            <h2>Hakkında</h2>
-            <p>PDFQuickTools ücretsiz ve hızlı PDF araçları sunar.</p>
-        </section>
+        <div class="card">
+            <h2>PDF Böl</h2>
+            <p>Sayfalara ayır</p>
+            <a href="/tools/split.html">Aç</a>
+        </div>
 
-        <!-- WHY -->
-        <section>
-            <h2>Neden Biz?</h2>
-            <p>✔ Kurulum gerekmez</p>
-            <p>✔ Ücretsiz kullanım</p> <p>✔ Tarayıcıda çalışır</p>
-        </section>
+        <div class="card">
+            <h2>Görsel → PDF</h2>
+            <p>Resimleri PDF yap</p>
+            <a href="/tools/image-to-pdf.html">Aç</a>
+        </div>
 
-        <!-- FAQ -->
-        <section>
-            <h2>Sık Sorulan Sorular</h2>
-            <details>
-                <summary>Ücretsiz mi?</summary>
-                <p>Evet tamamen ücretsiz.</p>
-            </details>
-            <details>
-                <summary>Kurulum gerekir mi?</summary>
-                <p>Hayır, tarayıcıda çalışır.</p>
-            </details>
-            <details>
-                <summary>Dosyalar yükleniyor mu?</summary>
-                <p>Hayır, cihazda işlenir.</p>
-            </details>
-        </section>
+        <div class="card">
+            <h2>PDF → JPG</h2>
+            <p>Sayfaları görsel yap</p>
+            <a href="/tools/pdf-to-jpg.html">Aç</a>
+        </div>
+
+        <div class="card">
+            <h2>PDF Sıkıştır</h2>
+            <p>Dosya boyutunu azalt</p>
+            <a href="/tools/pdf-compress.html">Aç</a>
+        </div>
+
+        <div class="card">
+            <h2>PDF Döndür</h2>
+            <p>Sayfa döndür</p>
+            <a href="/tools/pdf-rotate.html">Aç</a>
+        </div>
+
+        <div class="card">
+            <h2>Filigran</h2>
+            <p>Watermark ekle</p>
+            <a href="/tools/pdf-watermark.html">Aç</a>
+        </div>
+
+        <div class="card">
+            <h2>JPG → PDF</h2>
+            <p>Görselden PDF</p>
+            <a href="/tools/jpg-to-pdf.html">Aç</a>
+        </div>
+
+        <div class="card">
+            <h2>Sayfa Numarası</h2>
+            <p>PDF numaralandır</p>
+            <a href="/tools/pdf-page-numbers.html">Aç</a>
+        </div>
+
     </div>
 
-    <!-- FOOTER -->
-    <footer style="text-align:center;padding:25px;color:#6b7280;">
-        PDFQuickTools © 2026
-    </footer>
+    <!-- ABOUT -->
+    <section>
+        <h2>Hakkında</h2>
+        <p>PDFQuickTools ücretsiz PDF araçları sunar.</p>
+    </section>
 
-    <!-- MOBILE AD -->
-    <div class="mobile-sticky-ad">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXX" data-ad-slot="4444444444" data-ad-format="auto"></ins>
-    </div>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <!-- FAQ -->
+    <section>
+        <h2>SSS</h2>
+        <details>
+            <summary>Ücretsiz mi?</summary>
+            <p>Evet tamamen ücretsiz.</p>
+        </details>
+        <details>
+            <summary>Dosyalar yükleniyor mu?</summary>
+            <p>Hayır, tarayıcıda çalışır.</p>
+        </details>
+    </section>
+
+</div>
+
+<footer>
+    PDFQuickTools © 2026
+</footer>
 
 </body>
 </html>
