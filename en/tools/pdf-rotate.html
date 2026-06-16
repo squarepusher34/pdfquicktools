@@ -3,165 +3,367 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#15172b">
 
 <title>PDF Rotate | PDFQuickTools</title>
+<meta name="description" content="Rotate PDF pages and preview them instantly">
+
+<link rel="preconnect" href="https://googleapis.com">
+<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link href="https://googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
 <!-- ADSENSE -->
-<script async 
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
-crossorigin="anonymous"></script>
+<script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
 
 <!-- PDF LIB -->
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+<script src="https://unpkg.com"></script>
 
 <!-- PDF.JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cloudflare.com"></script>
 
 <script>
   pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    "https://cloudflare.com";
 </script>
 
 <style>
+/* ---------- tokens ---------- */
+:root{
+    --ink:#15172b;
+    --paper:#faf7f2;
+    --card:#ffffff;
+    --coral:#ff5a4e;
+    --coral-deep:#df4538;
+    --blue:#3b6fed;
+    --blue-deep:#2554c7;
+    --amber:#f2a93b;
+    --amber-deep:#c97f12;
+    --muted:#716c63;
+    --border:#e8e2d8;
+    --success:#7CF29C;
+    --success-ink:#0f5132;
+
+    --display:'Fraunces', serif;
+    --body:'Inter', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+
+    --container:780px;
+    --shadow-soft:0 10px 28px -14px rgba(21,23,43,.16);
+    --shadow-lift:0 20px 40px -16px rgba(21,23,43,.22);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
 body{
-  margin:0;
-  font-family:system-ui;
-  background:#f3f4f6;
+    margin:0;
+    font-family:var(--body);
+    background:var(--paper);
+    background-image:radial-gradient(circle at 1px 1px, rgba(21,23,43,.05) 1px, transparent 0);
+    background-size:16px 16px;
+    color:var(--ink);
+    line-height:1.6;
 }
 
-/* TOP BAR */
-.topbar{
-  background:#0f172a;
-  padding:12px 20px;
-}
-.topbar a{
-  color:white;
-  text-decoration:none;
-  font-weight:600;
-}
+a{color:inherit;text-decoration:none;}
 
-/* CONTAINER FULL FIX */
+*:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px;}
+
+/* ---------- header ---------- */
+header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(21,23,43,.94);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+.header-inner{
+    max-width:1180px;margin:0 auto;padding:14px 24px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+}
+.brand{
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--display);font-weight:600;font-size:18px;color:#fff;
+    letter-spacing:-.01em;
+}
+.brand-mark{
+    font-family:var(--mono);font-size:10px;font-weight:600;color:#fff;
+    background:linear-gradient(160deg,var(--coral),var(--coral-deep));
+    padding:6px 7px 5px;border-radius:5px;letter-spacing:.03em;
+    clip-path:polygon(0 0,75% 0,100% 35%,100% 100%,0 100%);
+}
+.nav-links{display:flex;align-items:center;gap:4px;}
+.nav-links a{
+    color:rgba(255,255,255,.82);font-size:14px;font-weight:500;
+    padding:8px 12px;border-radius:8px;transition:background .2s,color .2s;
+}
+.nav-links a:hover{background:rgba(255,255,255,.08);color:#fff;}
+
+/* ---------- main container ---------- */
 .container{
-  width:100%;
-  max-width:900px;
-  margin:30px auto;
-  background:white;
-  padding:20px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
-  text-align:center;
-  box-sizing:border-box;
+    max-width:var(--container);
+    margin:40px auto; /* Boşluğu kapatmak için üst margin dengelendi */
+    padding-inline:24px;
 }
 
-/* INPUTS */
-input, select, button{
-  width:100%;
-  margin-top:12px;
-  padding:12px;
-  border-radius:10px;
-  font-size:14px;
-  box-sizing:border-box;
+/* ---------- ticket card ---------- */
+.ticket{
+    position:relative;
+    background:var(--card);
+    border-radius:0 0 10px 10px;
+    padding:40px 32px 32px;
+    box-shadow:var(--shadow-soft);
+    clip-path:polygon(
+        0% 0%, 100% 0%, 
+        100% 98%, 96% 100%, 92% 98%, 88% 100%, 84% 98%, 80% 100%, 76% 98%, 72% 100%, 68% 98%, 64% 100%, 60% 98%, 56% 100%, 52% 98%, 48% 100%, 44% 98%, 40% 100%, 36% 98%, 32% 100%, 28% 98%, 24% 100%, 20% 98%, 16% 100%, 12% 98%, 8% 100%, 4% 98%, 0% 100%
+    );
 }
 
-input{
-  border:2px dashed #ccc;
+.eyebrow{
+    font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--blue);margin:0 0 12px;
+    text-align:center;
+}
+
+<h2>{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(1.8rem,4vw,2.4rem);
+    letter-spacing:-.01em;
+    margin:0 0 8px;
+    text-align:center;
+}
+
+.lede{
+    color:var(--muted);
+    font-size:1rem;
+    margin:0 0 24px;
+    text-align:center;
+}
+
+/* ---------- inputs & select ---------- */
+input[type="file"], select{
+    width:100%;
+    margin-top:14px;
+    padding:16px;
+    border-radius:12px;
+    font-family:var(--body);
+    font-size:14px;
+    box-sizing:border-box;
+}
+
+input[type="file"]{
+    border:2px dashed var(--border);
+    background:var(--paper);
+    color:var(--muted);
+    cursor:pointer;
+    transition:border-color .2s, background .2s;
+}
+
+input[type="file"]:hover{
+    border-color:var(--coral);
+    background:rgba(255,90,78,.02);
+}
+
+select{
+    border:1px solid var(--border);
+    background:var(--paper);
+    color:var(--ink);
+    font-weight:500;
+    cursor:pointer;
+}
+
+/* ---------- buttons ---------- */
+.btn-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+@media(max-width:480px){
+    .btn-group { grid-template-columns: 1fr; }
 }
 
 button{
-  background:#2563eb;
-  color:white;
-  border:none;
-  cursor:pointer;
+    width:100%;
+    padding:16px;
+    font-family:var(--body);
+    font-size:15px;
+    font-weight:600;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition:transform .2s, box-shadow .2s, background .2s;
 }
-button:hover{background:#1d4ed8}
 
-/* PREVIEW WRAPPER */
+button.btn-preview {
+    background: var(--blue);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59,111,237,.15);
+}
+button.btn-preview:hover {
+    background: var(--blue-deep);
+    transform:translateY(-1px);
+    box-shadow: 0 6px 16px rgba(59,111,237,.25);
+}
+
+button.btn-rotate {
+    background: linear-gradient(160deg, var(--coral), var(--coral-deep));
+    color: white;
+    box-shadow: 0 4px 12px rgba(223,69,56,.15);
+}
+button.btn-rotate:hover {
+    transform:translateY(-1px);
+    box-shadow: 0 6px 16px rgba(223,69,56,.25);
+}
+
+button:active{
+    transform:translateY(1px);
+}
+
+/* ---------- preview wrapper & canvas ---------- */
 .preview-box{
-  width:100%;
-  overflow:auto;
-  display:flex;
-  justify-content:center;
-  margin-top:20px;
+    width:100%;
+    overflow:auto;
+    display:flex;
+    justify-content:center;
+    margin-top:24px;
+    background: var(--paper);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
 }
 
-/* CANVAS FULL FIX */
 #preview{
-  display:block;
-  border:1px solid #ddd;
-  border-radius:10px;
-  background:white;
+    display:none;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:white;
+    box-shadow: var(--shadow-soft);
 }
 
-/* ADS */
+#status {
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--blue);
+    text-align: center;
+}
+
+/* ---------- download trigger ---------- */
+a#download {
+    display: none;
+    margin-top: 16px;
+    padding: 14px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    background: var(--success);
+    color: var(--success-ink);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(124,242,156,.2);
+    transition: transform .2s;
+    width: 100%;
+}
+a#download:hover{
+    transform:translateY(-1px);
+}
+
+/* ---------- perforation ---------- */
+.perforation{
+    height:3px;margin:24px 0 24px;
+    background-image:radial-gradient(circle,var(--paper) 1.6px,transparent 1.7px);
+    background-size:11px 100%;background-repeat:repeat-x;
+}
+
+/* ---------- ads styling ---------- */
 .ad-block{
-  margin:20px auto;
-  text-align:center;
+    margin: 28px auto 8px;
+    text-align:center;
+    width: 100%;
+    clear: both;
 }
 
-/* MOBILE AD */
 .mobile-ad{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:white;
-  text-align:center;
-  padding:5px;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-  z-index:9999;
-  display:none;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    text-align:center;
+    padding:8px;
+    box-shadow:0 -4px 20px rgba(21,23,43,0.08);
+    border-top: 1px solid var(--border);
+    z-index:9999;
+    display:none;
 }
 
 @media(max-width:768px){
-  .mobile-ad{display:block;}
-  body{padding-bottom:80px;}
+    .mobile-ad{display:block;}
+    body{padding-bottom:88px;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP -->
-<div class="topbar">
-  <a href="/index.html">← Home</a>
-</div>
-
-<!-- ADS TOP -->
-<div class="ad-block">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-6722827238956891"
-       data-ad-slot="1111111111"
-       data-ad-format="auto"></ins>
-</div>
-
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<header>
+    <div class="header-inner">
+        <a href="/" class="brand">
+            <span class="brand-mark">PDF</span> PDFQuickTools
+        </a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+        </div>
+    </div>
+</header>
 
 <div class="container">
 
-<h2>PDF Rotate + Preview</h2>
+    <div class="ticket">
+        <div class="eyebrow">MANAGE PAGES</div>
+        <h2>PDF Rotate + Preview</h2>
+        <p class="lede">Change page orientation and preview layouts instantly</p>
 
-<input type="file" id="file" accept="application/pdf"/>
+        <input type="file" id="file" accept="application/pdf"/>
 
-<select id="rotation">
-  <option value="0">0°</option>
-  <option value="90">90°</option>
-  <option value="180">180°</option>
-  <option value="270">270°</option>
-</select>
+        <select id="rotation">
+          <option value="0">0° (Normal)</option>
+          <option value="90">90° Right</option>
+          <option value="180">180° Flip</option>
+          <option value="270">270° Left</option>
+        </select>
 
-<button onclick="previewPDF()">Preview</button>
-<button onclick="rotatePDF()">Rotate & Download</button>
+        <div class="btn-group">
+            <button class="btn-preview" onclick="previewPDF()">Preview</button>
+            <button class="btn-rotate" onclick="rotatePDF()">Rotate & Download</button>
+        </div>
 
-<div class="preview-box">
-  <canvas id="preview"></canvas>
-</div>
+        <div class="preview-box">
+          <canvas id="preview"></canvas>
+        </div>
 
-<p id="status"></p>
+        <p id="status"></p>
+        <a id="download"></a>
 
-<a id="download" style="display:none;"></a>
+        <!-- REKLAM ALANI BİLETİN İÇİNE, PERFORATION'IN HEMEN ÜSTÜNE ALINDI -->
+        <div class="ad-block">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-6722827238956891"
+               data-ad-slot="1111111111"
+               data-ad-format="auto"></ins>
+        </div>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <div class="perforation"></div>
+        
+        <a style="display:inline-flex; justify-content:center; width:100%; font-size:14px; color:var(--muted); font-weight:500;" href="/index.html">← Home</a>
+    </div>
 
 </div>
 
@@ -176,79 +378,3 @@ button:hover{background:#1d4ed8}
 </div>
 
 <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-
-async function previewPDF(){
-  const file = document.getElementById("file").files[0];
-  if(!file) return alert("Select a PDF");
-
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({data:arrayBuffer}).promise;
-
-  const page = await pdf.getPage(1);
-
-  const canvas = document.getElementById("preview");
-  const ctx = canvas.getContext("2d");
-
-  const rotation = parseInt(document.getElementById("rotation").value);
-
-  const viewport = page.getViewport({ scale: 1.5, rotation });
-
-  const containerWidth = document.querySelector(".container").clientWidth;
-
-  const scale = containerWidth / viewport.width;
-  const scaledViewport = page.getViewport({ scale, rotation });
-
-  const dpr = window.devicePixelRatio || 1;
-
-  canvas.width = scaledViewport.width * dpr;
-  canvas.height = scaledViewport.height * dpr;
-
-  canvas.style.width = scaledViewport.width + "px";
-  canvas.style.height = scaledViewport.height + "px";
-
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  await page.render({
-    canvasContext: ctx,
-    viewport: scaledViewport
-  }).promise;
-
-  document.getElementById("status").innerText = "Preview ready ✔";
-}
-
-async function rotatePDF(){
-  const file = document.getElementById("file").files[0];
-  if(!file) return alert("Select a PDF");
-
-  const rotation = parseInt(document.getElementById("rotation").value);
-
-  const arrayBuffer = await file.arrayBuffer();
-
-  const { PDFDocument, degrees } = PDFLib;
-
-  const pdfDoc = await PDFDocument.load(arrayBuffer);
-  const pages = pdfDoc.getPages();
-
-  pages.forEach(page => {
-    page.setRotation(degrees(rotation));
-  });
-
-  const pdfBytes = await pdfDoc.save();
-
-  const blob = new Blob([pdfBytes], {type:"application/pdf"});
-  const url = URL.createObjectURL(blob);
-
-  const download = document.getElementById("download");
-  download.href = url;
-  download.download = "rotated.pdf";
-  download.innerText = "Download PDF ✔";
-  download.style.display = "inline-block";
-
-  document.getElementById("status").innerText = "Completed ✔";
-}
-</script>
-
-</body>
-</html>
