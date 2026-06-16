@@ -131,56 +131,49 @@ Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.
 async function compressPDF(){
 
   const file = document.getElementById("file").files[0];
-  const quality = document.getElementById("quality").value;
 
   if(!file){
-    alert("Lütfen PDF seç");
+    alert("PDF seç");
     return;
   }
 
-  const result = document.getElementById("result");
-  const status = document.getElementById("status");
-  const download = document.getElementById("download");
-
-  result.style.display = "block";
-  status.innerText = "Sıkıştırılıyor...";
-
-  // PDF → base64
   const reader = new FileReader();
 
   reader.onload = async function(){
 
     const base64 = reader.result.split(",")[1];
 
-    try {
-      const res = await fetch("/api/compress", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          file: base64,
-          quality: quality
-        })
-      });
+    // 1. JOB
+    const res = await fetch("/api/compress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ file: base64 })
+    });
 
-      if(!res.ok){
-        throw new Error("API error");
+    const data = await res.json();
+    const jobId = data.jobId;
+
+    document.getElementById("status").innerText = "İşleniyor...";
+
+    // 2. POLLING
+    const interval = setInterval(async () => {
+
+      const statusRes = await fetch(`/api/status?jobId=${jobId}`);
+      const statusData = await statusRes.json();
+
+      if(statusData.status === "done"){
+
+        clearInterval(interval);
+
+        const downloadUrl = statusData.downloadUri;
+
+        document.getElementById("download").href = downloadUrl;
+        document.getElementById("download").style.display = "block";
+
+        document.getElementById("status").innerText = "Tamamlandı ✔";
       }
 
-      const blob = await res.blob();
-
-      const url = URL.createObjectURL(blob);
-
-      download.href = url;
-      download.download = "compressed.pdf";
-
-      status.innerText = "Sıkıştırma tamamlandı ✔";
-
-    } catch(err){
-      console.error(err);
-      status.innerText = "Hata oluştu ❌";
-    }
+    }, 3000);
   };
 
   reader.readAsDataURL(file);
