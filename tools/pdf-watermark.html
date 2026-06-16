@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>PDF Watermark | PDFQuickTools</title>
+
+<!-- ADSENSE -->
+<script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
+crossorigin="anonymous"></script>
+
+<!-- PDF LIB -->
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#f3f4f6;
+}
+
+/* TOP BAR */
+.topbar{
+  background:#0f172a;
+  padding:12px 20px;
+}
+.topbar a{
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+}
+
+/* CONTAINER */
+.container{
+  max-width:850px;
+  margin:40px auto;
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* INPUTS */
+input, button{
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px;
+}
+
+input[type="file"]{
+  border:2px dashed #ccc;
+}
+
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+/* PREVIEW */
+#preview{
+  width:100%;
+  margin-top:20px;
+  border:1px solid #ddd;
+  border-radius:10px;
+}
+
+/* ADS */
+.ad{
+  margin:20px 0;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP -->
+<div class="topbar">
+  <a href="/index.html">← Ana Sayfa</a>
+</div>
+
+<!-- TOP AD -->
+<div class="ad">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-6722827238956891"
+       data-ad-slot="1111111111"
+       data-ad-format="auto"></ins>
+</div>
+
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<div class="container">
+
+<h2>PDF Watermark Tool</h2>
+
+<input type="file" id="file" accept="application/pdf"/>
+
+<input type="text" id="text" placeholder="Watermark text (örn: PDFQuickTools)">
+
+<input type="color" id="color" value="#888888">
+
+<label>Opacity</label>
+<input type="range" id="opacity" min="10" max="100" value="30">
+
+<label>Font Size</label>
+<input type="range" id="size" min="20" max="120" value="50">
+
+<label>Rotation</label>
+<input type="range" id="rotation" min="0" max="360" value="45">
+
+<button onclick="preview()">Önizle</button>
+<button onclick="createPDF()">Uygula & İndir</button>
+
+<canvas id="preview"></canvas>
+
+<p id="status"></p>
+
+<a id="download" style="display:none;">Download PDF</a>
+
+</div>
+
+<!-- JS -->
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+let lastPdfBytes = null;
+
+/* PREVIEW */
+async function preview(){
+
+  const file = document.getElementById("file").files[0];
+  if(!file) return alert("PDF seç");
+
+  const pdf = await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
+  const page = await pdf.getPage(1);
+
+  const viewport = page.getViewport({scale:1.5});
+
+  const canvas = document.getElementById("preview");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+
+  await page.render({
+    canvasContext:ctx,
+    viewport
+  }).promise;
+
+  drawWatermark(ctx, canvas);
+}
+
+/* WATERMARK DRAW */
+function drawWatermark(ctx, canvas){
+
+  const text = document.getElementById("text").value || "WATERMARK";
+  const color = document.getElementById("color").value;
+  const opacity = document.getElementById("opacity").value / 100;
+  const size = document.getElementById("size").value;
+  const rotation = document.getElementById("rotation").value;
+
+  ctx.save();
+  ctx.translate(canvas.width/2, canvas.height/2);
+  ctx.rotate(rotation * Math.PI / 180);
+
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = color;
+  ctx.font = `${size}px Arial`;
+  ctx.textAlign = "center";
+
+  ctx.fillText(text, 0, 0);
+
+  ctx.restore();
+}
+
+/* CREATE PDF */
+async function createPDF(){
+
+  const file = document.getElementById("file").files[0];
+  if(!file) return alert("PDF seç");
+
+  const text = document.getElementById("text").value || "WATERMARK";
+  const color = document.getElementById("color").value;
+  const opacity = document.getElementById("opacity").value / 100;
+  const size = document.getElementById("size").value;
+  const rotation = document.getElementById("rotation").value;
+
+  const pdfBytes = await file.arrayBuffer();
+
+  const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+  const pages = pdfDoc.getPages();
+
+  pages.forEach(page => {
+
+    const { width, height } = page.getSize();
+
+    page.drawText(text, {
+      x: width/2,
+      y: height/2,
+      size: parseInt(size),
+      color: PDFLib.rgb(0.5,0.5,0.5),
+      rotate: PDFLib.degrees(parseInt(rotation)),
+      opacity: opacity
+    });
+
+  });
+
+  const newPdf = await pdfDoc.save();
+
+  const blob = new Blob([newPdf], {type:"application/pdf"});
+  const url = URL.createObjectURL(blob);
+
+  const download = document.getElementById("download");
+  download.href = url;
+  download.download = "watermarked.pdf";
+  download.style.display = "block";
+  download.innerText = "PDF İndir ✔";
+
+  document.getElementById("status").innerText = "Tamamlandı ✔";
+}
+</script>
+
+</body>
+</html>
