@@ -9,8 +9,9 @@
 <meta name="description" content="PDF birleştirme, bölme, sıkıştırma ve dönüştürme araçları. Tamamen ücretsiz ve tarayıcı tabanlı.">
 
 <!-- ADSENSE -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXX"
-     crossorigin="anonymous"></script>
+<script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXX"
+crossorigin="anonymous"></script>
 
 <style>
 :root{
@@ -21,6 +22,7 @@
   --primary:#2563eb;
 }
 
+/* BODY */
 body{
   margin:0;
   font-family:system-ui;
@@ -45,6 +47,15 @@ header a{
   font-size:14px;
   margin-left:10px;
   opacity:0.9;
+}
+
+/* 🌍 LANGUAGE BUTTON (EN BOX) */
+.lang-btn{
+  background:#2563eb;
+  padding:6px 12px;
+  border-radius:10px;
+  color:white;
+  font-weight:600;
 }
 
 /* HERO */
@@ -72,25 +83,33 @@ header a{
   max-width:1000px;
 }
 
-/* GRID */
+/* CONTAINER */
 .container{
   max-width:1000px;
   margin:30px auto;
   padding:0 20px;
 }
 
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:18px;
 }
 
+/* CARD */
 .card{
   background:#fff;
   padding:20px;
   border-radius:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.06);
-  border:1px solid #eef0f5;
+  border:1px solid #e5e7eb;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 20px rgba(37,99,235,0.12);
 }
 
 .card h2{margin:0;font-size:18px}
@@ -116,6 +135,7 @@ section{
   box-shadow:0 6px 18px rgba(0,0,0,0.04);
 }
 
+/* FAQ */
 details{
   margin-bottom:10px;
   background:#f9fafb;
@@ -158,11 +178,16 @@ footer{
 
 <body>
 
+<!-- HEADER -->
 <header>
   <div><strong>PDFQuickTools</strong></div>
+
   <div>
     <a href="/about.html">Hakkında</a>
     <a href="/contact.html">İletişim</a>
+
+    <!-- 🌍 EN BUTTON (MAVI KUTU) -->
+    <a href="/en/index.html" class="lang-btn">EN</a>
   </div>
 </header>
 
@@ -172,7 +197,7 @@ footer{
   <p>PDF dosyalarınızı birleştirin, bölün, sıkıştırın ve dönüştürün. Tamamen ücretsiz ve tarayıcıda çalışır.</p>
 </div>
 
-<!-- REKLAM 1 -->
+<!-- ADS -->
 <div class="ad-block">
   <ins class="adsbygoogle"
        style="display:block"
@@ -180,11 +205,12 @@ footer{
        data-ad-slot="1111111111"
        data-ad-format="auto"></ins>
 </div>
+
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
-<!-- GRID -->
+<!-- TOOLS -->
 <div class="container">
 
 <div class="grid">
@@ -208,6 +234,12 @@ footer{
   </div>
 
   <div class="card">
+    <h2>PDF → JPG</h2>
+    <p>PDF sayfalarını görsele çevirin</p>
+    <a href="/tools/pdf-to-jpg.html">Aç</a>
+  </div>
+
+  <div class="card">
     <h2>PDF Sıkıştır</h2>
     <p>PDF boyutunu küçültün</p>
     <a href="/tools/pdf-compress.html">Aç</a>
@@ -215,13 +247,13 @@ footer{
 
 </div>
 
-<!-- HAKKINDA -->
+<!-- ABOUT -->
 <section>
   <h2>Hakkında</h2>
-  <p>PDFQuickTools tamamen ücretsiz PDF araçları sunar. Tüm işlemler tarayıcı içinde gerçekleşir.</p>
+  <p>PDFQuickTools tamamen ücretsiz PDF araçları sunar.</p>
 </section>
 
-<!-- NEDEN BİZ -->
+<!-- WHY -->
 <section>
   <h2>Neden Biz?</h2>
   <p>✔ Kurulum gerekmez</p>
