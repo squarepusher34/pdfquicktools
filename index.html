@@ -5,11 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PDFQuickTools - Ücretsiz PDF Araçları</title>
-
 <meta name="description" content="PDF birleştirme, bölme, sıkıştırma ve dönüştürme araçları. Tamamen ücretsiz ve tarayıcı tabanlı.">
 
 <!-- ADSENSE -->
-<script async 
+<script async
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXX"
 crossorigin="anonymous"></script>
 
@@ -42,17 +41,16 @@ header{
 header a{
   color:white;
   text-decoration:none;
-  font-size:13px;
+  margin-left:12px;
+  font-size:14px;
   opacity:0.9;
-  margin-left:10px;
 }
 
-/* LANGUAGE BUTTON */
+/* LANG BUTTON */
 .lang-btn{
   background:#2563eb;
   padding:6px 12px;
   border-radius:10px;
-  color:white;
   font-weight:600;
 }
 
@@ -70,29 +68,22 @@ header a{
 .hero p{
   color:var(--muted);
   max-width:650px;
-  margin:10px auto 0;
+  margin:10px auto;
   line-height:1.6;
 }
 
-/* ADS */
-.ad-block{
-  margin:25px auto;
-  text-align:center;
-  max-width:1000px;
-}
-
-/* LINKS */
+/* TOOL LINKS */
 .links{
   text-align:center;
-  margin:25px 0;
+  margin:20px 0;
 }
 
 .links a{
-  margin:0 6px;
+  margin:5px;
+  display:inline-block;
   color:var(--primary);
   text-decoration:none;
   font-weight:600;
-  font-size:14px;
 }
 
 /* CONTAINER */
@@ -111,23 +102,15 @@ header a{
 
 /* CARD */
 .card{
-  background:var(--card);
+  background:white;
   padding:20px;
   border-radius:14px;
   box-shadow:0 6px 18px rgba(0,0,0,0.06);
   border:1px solid #eef0f5;
 }
 
-.card h2{
-  margin:0 0 6px;
-  font-size:18px;
-}
-
-.card p{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.5;
-}
+.card h2{margin:0;font-size:18px}
+.card p{color:var(--muted);font-size:14px}
 
 .card a{
   display:inline-block;
@@ -137,39 +120,32 @@ header a{
   color:white;
   border-radius:8px;
   text-decoration:none;
-  font-size:13px;
 }
 
 /* SECTIONS */
 section{
   background:white;
-  margin-top:25px;
+  margin-top:20px;
   padding:22px;
   border-radius:12px;
   box-shadow:0 6px 18px rgba(0,0,0,0.04);
 }
 
+/* ADS */
+.ad-block{
+  text-align:center;
+  margin:25px 0;
+}
+
 /* FAQ */
 details{
-  margin-bottom:10px;
   background:#f9fafb;
   padding:10px;
   border-radius:8px;
+  margin-bottom:10px;
 }
 
-summary{
-  cursor:pointer;
-  font-weight:600;
-}
-
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:25px;
-  color:#6b7280;
-}
-
-/* MOBILE STICKY AD */
+/* MOBILE AD */
 .mobile-sticky-ad{
   position:fixed;
   bottom:0;
@@ -177,7 +153,7 @@ footer{
   right:0;
   background:white;
   z-index:9999;
-  padding:6px 0;
+  padding:6px;
   box-shadow:0 -2px 10px rgba(0,0,0,0.1);
   display:none;
 }
@@ -186,6 +162,14 @@ footer{
   .mobile-sticky-ad{display:block;}
   body{padding-bottom:90px;}
   .hero h1{font-size:26px;}
+}
+
+/* BLUE BOX LANG */
+.lang-btn{
+  background:#2563eb;
+  padding:6px 12px;
+  border-radius:10px;
+  font-weight:600;
 }
 </style>
 </head>
@@ -199,8 +183,6 @@ footer{
   <div>
     <a href="/about.html">Hakkında</a>
     <a href="/contact.html">İletişim</a>
-
-    <!-- EN BUTTON -->
     <a href="/en/index.html" class="lang-btn">EN</a>
   </div>
 </header>
@@ -211,7 +193,7 @@ footer{
   <p>PDF dosyalarınızı birleştirin, bölün, sıkıştırın ve dönüştürün.</p>
 </div>
 
-<!-- TOOL LINKS -->
+<!-- TOOL QUICK LINKS -->
 <div class="links">
   <a href="/tools/merge.html">PDF Birleştir</a>
   <a href="/tools/split.html">PDF Böl</a>
@@ -220,7 +202,7 @@ footer{
   <a href="/tools/pdf-compress.html">Sıkıştır</a>
 </div>
 
-<!-- ADS -->
+<!-- AD -->
 <div class="ad-block">
   <ins class="adsbygoogle"
        style="display:block"
@@ -233,37 +215,37 @@ footer{
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
+<!-- GRID -->
 <div class="container">
-
 <div class="grid">
 
   <div class="card">
     <h2>PDF Birleştir</h2>
-    <p>Birden fazla PDF dosyasını tek dosyada birleştirin</p>
+    <p>Birden fazla PDF dosyasını tek dosyada birleştir</p>
     <a href="/tools/merge.html">Aç</a>
   </div>
 
   <div class="card">
     <h2>PDF Böl</h2>
-    <p>PDF sayfalarını ayırın</p>
+    <p>PDF sayfalarını ayır</p>
     <a href="/tools/split.html">Aç</a>
   </div>
 
   <div class="card">
     <h2>Görsel → PDF</h2>
-    <p>Resimleri PDF dosyasına dönüştürün</p>
+    <p>Resimleri PDF'e çevir</p>
     <a href="/tools/image-to-pdf.html">Aç</a>
   </div>
 
   <div class="card">
     <h2>PDF → JPG</h2>
-    <p>PDF sayfalarını görsele çevirin</p>
+    <p>PDF sayfalarını görsele çevir</p>
     <a href="/tools/pdf-to-jpg.html">Aç</a>
   </div>
 
   <div class="card">
     <h2>PDF Sıkıştır</h2>
-    <p>PDF boyutunu küçültün</p>
+    <p>PDF boyutunu küçült</p>
     <a href="/tools/pdf-compress.html">Aç</a>
   </div>
 
@@ -289,7 +271,7 @@ footer{
 
   <details>
     <summary>Ücretsiz mi?</summary>
-    <p>Evet, tamamen ücretsizdir.</p>
+    <p>Evet tamamen ücretsiz.</p>
   </details>
 
   <details>
@@ -299,25 +281,25 @@ footer{
 
   <details>
     <summary>Dosyalar yükleniyor mu?</summary>
-    <p>Hayır, işlemler cihazınızda yapılır.</p>
+    <p>Hayır, cihazda işlenir.</p>
   </details>
 
 </section>
 
 </div>
 
-<footer>
+<!-- FOOTER -->
+<footer style="text-align:center;padding:25px;color:#6b7280;">
   PDFQuickTools ©
 </footer>
 
-<!-- MOBILE STICKY AD -->
+<!-- MOBILE AD -->
 <div class="mobile-sticky-ad">
   <ins class="adsbygoogle"
        style="display:block"
        data-ad-client="ca-pub-XXXXXXX"
        data-ad-slot="4444444444"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
+       data-ad-format="auto"></ins>
 </div>
 
 <script>
