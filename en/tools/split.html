@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Split PDF - PDFQuickTools</title>
+<meta name="description" content="Free tool to split PDF pages">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
+crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+body{margin:0;font-family:system-ui;background:#f3f4f6}
+header{background:#0f172a;color:white;padding:18px;text-align:center}
+.container{max-width:800px;margin:40px auto;padding:20px}
+.card{background:white;padding:30px;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.08);text-align:center}
+input,button{width:100%;margin-top:15px;padding:14px;border-radius:12px}
+input{border:2px dashed #cbd5e1;background:#fafafa}
+button{background:#2563eb;color:white;border:none;cursor:pointer}
+button:hover{background:#1d4ed8}
+a{display:block;margin-top:20px;color:#2563eb;text-decoration:none}
+</style>
+</head>
+
+<body>
+
+<header>PDFQuickTools • Split PDF</header>
+
+<div class="container">
+<div class="card">
+
+<h1>Split PDF</h1>
+<p>Select a PDF file and download each page separately</p>
+
+<input type="file" id="file" accept="application/pdf">
+
+<button onclick="splitPDF()">Split PDF</button>
+
+<a href="/en/index.html">← Home</a>
+
+</div>
+</div>
+
+<script>
+async function splitPDF(){
+  const { PDFDocument } = PDFLib;
+
+  const file = document.getElementById("file").files[0];
+  if(!file){
+    alert("Select PDF");
+    return;
+  }
+
+  const bytes = await file.arrayBuffer();
+  const pdf = await PDFDocument.load(bytes);
+
+  for(let i=0;i<pdf.getPageCount();i++){
+    const newPdf = await PDFDocument.create();
+    const [page] = await newPdf.copyPages(pdf,[i]);
+    newPdf.addPage(page);
+
+    const data = await newPdf.save();
+
+    const blob = new Blob([data],{type:"application/pdf"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `page-${i+1}.pdf`;
+    a.click();
+  }
+}
+</script>
+
+</body>
+</html>
