@@ -23,10 +23,17 @@ async function getToken() {
   });
 
   const data = await res.json();
+
+  if (!data.access_token) {
+    throw new Error("Adobe token alınamadı");
+  }
+
   return data.access_token;
 }
 
 export default async function handler(req, res) {
+  console.log("API CALLED:", req.method);
+
   if (req.method !== "POST") {
     return res.status(405).send("Only POST allowed");
   }
@@ -35,13 +42,15 @@ export default async function handler(req, res) {
     const { file } = req.body;
 
     if (!file) {
-      return res.status(400).json({ error: "No file" });
+      return res.status(400).json({ error: "No file received" });
     }
 
     const token = await getToken();
     const buffer = Buffer.from(file, "base64");
 
-    // 1) Upload
+    console.log("Uploading PDF...");
+
+    // 1) UPLOAD
     const upload = await fetch("https://cpf-ue1.adobe.io/assets", {
       method: "POST",
       headers: {
@@ -52,14 +61,18 @@ export default async function handler(req, res) {
     });
 
     const uploadData = await upload.json();
-
-    if (!uploadData.assetID) {
-      return res.status(500).json(uploadData);
-    }
+    console.log("UPLOAD RESPONSE:", uploadData);
 
     const assetId = uploadData.assetID;
 
-    // 2) Create Job
+    if (!assetId) {
+      return res.status(500).json({
+        error: "assetID not found",
+        uploadData,
+      });
+    }
+
+    // 2) CREATE JOB
     const job = await fetch(
       "https://cpf-ue1.adobe.io/operation/compresspdf",
       {
@@ -75,17 +88,25 @@ export default async function handler(req, res) {
     );
 
     const jobData = await job.json();
+    console.log("JOB RESPONSE:", jobData);
 
     const jobId = jobData.jobID || jobData.jobId;
 
     if (!jobId) {
-      return res.status(500).json(jobData);
+      return res.status(500).json({
+        error: "jobId not found",
+        jobData,
+      });
     }
 
+    // 3) RESPONSE
     return res.status(200).json({ jobId });
+
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error("API ERROR:", err);
+
+    return res.status(500).json({
+      error: err.message,
+    });
   }
-  console.log("CLIENT_ID:", process.env.ADOBE_CLIENT_ID);
-  console.log("CLIENT_SECRET:", process.env.ADOBE_CLIENT_SECRET);
 }
