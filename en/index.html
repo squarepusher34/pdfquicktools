@@ -8,6 +8,10 @@
 
 <meta name="description" content="Free online PDF tools to merge, split, compress and convert PDF files. Fast, secure and browser-based. No signup required.">
 
+<!-- ADSENSE -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXX"
+     crossorigin="anonymous"></script>
+
 <style>
 :root{
   --bg:#f4f6fb;
@@ -42,8 +46,6 @@ header a{
   margin-left:10px;
 }
 
-header a:hover{opacity:1}
-
 /* HERO */
 .hero{
   text-align:center;
@@ -60,6 +62,13 @@ header a:hover{opacity:1}
   max-width:650px;
   margin:10px auto 0;
   line-height:1.6;
+}
+
+/* ADS */
+.ad-block{
+  margin:25px auto;
+  text-align:center;
+  max-width:1000px;
 }
 
 /* LINKS */
@@ -97,12 +106,6 @@ header a:hover{opacity:1}
   border-radius:14px;
   box-shadow:0 6px 18px rgba(0,0,0,0.06);
   border:1px solid #eef0f5;
-  transition:0.2s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 .card h2{
@@ -116,7 +119,6 @@ header a:hover{opacity:1}
   line-height:1.5;
 }
 
-/* BUTTON */
 .card a{
   display:inline-block;
   margin-top:10px;
@@ -128,10 +130,6 @@ header a:hover{opacity:1}
   font-size:13px;
 }
 
-.card a:hover{
-  background:#1d4ed8;
-}
-
 /* SECTIONS */
 section{
   background:white;
@@ -139,7 +137,19 @@ section{
   padding:22px;
   border-radius:12px;
   box-shadow:0 6px 18px rgba(0,0,0,0.04);
-  color:#374151;
+}
+
+/* FAQ */
+details{
+  margin-bottom:10px;
+  background:#f9fafb;
+  padding:10px;
+  border-radius:8px;
+}
+
+summary{
+  cursor:pointer;
+  font-weight:600;
 }
 
 /* FOOTER */
@@ -149,17 +159,25 @@ footer{
   color:#6b7280;
 }
 
-footer a{
-  color:var(--primary);
-  margin:0 8px;
-  text-decoration:none;
+/* MOBILE STICKY AD */
+.mobile-sticky-ad{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  z-index:9999;
+  padding:6px 0;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+  display:none;
 }
 
 @media(max-width:768px){
+  .mobile-sticky-ad{display:block;}
+  body{padding-bottom:90px;}
   .hero h1{font-size:26px;}
 }
 </style>
-
 </head>
 
 <body>
@@ -173,14 +191,25 @@ footer a{
   </div>
 </header>
 
+<!-- HERO -->
 <div class="hero">
   <h1>Free PDF Tools Online</h1>
-  <p>Merge, split, compress and convert PDF files instantly in your browser. No signup required.</p>
+  <p>Merge, split, compress and convert PDF files instantly in your browser.</p>
 </div>
 
-<div class="container">
+<!-- AD 1 -->
+<div class="ad-block">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXX"
+       data-ad-slot="1111111111"
+       data-ad-format="auto"></ins>
+</div>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
-<!-- QUICK LINKS -->
+<!-- LINKS -->
 <div class="links">
   <a href="/tools/merge.html">Merge</a>
   <a href="/tools/split.html">Split</a>
@@ -188,6 +217,8 @@ footer a{
   <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
   <a href="/tools/pdf-compress.html">Compress</a>
 </div>
+
+<div class="container">
 
 <!-- GRID -->
 <div class="grid">
@@ -227,9 +258,7 @@ footer a{
 <!-- ABOUT -->
 <section>
   <h2>About</h2>
-  <p>
-    PDFQuickTools is a fast, free and browser-based PDF toolkit. No uploads, no signup, no installation.
-  </p>
+  <p>PDFQuickTools is a free and fast PDF toolkit. Everything runs directly in your browser.</p>
 </section>
 
 <!-- WHY -->
@@ -245,21 +274,42 @@ footer a{
 <section>
   <h2>Frequently Asked Questions</h2>
 
-  <p><strong>Is PDFQuickTools free?</strong><br>Yes, all tools are completely free.</p>
+  <details>
+    <summary>Is it free?</summary>
+    <p>Yes, all tools are completely free.</p>
+  </details>
 
-  <p><strong>Do I need to install anything?</strong><br>No, everything runs in your browser.</p>
+  <details>
+    <summary>Do I need installation?</summary>
+    <p>No, everything runs in your browser.</p>
+  </details>
 
-  <p><strong>Are my files uploaded?</strong><br>No, processing happens locally on your device.</p>
+  <details>
+    <summary>Are my files uploaded?</summary>
+    <p>No, processing happens locally on your device.</p>
+  </details>
 
 </section>
 
 </div>
 
 <footer>
-  <a href="/about.html">About</a> |
-  <a href="/privacy.html">Privacy</a> |
-  <a href="/contact.html">Contact</a>
+  PDFQuickTools ©
 </footer>
+
+<!-- MOBILE STICKY AD -->
+<div class="mobile-sticky-ad">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXX"
+       data-ad-slot="4444444444"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+</div>
+
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 </body>
 </html>
