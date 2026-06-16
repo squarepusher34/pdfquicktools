@@ -3,88 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="theme-color" content="#15172b">
 <title>JPG / PNG → PDF | PDFQuickTools</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
 crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
-
 <style>
+/* ---------- tokens (shared with homepage) ---------- */
+:root{
+    --ink:#15172b;
+    --paper:#faf7f2;
+    --card:#ffffff;
+    --coral:#ff5a4e;
+    --coral-deep:#df4538;
+    --blue:#3b6fed;
+    --amber:#f2a93b;
+    --amber-deep:#c97f12;
+    --muted:#716c63;
+    --border:#e8e2d8;
+
+    --display:'Fraunces', serif;
+    --body:'Inter', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+
+    --shadow-soft:0 10px 28px -14px rgba(21,23,43,.16);
+    --shadow-lift:0 20px 40px -16px rgba(21,23,43,.22);
+}
+
+*{box-sizing:border-box;}
+
 body{
-  margin:0;
-  font-family:system-ui;
-  background:#f3f4f6;
-  color:#111;
+    margin:0;
+    font-family:var(--body);
+    background:var(--paper);
+    background-image:radial-gradient(circle at 1px 1px, rgba(21,23,43,.05) 1px, transparent 0);
+    background-size:16px 16px;
+    color:var(--ink);
+    line-height:1.6;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
 }
 
-/* STANDARD HEADER */
+a{color:inherit;}
+*:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px;}
+
+/* ---------- header (same component as homepage) ---------- */
 header{
-  background:#0f172a;
-  color:white;
-  padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+    position:sticky;top:0;z-index:50;
+    background:rgba(21,23,43,.94);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+.header-inner{
+    max-width:1180px;margin:0 auto;padding:14px 24px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    flex-wrap:wrap;
+}
+.brand{
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--display);font-weight:600;font-size:18px;color:#fff;
+    text-decoration:none;letter-spacing:-.01em;
+}
+.brand-mark{
+    font-family:var(--mono);font-size:10px;font-weight:600;color:#fff;
+    background:linear-gradient(160deg,var(--coral),var(--coral-deep));
+    padding:6px 7px 5px;border-radius:5px;letter-spacing:.03em;
+    clip-path:polygon(0 0,75% 0,100% 35%,100% 100%,0 100%);
+}
+.nav-links{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+.nav-links a{
+    color:rgba(255,255,255,.82);text-decoration:none;font-size:14px;font-weight:500;
+    padding:8px 12px;border-radius:8px;transition:background .2s,color .2s;
+}
+.nav-links a:hover{background:rgba(255,255,255,.08);color:#fff;}
+
+/* ---------- main ---------- */
+main{flex:1;display:flex;align-items:flex-start;justify-content:center;}
+.page-wrap{max-width:640px;width:100%;margin:0 auto;padding:64px 24px 0;}
+
+/* ticket-style tool card (same grammar as the homepage tool cards) */
+.tool-ticket{
+    position:relative;background:var(--card);
+    padding:34px 32px 38px;
+    box-shadow:var(--shadow-soft);
+    clip-path:polygon(
+        0% 6%,4% 0%,8% 6%,12% 0%,16% 6%,20% 0%,24% 6%,28% 0%,32% 6%,36% 0%,
+        40% 6%,44% 0%,48% 6%,52% 0%,56% 6%,60% 0%,64% 6%,68% 0%,72% 6%,76% 0%,
+        80% 6%,84% 0%,88% 6%,92% 0%,96% 6%,100% 0%,
+        100% 100%,0% 100%
+    );
+}
+.ticket-top{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px;}
+.route-tag{
+    font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.04em;
+    color:var(--muted);text-transform:uppercase;
+}
+.route-arrow{color:var(--border);font-size:1.2rem;line-height:1;}
+.perforation{
+    height:3px;margin:22px 0 26px;
+    background-image:radial-gradient(circle,var(--paper) 1.6px,transparent 1.7px);
+    background-size:11px 100%;background-repeat:repeat-x;
 }
 
-header a{
-  color:white;
-  text-decoration:none;
-  font-size:14px;
-  font-weight:600;
-  margin-left:10px;
+.badge{
+    width:32px;height:40px;border-radius:3px;position:relative;flex:none;
+    display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;
+    font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.02em;color:#fff;
+    clip-path:polygon(0 0,70% 0,100% 24%,100% 100%,0 100%);
 }
+.badge--pdf{background:linear-gradient(165deg,var(--coral),var(--coral-deep));}
+.badge--png{background:linear-gradient(165deg,var(--blue),#2c56c4);}
+.badge--jpg{background:linear-gradient(165deg,var(--amber),var(--amber-deep));}
+.badge-stack{position:relative;width:56px;height:46px;flex:none;}
+.badge-stack .badge{position:absolute;}
+.badge-stack .badge:nth-child(1){left:0;top:6px;transform:rotate(-9deg);}
+.badge-stack .badge:nth-child(2){left:18px;top:0;transform:rotate(7deg);}
 
-/* CONTAINER */
-.container{
-  max-width:800px;
-  margin:40px auto;
-  padding:20px;
+.tool-ticket h1{
+    font-family:var(--display);font-weight:600;font-size:clamp(1.6rem,4vw,2.1rem);
+    text-align:center;margin:0 0 10px;letter-spacing:-.01em;
 }
-
-/* CARD */
-.card{
-  background:white;
-  padding:30px;
-  border-radius:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
-  text-align:center;
-}
+.lede{color:var(--muted);text-align:center;margin:0 0 28px;font-size:1rem;}
 
 .drop-zone{
-  border:2px dashed #2563eb;
-  padding:40px;
-  border-radius:12px;
-  cursor:pointer;
-  color:#2563eb;
+    border:2px dashed var(--coral);border-radius:14px;
+    padding:42px 20px;text-align:center;cursor:pointer;
+    color:var(--coral-deep);font-weight:600;
+    transition:border-color .2s,background .2s;
+}
+.drop-zone:hover,.drop-zone.drag{
+    border-color:var(--coral-deep);background:rgba(255,90,78,.06);
 }
 
 .preview{
-  margin-top:15px;
-  font-size:13px;
-  color:#6b7280;
+    margin-top:14px;font-size:.8rem;font-family:var(--mono);color:var(--muted);
+    text-align:center;
 }
 
-button{
-  width:100%;
-  padding:14px;
-  background:#2563eb;
-  color:white;
-  border:none;
-  border-radius:12px;
-  margin-top:15px;
-  cursor:pointer;
+button.primary{
+    width:100%;padding:15px;margin-top:18px;
+    background:var(--ink);color:#fff;border:none;border-radius:10px;
+    font-family:var(--body);font-weight:600;font-size:.95rem;
+    cursor:pointer;transition:background .2s;
+}
+button.primary:hover{background:var(--coral-deep);}
+
+/* ---------- home link, always last before the footer ---------- */
+.home-link-row{text-align:center;margin:40px 0 64px;}
+.home-link{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid var(--border);border-radius:30px;
+    padding:10px 20px;font-size:.9rem;font-weight:600;
+    text-decoration:none;color:var(--ink);background:var(--card);
+    transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.home-link:hover{border-color:var(--coral-deep);transform:translateY(-2px);box-shadow:var(--shadow-soft);}
+
+/* ---------- footer (same component as homepage) ---------- */
+footer{
+    background:var(--ink);color:rgba(255,255,255,.6);
+    text-align:center;padding:34px 24px;
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;
 }
 
-button:hover{ background:#1d4ed8; }
-
-.back{
-  display:block;
-  margin-top:20px;
-  text-decoration:none;
-  color:#2563eb;
-  font-weight:500;
+@media (max-width:560px){
+    .header-inner{padding:12px 16px;}
+    .page-wrap{padding:40px 16px 0;}
+    .tool-ticket{padding:28px 20px 32px;}
 }
 </style>
 </head>
@@ -92,70 +184,97 @@ button:hover{ background:#1d4ed8; }
 <body>
 
 <header>
-  <div>PDFQuickTools</div>
-  <div>
-    <a href="/tools/merge.html">Merge</a>
-    <a href="/tools/pdf-to-jpg.html">JPG / PNG → PDF </a>
-    <a href="/tools/pdf-compress.html">Compress</a>
-  </div>
+    <div class="header-inner">
+        <a href="/" class="brand"><span class="brand-mark">PDF</span>QuickTools</a>
+        <nav class="nav-links">
+            <a href="/tools/merge.html">Birleştir</a>
+            <a href="/tools/pdf-to-jpg.html">JPG / PNG → PDF</a>
+            <a href="/tools/pdf-compress.html">Sıkıştır</a>
+        </nav>
+    </div>
 </header>
 
-<div class="container">
+<main>
+    <div class="page-wrap">
 
-<div class="card">
+        <div class="tool-ticket">
+            <div class="ticket-top">
+                <div class="badge-stack"><span class="badge badge--jpg">JPG</span><span class="badge badge--png">PNG</span></div>
+                <span class="route-arrow">→</span>
+                <span class="badge badge--pdf">PDF</span>
+            </div>
+            <div class="perforation"></div>
 
-<h1>JPG / PNG → PDF</h1>
-<p>JPG / PNG → PDF dönüşümü</p>
+            <h1>JPG / PNG → PDF</h1>
+            <p class="lede">JPG / PNG → PDF dönüşümü</p>
 
-<div class="drop-zone" onclick="document.getElementById('fileInput').click()">
-  Dosya seç veya sürükle
-</div>
+            <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                Dosya seç veya sürükle
+            </div>
+            <input type="file" id="fileInput" multiple accept="image/*" hidden>
+            <p class="preview" id="status">Dosya seçilmedi</p>
 
-<input type="file" id="fileInput" multiple accept="image/*" hidden>
+            <button class="primary" onclick="convert()">PDF Oluştur</button>
+        </div>
 
-<p class="preview" id="status">Dosya seçilmedi</p>
+        <div class="home-link-row">
+            <a class="home-link" href="/"><span aria-hidden="true">←</span> Ana Sayfa</a>
+        </div>
 
-<button onclick="convert()">PDF Oluştur</button>
+    </div>
+</main>
 
-<a class="back" href="/">← Ana Sayfa</a>
-
-</div>
-
-</div>
+<footer>
+    PDFQuickTools © 2026
+</footer>
 
 <script>
+const dropZone = document.getElementById("dropZone");
 const input = document.getElementById("fileInput");
 const status = document.getElementById("status");
+let selectedFiles = [];
+
+function updateStatus(){
+  status.innerText = selectedFiles.length ? selectedFiles.length + " dosya seçildi" : "Dosya seçilmedi";
+}
 
 input.addEventListener("change", () => {
-  status.innerText = input.files.length + " dosya seçildi";
+  selectedFiles = Array.from(input.files);
+  updateStatus();
+});
+
+dropZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropZone.classList.add("drag");
+});
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("drag");
+});
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropZone.classList.remove("drag");
+  selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith("image/"));
+  updateStatus();
 });
 
 async function convert(){
-  const files = input.files;
-  if(!files.length) return alert("Select images");
-
+  if(!selectedFiles.length) return alert("Lütfen bir görsel seçin");
   const { PDFDocument } = PDFLib;
   const pdf = await PDFDocument.create();
-
-  for(const file of files){
+  for(const file of selectedFiles){
     const bytes = await file.arrayBuffer();
-
     let img;
     if(file.type === "image/jpeg"){
       img = await pdf.embedJpg(bytes);
     } else {
       img = await pdf.embedPng(bytes);
     }
-
     const page = pdf.addPage([img.width, img.height]);
     page.drawImage(img, {x:0,y:0,width:img.width,height:img.height});
   }
-
   const pdfBytes = await pdf.save();
   const blob = new Blob([pdfBytes], {type:"application/pdf"});
   const url = URL.createObjectURL(blob);
-
   const a = document.createElement("a");
   a.href = url;
   a.download = "images.pdf";
