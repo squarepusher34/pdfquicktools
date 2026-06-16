@@ -1,12 +1,31 @@
-import { PDFDocument } from "pdf-lib";
+import fs from "fs";
+import fetch from "node-fetch";
 
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "10mb"
-    }
-  }
+      sizeLimit: "10mb",
+    },
+  },
 };
+
+async function getAccessToken() {
+  const res = await fetch("https://ims-na1.adobelogin.com/ims/token/v3", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      client_id: process.env.ADOBE_CLIENT_ID,
+      client_secret: process.env.ADOBE_CLIENT_SECRET,
+      scope: "openid,AdobeID,DCAPI",
+    }),
+  });
+
+  const data = await res.json();
+  return data.access_token;
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -14,32 +33,52 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 🔥 RAW BODY FIX
-    const body = typeof req.body === "string"
-      ? JSON.parse(req.body)
-      : req.body;
-
-    const file = body?.file;
+    const { file } = req.body;
 
     if (!file) {
       return res.status(400).send("No file received");
     }
 
-    const pdfBytes = Buffer.from(file, "base64");
+    const token = await getAccessToken();
 
-    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pdfBuffer = Buffer.from(file, "base64");
 
-    const optimized = await pdfDoc.save({
-      useObjectStreams: true
-    });
+    const upload = await fetch(
+      "https://cpf-ue1.adobe.io/assets",
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/pdf",
+        },
+        body: pdfBuffer,
+      }
+    );
 
-    res.setHeader("Content-Type", "application/pdf");
+    const uploadData = await upload.json();
 
-    return res.send(Buffer.from(optimized));
+    const assetId = uploadData.assetID;
+
+    const job = await fetch(
+      "https://cpf-ue1.adobe.io/operation/compresspdf",
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          assetID: assetId,
+        }),
+      }
+    );
+
+    const jobData = await job.json();
+
+    res.status(200).json(jobData);
 
   } catch (err) {
     console.error(err);
-
-    return res.status(500).send("Compression error: " + err.message);
+    res.status(500).send("Compression failed: " + err.message);
   }
 }
