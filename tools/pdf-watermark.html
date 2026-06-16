@@ -6,12 +6,10 @@
 
 <title>PDF Watermark | PDFQuickTools</title>
 
-<!-- ADSENSE -->
 <script async 
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
 crossorigin="anonymous"></script>
 
-<!-- PDF LIB -->
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
@@ -26,17 +24,46 @@ body{
 .topbar{
   background:#0f172a;
   padding:12px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
+
 .topbar a{
   color:white;
   text-decoration:none;
   font-weight:600;
 }
 
+/* HERO (YENİ EKLENDİ - ÜST BOŞLUK DOLDURUR) */
+.hero{
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  color:white;
+  text-align:center;
+  padding:35px 20px;
+}
+
+.hero h1{
+  margin:0;
+  font-size:28px;
+}
+
+.hero p{
+  margin-top:8px;
+  opacity:0.9;
+  font-size:14px;
+}
+
+/* AD */
+.ad{
+  text-align:center;
+  margin:15px 0;
+}
+
 /* CONTAINER */
 .container{
   max-width:850px;
-  margin:40px auto;
+  margin:20px auto;
   background:white;
   padding:25px;
   border-radius:16px;
@@ -75,10 +102,12 @@ button:hover{
   border-radius:10px;
 }
 
-/* ADS */
-.ad{
-  margin:20px 0;
+/* FOOT NOTE */
+.note{
   text-align:center;
+  font-size:12px;
+  color:#6b7280;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -88,9 +117,16 @@ button:hover{
 <!-- TOP -->
 <div class="topbar">
   <a href="/index.html">← Ana Sayfa</a>
+  <a href="/tools.html">Tools</a>
 </div>
 
-<!-- TOP AD -->
+<!-- HERO (ÜSTÜ DOLDURAN KISIM) -->
+<div class="hero">
+  <h1>PDF Watermark Tool</h1>
+  <p>PDF dosyanı yükle, metin filigranı ekle ve tek tıkla indir</p>
+</div>
+
+<!-- AD -->
 <div class="ad">
   <ins class="adsbygoogle"
        style="display:block"
@@ -105,11 +141,11 @@ button:hover{
 
 <div class="container">
 
-<h2>PDF Watermark Tool</h2>
+<h2>Watermark Ayarları</h2>
 
 <input type="file" id="file" accept="application/pdf"/>
 
-<input type="text" id="text" placeholder="Watermark text (örn: PDFQuickTools)">
+<input type="text" id="text" placeholder="Watermark text">
 
 <input type="color" id="color" value="#888888">
 
@@ -129,18 +165,16 @@ button:hover{
 
 <p id="status"></p>
 
-<a id="download" style="display:none;">Download PDF</a>
+<a id="download" style="display:none;"></a>
+
+<p class="note">PDF işlemleri cihazınızda gerçekleşir.</p>
 
 </div>
 
-<!-- JS -->
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc =
 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-let lastPdfBytes = null;
-
-/* PREVIEW */
 async function preview(){
 
   const file = document.getElementById("file").files[0];
@@ -157,15 +191,11 @@ async function preview(){
   canvas.width = viewport.width;
   canvas.height = viewport.height;
 
-  await page.render({
-    canvasContext:ctx,
-    viewport
-  }).promise;
+  await page.render({canvasContext:ctx, viewport}).promise;
 
   drawWatermark(ctx, canvas);
 }
 
-/* WATERMARK DRAW */
 function drawWatermark(ctx, canvas){
 
   const text = document.getElementById("text").value || "WATERMARK";
@@ -188,22 +218,18 @@ function drawWatermark(ctx, canvas){
   ctx.restore();
 }
 
-/* CREATE PDF */
 async function createPDF(){
 
   const file = document.getElementById("file").files[0];
   if(!file) return alert("PDF seç");
 
+  const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
+  const pages = pdfDoc.getPages();
+
   const text = document.getElementById("text").value || "WATERMARK";
-  const color = document.getElementById("color").value;
   const opacity = document.getElementById("opacity").value / 100;
   const size = document.getElementById("size").value;
   const rotation = document.getElementById("rotation").value;
-
-  const pdfBytes = await file.arrayBuffer();
-
-  const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
-  const pages = pdfDoc.getPages();
 
   pages.forEach(page => {
 
@@ -213,16 +239,16 @@ async function createPDF(){
       x: width/2,
       y: height/2,
       size: parseInt(size),
-      color: PDFLib.rgb(0.5,0.5,0.5),
+      opacity: opacity,
       rotate: PDFLib.degrees(parseInt(rotation)),
-      opacity: opacity
+      color: PDFLib.rgb(0.5,0.5,0.5)
     });
 
   });
 
-  const newPdf = await pdfDoc.save();
+  const bytes = await pdfDoc.save();
 
-  const blob = new Blob([newPdf], {type:"application/pdf"});
+  const blob = new Blob([bytes], {type:"application/pdf"});
   const url = URL.createObjectURL(blob);
 
   const download = document.getElementById("download");
