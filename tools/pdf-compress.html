@@ -128,56 +128,78 @@ Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.
 </div>
 
 <script>
-async function compressPDF(){
-
+<script>
+async function compressPDF() {
   const file = document.getElementById("file").files[0];
 
-  if(!file){
+  if (!file) {
     alert("PDF seç");
     return;
   }
 
+  const status = document.getElementById("status");
+  const result = document.getElementById("result");
+  const download = document.getElementById("download");
+
+  result.style.display = "block";
+  status.innerText = "Yükleniyor...";
+
   const reader = new FileReader();
 
-  reader.onload = async function(){
-
+  reader.onload = async function () {
     const base64 = reader.result.split(",")[1];
 
-    // 1. JOB
+    // 1) CREATE JOB
     const res = await fetch("/api/compress", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ file: base64 })
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ file: base64 }),
     });
 
     const data = await res.json();
+
+    if (!data.jobId) {
+      status.innerText = "Hata ❌ job alınamadı";
+      return;
+    }
+
     const jobId = data.jobId;
+    status.innerText = "İşleniyor...";
 
-    document.getElementById("status").innerText = "İşleniyor...";
-
-    // 2. POLLING
+    // 2) POLLING
     const interval = setInterval(async () => {
+      const res = await fetch(`/api/status?jobId=${jobId}`);
+      const data = await res.json();
 
-      const statusRes = await fetch(`/api/status?jobId=${jobId}`);
-      const statusData = await statusRes.json();
-
-      if(statusData.status === "done"){
-
+      if (
+        data.status === "done" ||
+        data.status === "completed"
+      ) {
         clearInterval(interval);
 
-        const downloadUrl = statusData.downloadUri;
+        const url =
+          data.downloadUri ||
+          data.result?.downloadUri ||
+          data.asset?.downloadUri;
 
-        document.getElementById("download").href = downloadUrl;
-        document.getElementById("download").style.display = "block";
+        if (!url) {
+          status.innerText = "Download link bulunamadı ❌";
+          return;
+        }
 
-        document.getElementById("status").innerText = "Tamamlandı ✔";
+        download.href = url;
+        download.style.display = "block";
+
+        status.innerText = "Tamamlandı ✔";
       }
-
     }, 3000);
   };
 
   reader.readAsDataURL(file);
 }
+</script>
 </script>
 
 </body>
