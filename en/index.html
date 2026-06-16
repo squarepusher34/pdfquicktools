@@ -5,10 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Free PDF Tools Online | Merge, Split, Convert | PDFQuickTools</title>
+<meta name="description" content="Free online PDF tools to merge, split, compress and convert PDF files. Fast and browser-based. No installation required.">
 
-<meta name="description" content="Free online PDF tools to merge, split, compress and convert PDF files. Fast, secure and browser-based. No signup required.">
-
-<!-- ADSENSE -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
 crossorigin="anonymous"></script>
 
@@ -46,12 +44,11 @@ header a{
   margin-left:10px;
 }
 
-/* 🌍 TR BUTTON (BLUE BOX) */
+/* LANGUAGE BUTTON */
 .lang-btn{
   background:#2563eb;
   padding:6px 12px;
   border-radius:10px;
-  color:white;
   font-weight:600;
 }
 
@@ -73,13 +70,6 @@ header a{
   line-height:1.6;
 }
 
-/* ADS */
-.ad-block{
-  margin:25px auto;
-  text-align:center;
-  max-width:1000px;
-}
-
 /* LINKS */
 .links{
   text-align:center;
@@ -87,11 +77,22 @@ header a{
 }
 
 .links a{
-  margin:0 6px;
-  color:var(--primary);
+  margin:6px;
+  display:inline-block;
+  padding:8px 12px;
+  background:white;
+  border-radius:10px;
+  border:1px solid #eef0f5;
   text-decoration:none;
+  color:var(--primary);
   font-weight:600;
-  font-size:14px;
+  transition:0.2s;
+}
+
+.links a:hover{
+  background:var(--primary);
+  color:white;
+  transform:translateY(-2px);
 }
 
 /* CONTAINER */
@@ -113,19 +114,17 @@ header a{
   background:var(--card);
   padding:20px;
   border-radius:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.06);
   border:1px solid #eef0f5;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
 }
 
 .card h2{
   margin:0 0 6px;
-  font-size:18px;
 }
 
 .card p{
   color:var(--muted);
   font-size:14px;
-  line-height:1.5;
 }
 
 .card a{
@@ -136,10 +135,9 @@ header a{
   color:white;
   border-radius:8px;
   text-decoration:none;
-  font-size:13px;
 }
 
-/* SECTIONS */
+/* SECTION */
 section{
   background:white;
   margin-top:25px;
@@ -150,15 +148,10 @@ section{
 
 /* FAQ */
 details{
-  margin-bottom:10px;
   background:#f9fafb;
   padding:10px;
   border-radius:8px;
-}
-
-summary{
-  cursor:pointer;
-  font-weight:600;
+  margin-bottom:10px;
 }
 
 /* FOOTER */
@@ -166,25 +159,6 @@ footer{
   text-align:center;
   padding:25px;
   color:#6b7280;
-}
-
-/* MOBILE STICKY AD */
-.mobile-sticky-ad{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:white;
-  z-index:9999;
-  padding:6px 0;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-  display:none;
-}
-
-@media(max-width:768px){
-  .mobile-sticky-ad{display:block;}
-  body{padding-bottom:90px;}
-  .hero h1{font-size:26px;}
 }
 </style>
 </head>
@@ -198,8 +172,6 @@ footer{
   <div>
     <a href="/about.html">About</a>
     <a href="/contact.html">Contact</a>
-
-    <!-- 🌍 TR BUTTON (BLUE BOX) -->
     <a href="/index.html" class="lang-btn">TR</a>
   </div>
 </header>
@@ -210,20 +182,7 @@ footer{
   <p>Merge, split, compress and convert PDF files instantly in your browser.</p>
 </div>
 
-<!-- ADS -->
-<div class="ad-block">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-XXXXXXX"
-       data-ad-slot="1111111111"
-       data-ad-format="auto"></ins>
-</div>
-
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-<!-- LINKS -->
+<!-- QUICK LINKS -->
 <div class="links">
   <a href="/tools/merge.html">Merge</a>
   <a href="/tools/split.html">Split</a>
@@ -241,19 +200,19 @@ footer{
 
   <div class="card">
     <h2>Merge PDF</h2>
-    <p>Combine multiple PDF files into one document</p>
+    <p>Combine multiple PDFs into one file</p>
     <a href="/tools/merge.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Split PDF</h2>
-    <p>Separate PDF pages easily</p>
+    <p>Separate pages easily</p>
     <a href="/tools/split.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Image → PDF</h2>
-    <p>Convert images into PDF files</p>
+    <p>Convert images into PDF</p>
     <a href="/tools/image-to-pdf.html">Open</a>
   </div>
 
@@ -265,61 +224,38 @@ footer{
 
   <div class="card">
     <h2>Compress PDF</h2>
-    <p>Reduce PDF file size while keeping quality</p>
+    <p>Reduce file size quickly</p>
     <a href="/tools/pdf-compress.html">Open</a>
   </div>
-  
-  <div class="card">
-    <h2>PDF Rotate</h2>
-    <p>PDF Rotate</p>
-    <a href="/tools/pdf-rotate.html">Open</a>
-  </div>
 
-  <div class="card">
-    <h2>PDF Add Watermark</h2>
-    <p>PDF Watermark</p>
-    <a href="/tools/pdf-watermark.html">Open</a> 
-  </div>
-
-  <div class="card">
-    <h2>Jpg to Pdf</h2>
-    <p>Convert jpg pages into PDF</p>
-    <a href="/tools/jpg-to-pdf.html">Open</a>
-  </div>
-  
 </div>
 
 <!-- ABOUT -->
 <section>
   <h2>About</h2>
-  <p>PDFQuickTools is a free and fast PDF toolkit.</p>
+  <p>PDFQuickTools is a free browser-based PDF toolkit.</p>
 </section>
 
 <!-- WHY -->
 <section>
   <h2>Why Choose Us?</h2>
   <p>✔ No installation required</p>
-  <p>✔ 100% free forever</p>
+  <p>✔ 100% free tools</p>
   <p>✔ Fast browser processing</p>
 </section>
 
 <!-- FAQ -->
 <section>
-  <h2>Frequently Asked Questions</h2>
+  <h2>FAQ</h2>
 
   <details>
     <summary>Is it free?</summary>
-    <p>Yes, all tools are completely free.</p>
+    <p>Yes, completely free.</p>
   </details>
 
   <details>
-    <summary>Do I need installation?</summary>
+    <summary>Do I need to install anything?</summary>
     <p>No, everything runs in your browser.</p>
-  </details>
-
-  <details>
-    <summary>Are my files uploaded?</summary>
-    <p>No, processing happens locally on your device.</p>
   </details>
 
 </section>
@@ -329,20 +265,6 @@ footer{
 <footer>
   PDFQuickTools © 2026
 </footer>
-
-<!-- MOBILE STICKY AD -->
-<div class="mobile-sticky-ad">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-XXXXXXX"
-       data-ad-slot="4444444444"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-</div>
-
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
 
 </body>
 </html>
