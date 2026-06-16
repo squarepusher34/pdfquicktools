@@ -1,5 +1,3 @@
-
-
 export const config = {
   api: {
     bodyParser: {
@@ -24,6 +22,8 @@ async function getToken() {
 
   const data = await res.json();
 
+  console.log("TOKEN RESPONSE:", data);
+
   if (!data.access_token) {
     throw new Error("Adobe token alınamadı");
   }
@@ -46,11 +46,12 @@ export default async function handler(req, res) {
     }
 
     const token = await getToken();
+
     const buffer = Buffer.from(file, "base64");
 
-    console.log("Uploading PDF...");
+    console.log("UPLOAD START...");
 
-    // 1) UPLOAD
+    // 1) UPLOAD PDF
     const upload = await fetch("https://cpf-ue1.adobe.io/assets", {
       method: "POST",
       headers: {
@@ -60,19 +61,29 @@ export default async function handler(req, res) {
       body: buffer,
     });
 
-    const uploadData = await upload.json();
+    const uploadText = await upload.text();
+
+    let uploadData;
+    try {
+      uploadData = JSON.parse(uploadText);
+    } catch (e) {
+      uploadData = { raw: uploadText };
+    }
+
     console.log("UPLOAD RESPONSE:", uploadData);
 
-    const assetId = uploadData.assetID;
+    const assetId = uploadData.assetID || uploadData.assetId;
 
     if (!assetId) {
       return res.status(500).json({
-        error: "assetID not found",
+        error: "assetID bulunamadı",
         uploadData,
       });
     }
 
-    // 2) CREATE JOB
+    console.log("ASSET ID:", assetId);
+
+    // 2) CREATE COMPRESS JOB
     const job = await fetch(
       "https://cpf-ue1.adobe.io/operation/compresspdf",
       {
@@ -87,19 +98,28 @@ export default async function handler(req, res) {
       }
     );
 
-    const jobData = await job.json();
+    const jobText = await job.text();
+
+    let jobData;
+    try {
+      jobData = JSON.parse(jobText);
+    } catch (e) {
+      jobData = { raw: jobText };
+    }
+
     console.log("JOB RESPONSE:", jobData);
 
     const jobId = jobData.jobID || jobData.jobId;
 
     if (!jobId) {
       return res.status(500).json({
-        error: "jobId not found",
+        error: "jobId bulunamadı",
         jobData,
       });
     }
 
-    // 3) RESPONSE
+    console.log("JOB ID:", jobId);
+
     return res.status(200).json({ jobId });
 
   } catch (err) {
