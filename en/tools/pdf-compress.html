@@ -1,1 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+<title>PDF Compressor | PDFQuickTools</title>
+
+<!-- ADSENSE -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
+crossorigin="anonymous"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: system-ui;
+  background: #f3f4f6;
+}
+
+/* TOP BAR */
+.topbar {
+  background: #0f172a;
+  padding: 12px 20px;
+}
+
+.topbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 15px;
+  border: 2px dashed #ccc;
+  margin: 20px 0;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.quality-box {
+  margin: 15px 0;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+#status {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+a#download {
+  display: none;
+  margin-top: 15px;
+  color: green;
+  font-weight: bold;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="/index.html">← Home</a>
+</div>
+
+<div class="container">
+
+<h2>PDF Compressor</h2>
+
+<input type="file" id="file" accept="application/pdf" />
+
+<div class="quality-box">
+  <label>Quality: <span id="qualityValue">7</span>/10</label>
+  <input type="range" id="quality" min="1" max="10" value="7"/>
+</div>
+
+<button onclick="compressPDF()">Compress</button>
+
+<p id="status"></p>
+
+<a id="download">Download PDF</a>
+
+</div>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+</script>
+
+<!-- pdf-lib -->
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<script>
+
+const qualitySlider = document.getElementById("quality");
+const qualityValue = document.getElementById("qualityValue");
+
+qualitySlider.addEventListener("input", () => {
+  qualityValue.innerText = qualitySlider.value;
+});
+
+async function compressPDF() {
+  const file = document.getElementById("file").files[0];
+  if (!file) return alert("Select a PDF");
+
+  const status = document.getElementById("status");
+  const download = document.getElementById("download");
+
+  status.innerText = "Processing...";
+  download.style.display = "none";
+
+  const quality = document.getElementById("quality").value;
+  const jpegQuality = quality / 10;
+
+  const arrayBuffer = await file.arrayBuffer();
+
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+  const { PDFDocument } = PDFLib;
+  const newPdf = await PDFDocument.create();
+
+  for (let i = 1; i <= pdf.numPages; i++) {
+    status.innerText = `Page ${i}/${pdf.numPages}`;
+
+    const page = await pdf.getPage(i);
+    const viewport = page.getViewport({ scale: 1.4 });
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    await page.render({
+      canvasContext: ctx,
+      viewport: viewport,
+    }).promise;
+
+    const imgData = canvas.toDataURL("image/jpeg", jpegQuality);
+
+    const img = await newPdf.embedJpg(imgData);
+
+    const pdfPage = newPdf.addPage([viewport.width, viewport.height]);
+
+    pdfPage.drawImage(img, {
+      x: 0,
+      y: 0,
+      width: viewport.width,
+      height: viewport.height,
+    });
+  }
+
+  const pdfBytes = await newPdf.save();
+
+  const blob = new Blob([pdfBytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+
+  download.href = url;
+  download.download = "compressed.pdf";
+  download.style.display = "inline-block";
+  download.innerText = "Download PDF ✔";
+
+  status.innerText = "Completed ✔";
+}
+
+</script>
+
+</body>
+</html>
