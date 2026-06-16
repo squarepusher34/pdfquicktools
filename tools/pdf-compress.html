@@ -128,30 +128,8 @@ Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.
 </div>
 
 <script>
-// simple language
-function detectLang(){
-  const lang = navigator.language || navigator.userLanguage;
-  const isEN = lang.startsWith("en");
+async function compressPDF(){
 
-  document.querySelectorAll("[data-tr]").forEach(el=>{
-    el.innerHTML = isEN ? el.dataset.en : el.dataset.tr;
-  });
-}
-detectLang();
-
-// status change
-document.getElementById("file").addEventListener("change", function(){
-  const statusText = document.getElementById("statusText");
-
-  if(this.files.length > 0){
-    statusText.innerText = "Dosya seçildi: " + this.files[0].name;
-  } else {
-    statusText.innerText = "Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.";
-  }
-});
-
-// mock compress
-function compressPDF(){
   const file = document.getElementById("file").files[0];
   const quality = document.getElementById("quality").value;
 
@@ -165,13 +143,47 @@ function compressPDF(){
   const download = document.getElementById("download");
 
   result.style.display = "block";
+  status.innerText = "Sıkıştırılıyor...";
 
-  const fakeSize = Math.round(file.size * (quality/100));
+  // PDF → base64
+  const reader = new FileReader();
 
-  status.innerText =
-    "Sıkıştırma tamamlandı. Yeni boyut: " + (fakeSize/1024).toFixed(2) + " KB";
+  reader.onload = async function(){
 
-  download.href = URL.createObjectURL(file);
+    const base64 = reader.result.split(",")[1];
+
+    try {
+      const res = await fetch("/api/compress", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          file: base64,
+          quality: quality
+        })
+      });
+
+      if(!res.ok){
+        throw new Error("API error");
+      }
+
+      const blob = await res.blob();
+
+      const url = URL.createObjectURL(blob);
+
+      download.href = url;
+      download.download = "compressed.pdf";
+
+      status.innerText = "Sıkıştırma tamamlandı ✔";
+
+    } catch(err){
+      console.error(err);
+      status.innerText = "Hata oluştu ❌";
+    }
+  };
+
+  reader.readAsDataURL(file);
 }
 </script>
 
