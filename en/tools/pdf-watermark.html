@@ -1,1 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+<title>PDF Watermark | PDFQuickTools</title>
+
+<script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
+crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#f3f4f6;
+}
+
+/* TOP BAR */
+.topbar{
+  background:#0f172a;
+  padding:10px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.topbar a{
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+  font-size:13px;
+}
+
+/* HEADER */
+.header-strip{
+  background:#2563eb;
+  color:white;
+  padding:14px 16px;
+}
+
+.header-strip h1{
+  margin:0;
+  font-size:18px;
+  font-weight:600;
+}
+
+.header-strip p{
+  margin:4px 0 0;
+  font-size:12px;
+  opacity:0.9;
+}
+
+/* CONTAINER */
+.container{
+  max-width:850px;
+  margin:15px auto;
+  background:white;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* INPUT */
+input, button{
+  width:100%;
+  margin-top:10px;
+  padding:11px;
+  border-radius:10px;
+  font-size:14px;
+}
+
+input[type="file"]{
+  border:2px dashed #ccc;
+}
+
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+/* PREVIEW */
+#preview{
+  width:100%;
+  margin-top:15px;
+  border:1px solid #ddd;
+  border-radius:10px;
+}
+
+/* NOTE */
+.note{
+  text-align:center;
+  font-size:12px;
+  color:#6b7280;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP -->
+<div class="topbar">
+  <a href="/en/index.html">← Home</a>
+  <a href="/en/tools.html">Tools</a>
+</div>
+
+<!-- HEADER -->
+<div class="header-strip">
+  <h1>PDF Watermark Tool</h1>
+  <p>Add watermark to your PDF quickly</p>
+</div>
+
+<div class="container">
+
+<input type="file" id="file" accept="application/pdf"/>
+
+<input type="text" id="text" placeholder="Watermark text">
+
+<input type="color" id="color" value="#888888">
+
+<label>Opacity</label>
+<input type="range" id="opacity" min="10" max="100" value="30">
+
+<label>Font Size</label>
+<input type="range" id="size" min="20" max="120" value="50">
+
+<label>Rotation</label>
+<input type="range" id="rotation" min="0" max="360" value="45">
+
+<button onclick="preview()">Preview</button>
+<button onclick="createPDF()">Apply & Download</button>
+
+<canvas id="preview"></canvas>
+
+<p id="status"></p>
+
+<a id="download" style="display:none;"></a>
+
+<p class="note">Everything is processed locally in your browser.</p>
+
+</div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+async function preview(){
+
+  const file = document.getElementById("file").files[0];
+  if(!file) return alert("Select PDF");
+
+  const pdf = await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
+  const page = await pdf.getPage(1);
+
+  const viewport = page.getViewport({scale:1.6});
+
+  const canvas = document.getElementById("preview");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+
+  await page.render({canvasContext:ctx, viewport}).promise;
+
+  drawWatermark(ctx, canvas);
+}
+
+function drawWatermark(ctx, canvas){
+
+  const text = document.getElementById("text").value || "WATERMARK";
+  const color = document.getElementById("color").value;
+  const opacity = document.getElementById("opacity").value / 100;
+  const size = document.getElementById("size").value;
+  const rotation = document.getElementById("rotation").value;
+
+  ctx.save();
+  ctx.translate(canvas.width/2, canvas.height/2);
+  ctx.rotate(rotation * Math.PI / 180);
+
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = color;
+  ctx.font = `${size}px Arial`;
+  ctx.textAlign = "center";
+
+  ctx.fillText(text, 0, 0);
+
+  ctx.restore();
+}
+
+async function createPDF(){
+
+  const file = document.getElementById("file").files[0];
+  if(!file) return alert("Select PDF");
+
+  const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
+  const pages = pdfDoc.getPages();
+
+  const text = document.getElementById("text").value || "WATERMARK";
+  const opacity = document.getElementById("opacity").value / 100;
+  const size = document.getElementById("size").value;
+  const rotation = document.getElementById("rotation").value;
+
+  pages.forEach(page => {
+
+    const { width, height } = page.getSize();
+
+    page.drawText(text, {
+      x: width/2,
+      y: height/2,
+      size: parseInt(size),
+      opacity: opacity,
+      rotate: PDFLib.degrees(parseInt(rotation)),
+      color: PDFLib.rgb(0.5,0.5,0.5)
+    });
+
+  });
+
+  const bytes = await pdfDoc.save();
+
+  const blob = new Blob([bytes], {type:"application/pdf"});
+  const url = URL.createObjectURL(blob);
+
+  const download = document.getElementById("download");
+  download.href = url;
+  download.download = "watermarked.pdf";
+  download.style.display = "block";
+  download.innerText = "Download PDF ✔";
+
+  document.getElementById("status").innerText = "Completed ✔";
+}
+</script>
+
+</body>
+</html>
