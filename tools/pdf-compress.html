@@ -14,7 +14,6 @@ body{
   color:#111;
 }
 
-/* HEADER = MERGE İLE AYNI */
 header{
   background:#0f172a;
   color:white;
@@ -23,14 +22,12 @@ header{
   font-weight:600;
 }
 
-/* CONTAINER */
 .container{
   max-width:800px;
   margin:40px auto;
   padding:20px;
 }
 
-/* CARD = MERGE İLE AYNI */
 .card{
   background:white;
   padding:30px;
@@ -39,12 +36,10 @@ header{
   text-align:center;
 }
 
-/* TITLE */
 h1{
   margin-top:0;
 }
 
-/* INPUT */
 input{
   margin:20px 0;
   padding:15px;
@@ -54,7 +49,6 @@ input{
   background:#fafafa;
 }
 
-/* BUTTON */
 button{
   width:100%;
   padding:14px;
@@ -71,20 +65,23 @@ button:hover{
   background:#1d4ed8;
 }
 
-/* NOTE */
 .note{
   margin-top:15px;
   font-size:13px;
   color:#6b7280;
 }
 
-/* BACK */
 .back{
   display:block;
   margin-top:20px;
   text-decoration:none;
   color:#2563eb;
   font-weight:500;
+}
+
+#result{
+  margin-top:15px;
+  display:none;
 }
 </style>
 </head>
@@ -99,18 +96,12 @@ PDFQuickTools • Compress PDF
 
 <div class="card">
 
-<h1 data-tr="PDF Sıkıştır" data-en="Compress PDF"></h1>
-<p data-tr="PDF boyutunu düşür, kaliteyi kontrol et"
-   data-en="Reduce PDF size while controlling quality"></p>
+<h1>PDF Sıkıştır</h1>
+<p>PDF boyutunu düşür</p>
 
-<label data-tr="PDF seç" data-en="Select PDF"></label>
 <input type="file" id="file" accept="application/pdf">
 
-<label data-tr="Kalite (10-100)" data-en="Quality (10-100)"></label>
-<input type="range" id="quality" min="10" max="100" value="70">
-
-<button onclick="compressPDF()"
-        data-tr="Sıkıştır" data-en="Compress"></button>
+<button onclick="compressPDF()">Sıkıştır</button>
 
 <p class="note" id="statusText">
 Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.
@@ -118,7 +109,7 @@ Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.
 
 <a class="back" href="/index.html">← Ana sayfa</a>
 
-<div id="result" style="display:none;margin-top:15px;">
+<div id="result">
   <p id="status"></p>
   <a id="download" href="#" download="compressed.pdf">Download</a>
 </div>
@@ -128,8 +119,8 @@ Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.
 </div>
 
 <script>
-<script>
 async function compressPDF() {
+
   const file = document.getElementById("file").files[0];
 
   if (!file) {
@@ -147,59 +138,65 @@ async function compressPDF() {
   const reader = new FileReader();
 
   reader.onload = async function () {
+
     const base64 = reader.result.split(",")[1];
 
-    // 1) CREATE JOB
-    const res = await fetch("/api/compress", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ file: base64 }),
-    });
+    try {
 
-    const data = await res.json();
+      const res = await fetch("/api/compress", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ file: base64 })
+      });
 
-    if (!data.jobId) {
-      status.innerText = "Hata ❌ job alınamadı";
-      return;
-    }
-
-    const jobId = data.jobId;
-    status.innerText = "İşleniyor...";
-
-    // 2) POLLING
-    const interval = setInterval(async () => {
-      const res = await fetch(`/api/status?jobId=${jobId}`);
       const data = await res.json();
 
-      if (
-        data.status === "done" ||
-        data.status === "completed"
-      ) {
-        clearInterval(interval);
+      if (!data.jobId) {
+        status.innerText = "Hata ❌ jobId gelmedi";
+        return;
+      }
 
-        const url =
-          data.downloadUri ||
-          data.result?.downloadUri ||
-          data.asset?.downloadUri;
+      status.innerText = "İşleniyor...";
 
-        if (!url) {
-          status.innerText = "Download link bulunamadı ❌";
-          return;
+      const jobId = data.jobId;
+
+      const interval = setInterval(async () => {
+
+        const r = await fetch(`/api/status?jobId=${jobId}`);
+        const d = await r.json();
+
+        if (d.status === "done" || d.status === "completed") {
+
+          clearInterval(interval);
+
+          const url =
+            d.downloadUri ||
+            d.result?.downloadUri ||
+            d.asset?.downloadUri;
+
+          if (!url) {
+            status.innerText = "Download link bulunamadı ❌";
+            return;
+          }
+
+          download.href = url;
+          download.style.display = "block";
+
+          status.innerText = "Tamamlandı ✔";
         }
 
-        download.href = url;
-        download.style.display = "block";
+      }, 3000);
 
-        status.innerText = "Tamamlandı ✔";
-      }
-    }, 3000);
+    } catch (err) {
+      console.error(err);
+      status.innerText = "Hata oluştu ❌";
+    }
   };
 
   reader.readAsDataURL(file);
 }
-</script>
 </script>
 
 </body>
