@@ -4,17 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PDFQuickTools</title>
+<title>Free PDF Tools Online | PDFQuickTools</title>
+<meta name="description" content="Free browser-based PDF tools: merge, split, compress and convert PDF files instantly. No upload, no login required.">
+
+<!-- ADSENSE -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
 crossorigin="anonymous"></script>
 
 <style>
 :root{
   --bg:#f4f6fb;
-  --card:#fff;
+  --card:#ffffff;
   --text:#1f2937;
   --muted:#6b7280;
-  --primary:#2563eb;   
+  --primary:#2563eb;
 }
 
 body{
@@ -34,28 +37,43 @@ header{
   align-items:center;
 }
 
+header a{
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  margin-left:12px;
+  opacity:0.9;
+}
+
+header a:hover{
+  opacity:1;
+}
+
+/* LANGUAGE BUTTON */
 .lang-btn{
   background:var(--primary);
   padding:6px 12px;
   border-radius:10px;
+  font-weight:600;
   color:white;
   text-decoration:none;
-  font-weight:600;
 }
 
 /* HERO */
 .hero{
   text-align:center;
-  padding:40px 20px 10px;
+  padding:50px 20px 10px;
 }
 
 .hero h1{
-  margin:0;
   font-size:34px;
+  margin:0;
 }
 
 .hero p{
   color:var(--muted);
+  max-width:650px;
+  margin:10px auto;
 }
 
 /* LINKS */
@@ -64,24 +82,33 @@ header{
   flex-wrap:wrap;
   justify-content:center;
   gap:10px;
-  padding:20px;
+  margin:20px auto;
+  padding:0 20px;
+  max-width:1000px;
 }
 
 .links a{
   background:white;
   padding:10px 14px;
   border-radius:10px;
-  border:1px solid #e5e7eb;
   text-decoration:none;
   color:var(--primary);
   font-weight:600;
+  border:1px solid #e5e7eb;
+  transition:0.2s;
+}
+
+.links a:hover{
+  background:var(--primary);
+  color:white;
+  transform:translateY(-3px);
 }
 
 /* CONTAINER */
 .container{
   max-width:1000px;
-  margin:0 auto;
-  padding:20px;
+  margin:30px auto;
+  padding:0 20px;
 }
 
 /* GRID */
@@ -93,11 +120,17 @@ header{
 
 /* CARD */
 .card{
-  background:white;
+  background:var(--card);
   padding:20px;
   border-radius:14px;
   border:1px solid #e5e7eb;
   box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 12px 25px rgba(0,0,0,0.12);
 }
 
 .card h2{
@@ -119,33 +152,39 @@ header{
   text-decoration:none;
 }
 
-/* FAQ */
+/* SECTIONS */
 section{
   background:white;
-  margin-top:20px;
-  padding:20px;
+  margin-top:25px;
+  padding:22px;
   border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.04);
 }
 
 /* FOOTER */
 footer{
   text-align:center;
-  padding:20px;
+  padding:25px;
   color:var(--muted);
 }
 </style>
+
 </head>
 
 <body>
 
 <header>
   <div><strong>PDFQuickTools</strong></div>
-  <a class="lang-btn" href="/index.html">TR</a>
+  <div>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/index.html" class="lang-btn">TR</a>
+  </div>
 </header>
 
 <div class="hero">
-  <h1>Free PDF Tools</h1>
-  <p>All tools in your browser</p>
+  <h1>Free PDF Tools Online</h1>
+  <p>Merge, split, compress and convert PDF files directly in your browser.</p>
 </div>
 
 <div class="links">
@@ -162,84 +201,81 @@ footer{
 
 <div class="container">
 
-<!-- ✅ 9 CARD FULL SET -->
 <div class="grid">
 
   <div class="card">
     <h2>PDF Merge</h2>
-    <p>Combine PDFs</p>
+    <p>Combine multiple PDF files into one</p>
     <a href="/tools/merge.html">Open</a>
   </div>
 
   <div class="card">
     <h2>PDF Split</h2>
-    <p>Split pages</p>
+    <p>Split PDF pages easily</p>
     <a href="/tools/split.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Image → PDF</h2>
-    <p>Convert images</p>
+    <p>Convert images to PDF format</p>
     <a href="/tools/image-to-pdf.html">Open</a>
   </div>
 
   <div class="card">
     <h2>PDF → JPG</h2>
-    <p>Export pages</p>
+    <p>Export PDF pages as images</p>
     <a href="/tools/pdf-to-jpg.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Compress PDF</h2>
-    <p>Reduce size</p>
+    <p>Reduce PDF file size</p>
     <a href="/tools/pdf-compress.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Rotate PDF</h2>
-    <p>Rotate pages</p>
+    <p>Rotate pages easily</p>
     <a href="/tools/pdf-rotate.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Watermark</h2>
-    <p>Add watermark</p>
+    <p>Add watermark to PDFs</p>
     <a href="/tools/pdf-watermark.html">Open</a>
   </div>
 
   <div class="card">
     <h2>JPG → PDF</h2>
-    <p>Convert images</p>
+    <p>Convert JPG images into PDF</p>
     <a href="/tools/jpg-to-pdf.html">Open</a>
   </div>
 
   <div class="card">
     <h2>Page Numbers</h2>
-    <p>Add numbering</p>
+    <p>Add page numbers to PDF files</p>
     <a href="/tools/pdf-page-numbers.html">Open</a>
   </div>
 
 </div>
 
-<!-- ABOUT -->
 <section>
-  <h2>About</h2>
-  <p>Free browser-based PDF toolkit. No upload, no login.</p>
+  <h2>About PDFQuickTools</h2>
+  <p>A fast, free and secure browser-based PDF toolkit. No upload required.</p>
 </section>
 
-<!-- FAQ -->
 <section>
   <h2>FAQ</h2>
-
-  <p><b>Is it free?</b><br>Yes 100% free.</p>
-  <p><b>Do files upload?</b><br>No, processed locally.</p>
-
+  <p><b>Is it free?</b><br>Yes, completely free.</p>
+  <p><b>Do files upload?</b><br>No, everything runs in your browser.</p>
+  <p><b>Is it safe?</b><br>Yes, files are not stored anywhere.</p>
+  <p><b>Mobile support?</b><br>Yes, fully responsive.</p>
 </section>
 
 </div>
 
 <footer>
-  © PDFQuickTools
+  © 2026 PDFQuickTools
 </footer>
 
 </body>
