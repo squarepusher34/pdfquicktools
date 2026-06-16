@@ -3,328 +3,537 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#15172b">
 
 <title>PDFQuickTools - Ücretsiz PDF Araçları</title>
 <meta name="description" content="PDF birleştirme, bölme, sıkıştırma ve dönüştürme araçları">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
 crossorigin="anonymous"></script>
 
 <style>
-:root {
-    --bg: #f4f6fb;
-    --card: #ffffff;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --primary: #2563eb;
-} 
+/* ---------- tokens ---------- */
+:root{
+    --ink:#15172b;
+    --paper:#faf7f2;
+    --card:#ffffff;
+    --coral:#ff5a4e;
+    --coral-deep:#df4538;
+    --blue:#3b6fed;
+    --amber:#f2a93b;
+    --amber-deep:#c97f12;
+    --muted:#716c63;
+    --border:#e8e2d8;
 
-body {
-    margin: 0;
-    font-family: system-ui;
-    background: var(--bg);
-    color: var(--text);
+    --display:'Fraunces', serif;
+    --body:'Inter', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+
+    --container:1180px;
+    --shadow-soft:0 10px 28px -14px rgba(21,23,43,.16);
+    --shadow-lift:0 20px 40px -16px rgba(21,23,43,.22);
 }
 
-/* HEADER */
-header {
-    background: #0f172a;
-    color: white;
-    padding: 14px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+    margin:0;
+    font-family:var(--body);
+    background:var(--paper);
+    background-image:radial-gradient(circle at 1px 1px, rgba(21,23,43,.05) 1px, transparent 0);
+    background-size:16px 16px;
+    color:var(--ink);
+    line-height:1.6;
 }
 
-header a {
-    color: white;
-    text-decoration: none;
-    margin-left: 12px;
-    font-size: 14px;
-    opacity: 0.9;
+.wrap{max-width:var(--container);margin:0 auto;padding-inline:24px;}
+
+a{color:inherit;}
+
+img,svg{display:block;max-width:100%;}
+
+*:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px;}
+
+/* ---------- header ---------- */
+header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(21,23,43,.94);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+.header-inner{
+    max-width:var(--container);margin:0 auto;padding:14px 24px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+}
+.brand{
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--display);font-weight:600;font-size:18px;color:#fff;
+    text-decoration:none;letter-spacing:-.01em;
+}
+.brand-mark{
+    font-family:var(--mono);font-size:10px;font-weight:600;color:#fff;
+    background:linear-gradient(160deg,var(--coral),var(--coral-deep));
+    padding:6px 7px 5px;border-radius:5px;letter-spacing:.03em;
+    clip-path:polygon(0 0,75% 0,100% 35%,100% 100%,0 100%);
+}
+.nav-links{display:flex;align-items:center;gap:4px;}
+.nav-links a{
+    color:rgba(255,255,255,.82);text-decoration:none;font-size:14px;font-weight:500;
+    padding:8px 12px;border-radius:8px;transition:background .2s,color .2s;
+}
+.nav-links a:hover{background:rgba(255,255,255,.08);color:#fff;}
+.nav-links a.lang{
+    background:var(--coral-deep);color:#fff !important;font-weight:600;
+    margin-left:6px;
+}
+.nav-links a.lang:hover{background:var(--coral);}
+
+/* ---------- hero ---------- */
+.hero{
+    display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;
+    padding:88px 0 64px;
+}
+.eyebrow{
+    font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--blue);margin:0 0 18px;
+}
+.hero h1{
+    font-family:var(--display);font-weight:600;letter-spacing:-.01em;
+    font-size:clamp(2.4rem,5vw,3.6rem);line-height:1.06;margin:0 0 18px;
+}
+.hero h1 em{
+    font-style:normal;color:var(--coral-deep);
+}
+.hero p.lede{
+    color:var(--muted);font-size:1.125rem;max-width:460px;margin:0 0 28px;
+}
+.trust-row{display:flex;align-items:center;gap:10px;}
+.status-dot{
+    width:9px;height:9px;border-radius:50%;background:var(--coral);position:relative;flex:none;
+}
+.status-dot::after{
+    content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--coral);
+    opacity:.5;animation:pulse 2.4s ease-out infinite;
+}
+.trust-row span{font-size:.875rem;color:var(--muted);font-weight:500;}
+
+/* page stack visual */
+.stack-wrap{position:relative;height:340px;}
+.page-stack{position:relative;width:100%;height:100%;}
+.page{
+    position:absolute;left:50%;top:50%;width:230px;height:290px;
+    background:var(--card);border-radius:4px;
+    box-shadow:var(--shadow-soft);
+    clip-path:polygon(0 0,82% 0,100% 16%,100% 100%,0 100%);
+    animation:float 5s ease-in-out infinite alternate;
+}
+.page--1{--tx:-65%;--ty:-58%;--r:-9deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:1;animation-delay:.2s;}
+.page--2{--tx:-50%;--ty:-50%;--r:3deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:2;animation-delay:.5s;}
+.page--3{
+    --tx:-38%;--ty:-44%;--r:11deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:3;animation-delay:0s;
+    padding:26px 22px;
+}
+.page--3 .line{height:6px;border-radius:3px;background:var(--border);margin-bottom:10px;}
+.page--3 .line:nth-child(1){width:70%;background:var(--coral);opacity:.5;}
+.page--3 .line:nth-child(4){width:45%;}
+.trust-chip{
+    position:absolute;left:6%;bottom:6%;z-index:4;
+    background:var(--ink);color:#fff;font-size:.78rem;font-weight:500;
+    padding:9px 14px;border-radius:30px;display:flex;align-items:center;gap:8px;
+    box-shadow:var(--shadow-lift);
+}
+.trust-chip .status-dot{background:#7CF29C;}
+.trust-chip .status-dot::after{border-color:#7CF29C;}
+
+@keyframes float{from{transform:translate(var(--tx),var(--ty)) rotate(var(--r));}to{transform:translate(var(--tx),calc(var(--ty) - 10px)) rotate(var(--r));}}
+@keyframes pulse{0%{transform:scale(.6);opacity:.7;}100%{transform:scale(1.8);opacity:0;}}
+
+/* ---------- chip row ---------- */
+.chip-row{
+    display:flex;gap:10px;overflow-x:auto;padding:6px 0 28px;
+    scrollbar-width:none;
+}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{
+    flex:none;display:flex;align-items:center;gap:8px;
+    background:var(--card);border:1px solid var(--border);border-radius:30px;
+    padding:9px 16px;font-size:.875rem;font-weight:500;text-decoration:none;color:var(--ink);
+    transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.chip:hover{border-color:var(--coral-deep);transform:translateY(-2px);box-shadow:var(--shadow-soft);}
+.chip .dot{width:7px;height:7px;border-radius:50%;flex:none;}
+.dot--coral{background:var(--coral);}
+.dot--blue{background:var(--blue);}
+.dot--amber{background:var(--amber-deep);}
+
+/* ---------- section headers ---------- */
+.section-head{margin:0 0 32px;}
+.section-head .eyebrow{margin-bottom:10px;}
+.section-head h2{
+    font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,2.6vw,2rem);
+    margin:0;letter-spacing:-.01em;
 }
 
-header a:hover {
-    opacity: 1;
+section.tools{padding:48px 0 12px;}
+
+/* ---------- ticket cards ---------- */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:26px;}
+
+.ticket{
+    position:relative;background:var(--card);border-radius:0 0 10px 10px;
+    padding:30px 22px 22px;
+    box-shadow:var(--shadow-soft);
+    clip-path:polygon(
+        0% 8%,4% 0%,8% 8%,12% 0%,16% 8%,20% 0%,24% 8%,28% 0%,32% 8%,36% 0%,
+        40% 8%,44% 0%,48% 8%,52% 0%,56% 8%,60% 0%,64% 8%,68% 0%,72% 8%,76% 0%,
+        80% 8%,84% 0%,88% 8%,92% 0%,96% 8%,100% 0%,
+        100% 100%,0% 100%
+    );
+    transition:transform .25s ease,box-shadow .25s ease;
+}
+.ticket:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift);}
+
+.ticket-top{display:flex;align-items:center;gap:14px;min-height:50px;margin-top:8px;}
+.route-tag{
+    font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.04em;
+    color:var(--muted);text-transform:uppercase;
+}
+.route-arrow{color:var(--border);font-size:1.1rem;line-height:1;}
+
+.perforation{
+    height:3px;margin:20px 0 18px;
+    background-image:radial-gradient(circle,var(--paper) 1.6px,transparent 1.7px);
+    background-size:11px 100%;background-repeat:repeat-x;
 }
 
-/* HERO */
-.hero {
-    text-align: center;
-    padding: 50px 20px 10px;
+.ticket h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin:0 0 6px;}
+.ticket p{color:var(--muted);font-size:.92rem;margin:0 0 18px;}
+
+.ticket-cta{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--ink);color:#fff;text-decoration:none;font-weight:600;font-size:.875rem;
+    padding:9px 16px;border-radius:8px;transition:background .2s,gap .2s;
+}
+.ticket-cta:hover{background:var(--coral-deep);gap:10px;}
+
+/* badges */
+.badge{
+    width:32px;height:40px;border-radius:3px;position:relative;flex:none;
+    display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;
+    font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.02em;color:#fff;
+    clip-path:polygon(0 0,70% 0,100% 24%,100% 100%,0 100%);
+    transition:transform .35s ease;
+}
+.badge--pdf{background:linear-gradient(165deg,var(--coral),var(--coral-deep));}
+.badge--png{background:linear-gradient(165deg,var(--blue),#2c56c4);}
+.badge--jpg{background:linear-gradient(165deg,var(--amber),var(--amber-deep));}
+.badge--sm{width:24px;height:30px;font-size:7px;}
+
+.badge-stack{position:relative;width:56px;height:46px;flex:none;}
+.badge-stack .badge{position:absolute;}
+.badge-stack .badge:nth-child(1){left:0;top:6px;transform:rotate(-9deg);}
+.badge-stack .badge:nth-child(2){left:18px;top:0;transform:rotate(7deg);}
+
+.badge--rotate{transform:rotate(-12deg);}
+.ticket:hover .badge--rotate{transform:rotate(195deg);}
+
+.badge--watermark{position:relative;overflow:hidden;}
+.badge--watermark::before{
+    content:"WM";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:9px;font-weight:700;letter-spacing:.03em;color:rgba(255,255,255,.55);
+    transform:rotate(-28deg);
 }
 
-.hero h1 {
-    font-size: 34px;
-    margin: 0;
+.badge-numbered{position:relative;flex:none;}
+.numbered-tag{
+    position:absolute;bottom:-5px;right:-7px;width:17px;height:17px;border-radius:50%;
+    background:var(--ink);border:2px solid var(--card);color:#fff;font-family:var(--mono);
+    font-size:7px;display:flex;align-items:center;justify-content:center;
 }
 
-.hero p {
-    color: var(--muted);
-    max-width: 650px;
-    margin: 10px auto;
+/* ---------- about / faq ---------- */
+.card-block{
+    background:var(--card);border-radius:18px;padding:34px;
+    box-shadow:var(--shadow-soft);margin-top:36px;
+}
+.about-text{color:var(--muted);font-size:1rem;max-width:680px;margin:0;}
+
+.faq-list details{border-bottom:1px solid var(--border);padding:4px 0;}
+.faq-list details:last-child{border-bottom:none;}
+.faq-list summary{
+    list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+    gap:16px;padding:16px 2px;font-weight:600;font-size:.98rem;
+}
+.faq-list summary::-webkit-details-marker{display:none;}
+.faq-list summary::after{
+    content:"+";flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--coral-deep);
+    transition:transform .25s ease;
+}
+.faq-list details[open] summary::after{content:"–";transform:rotate(180deg);}
+.faq-list details p{color:var(--muted);margin:0 2px 16px;font-size:.92rem;max-width:680px;}
+
+/* ---------- footer ---------- */
+footer{
+    background:var(--ink);color:rgba(255,255,255,.6);
+    text-align:center;padding:34px 24px;margin-top:64px;
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;
 }
 
-/* LINKS BAR */
-.links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px auto;
-    padding: 0 20px;
-    max-width: 1000px;
+/* ---------- motion / accessibility ---------- */
+@media (prefers-reduced-motion:reduce){
+    .page,.status-dot::after{animation:none !important;}
+    .ticket,.chip,.badge,.badge--rotate,.ticket-cta{transition:none !important;}
 }
 
-.links a {
-    background: white;
-    padding: 10px 14px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: var(--primary);
-    font-weight: 600;
-    border: 1px solid #e5e7eb;
-    transition: 0.2s;
+/* ---------- responsive ---------- */
+@media (max-width:880px){
+    .hero{grid-template-columns:1fr;padding:56px 0 40px;text-align:left;}
+    .stack-wrap{height:240px;order:-1;margin-bottom:8px;}
+    .page{width:170px;height:215px;}
+    .page--3{padding:18px 16px;}
 }
-
-.links a:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateY(-2px);
-}
-
-/* GRID */
-.container {
-    max-width: 1000px;
-    margin: 30px auto;
-    padding: 0 20px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 18px;
-}
-
-/* CARD */
-.card {
-    background: var(--card);
-    padding: 20px;
-    border-radius: 14px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    transition: 0.2s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card h2 {
-    margin: 0;
-    font-size: 18px;
-}
-
-.card p {
-    color: var(--muted);
-    font-size: 14px;
-}
-
-.card a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: var(--primary);
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-}
-
-/* SECTIONS */
-section {
-    background: white;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-}
-
-/* FAQ */
-details {
-    background: #f9fafb;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-/* FOOTER */
-footer {
-    text-align: center;
-    padding: 25px;
-    color: var(--muted);
-}
-
-/* LANGUAGE BUTTON */
-.lang-btn {
-    background: #2563eb;
-    color: white !important;
-    padding: 6px 12px;
-    border-radius: 10px;
-    font-weight: 600;
-    opacity: 1 !important;
-}
-
-.lang-btn:hover {
-    background: #1d4ed8;
+@media (max-width:560px){
+    .header-inner{padding:12px 16px;}
+    .nav-links a:not(.lang){display:none;}
+    .hero h1{font-size:2.1rem;}
+    .card-block{padding:24px;}
 }
 </style>
-
 </head>
 
 <body>
 
 <!-- HEADER -->
 <header>
-    <div><strong>PDFQuickTools</strong></div>
-    <div>
-        <a href="/about.html">Hakkında</a>
-        <a href="/contact.html">İletişim</a>
-        <a href="/en/index.html" class="lang-btn">EN</a>
+    <div class="header-inner">
+        <a href="/" class="brand"><span class="brand-mark">PDF</span>QuickTools</a>
+        <nav class="nav-links">
+            <a href="/about.html">Hakkında</a>
+            <a href="/contact.html">İletişim</a>
+            <a href="/en/index.html" class="lang">EN</a>
+        </nav>
     </div>
 </header>
 
-<!-- HERO -->
-<div class="hero">
-    <h1>Ücretsiz PDF Araçları</h1>
-    <p>PDF dosyalarını birleştir, böl, sıkıştır ve dönüştür</p>
-</div>
+<main class="wrap">
 
-<!-- QUICK LINKS -->
-<div class="links">
-    <a href="/tools/merge.html">Birleştir</a>
-    <a href="/tools/split.html">Böl</a>
-    <a href="/tools/image-to-pdf.html">PNG→PDF</a>
-    <a href="/tools/pdf-to-jpg.html">PDF→JPG</a>
-    <a href="/tools/pdf-compress.html">Sıkıştır</a>
-    <a href="/tools/pdf-rotate.html">Döndür</a>
-    <a href="/tools/pdf-watermark.html">Filigran</a>
-    <a href="/tools/jpg-to-pdf.html">JPG→PDF</a>
-    <a href="/tools/pdf-page-numbers.html">Numaralandırma</a>
-</div>
+    <!-- HERO -->
+    <section class="hero">
+        <div>
+            <p class="eyebrow">Ücretsiz • Tarayıcı Tabanlı</p>
+            <h1>Ücretsiz <em>PDF</em> Araçları</h1>
+            <p class="lede">PDF dosyalarını birleştir, böl, sıkıştır ve dönüştür.</p>
+            <div class="trust-row">
+                <span class="status-dot"></span>
+                <span>Dosyalarınız cihazınızdan dışarı çıkmaz</span>
+            </div>
+        </div>
+        <div class="stack-wrap">
+            <div class="page-stack">
+                <div class="page page--1"></div>
+                <div class="page page--2"></div>
+                <div class="page page--3">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="trust-chip"><span class="status-dot"></span>9 araç, tek sayfa</div>
+            </div>
+        </div>
+    </section>
 
-<!-- GRID -->
-<div class="container">
-    <div class="grid">
+    <!-- QUICK CHIPS -->
+    <nav class="chip-row" aria-label="Hızlı araç erişimi">
+        <a class="chip" href="/tools/merge.html"><span class="dot dot--coral"></span>Birleştir</a>
+        <a class="chip" href="/tools/split.html"><span class="dot dot--coral"></span>Böl</a>
+        <a class="chip" href="/tools/image-to-pdf.html"><span class="dot dot--blue"></span>PNG→PDF</a>
+        <a class="chip" href="/tools/pdf-to-jpg.html"><span class="dot dot--amber"></span>PDF→JPG</a>
+        <a class="chip" href="/tools/pdf-compress.html"><span class="dot dot--coral"></span>Sıkıştır</a>
+        <a class="chip" href="/tools/pdf-rotate.html"><span class="dot dot--coral"></span>Döndür</a>
+        <a class="chip" href="/tools/pdf-watermark.html"><span class="dot dot--coral"></span>Filigran</a>
+        <a class="chip" href="/tools/jpg-to-pdf.html"><span class="dot dot--amber"></span>JPG→PDF</a>
+        <a class="chip" href="/tools/pdf-page-numbers.html"><span class="dot dot--coral"></span>Numaralandırma</a>
+    </nav>
 
-        <div class="card">
-            <h2>PDF Birleştir</h2>
-            <p>Birden fazla PDF tek dosya</p>
-            <a href="/tools/merge.html">Aç</a>
+    <!-- TOOLS -->
+    <section class="tools" id="araclar">
+        <div class="section-head">
+            <p class="eyebrow">Araçlar</p>
+            <h2>İhtiyacın olanı seç, aç, kullan</h2>
         </div>
 
-        <div class="card">
-            <h2>PDF Böl</h2>
-            <p>Sayfalara ayır</p>
-            <a href="/tools/split.html">Aç</a>
-        </div>
+        <div class="tools-grid">
 
-        <div class="card">
-            <h2>PNG → PDF</h2>
-            <p>Resimleri PDF yap</p>
-            <a href="/tools/image-to-pdf.html">Aç</a>
-        </div>
+            <div class="ticket">
+                <div class="ticket-top">
+                    <div class="badge-stack"><span class="badge badge--pdf">PDF</span><span class="badge badge--pdf">PDF</span></div>
+                    <span class="route-tag">PDF + PDF → PDF</span>
+                </div>
+                <div class="perforation"></div>
+                <h3>PDF Birleştir</h3>
+                <p>Birden fazla PDF tek dosya</p>
+                <a class="ticket-cta" href="/tools/merge.html">Aç <span aria-hidden="true">→</span></a>
+            </div>
 
-        <div class="card">
-            <h2>PDF → JPG</h2>
-            <p>Sayfaları görsel yap</p>
-            <a href="/tools/pdf-to-jpg.html">Aç</a>
-        </div>
+            <div class="ticket">
+                <div class="ticket-top">
+                    <span class="badge badge--pdf">PDF</span>
+                    <span class="route-arrow">→</span>
+                    <div class="badge-stack"><span class="badge badge--sm badge--pdf">PDF</span><span class="badge badge--sm badge--pdf">PDF</span></div>
+                </div>
+                <div class="perforation"></div>
+                <h3>PDF Böl</h3>
+                <p>Sayfalara ayır</p>
+                <a class="ticket-cta" href="/tools/split.html">Aç <span aria-hidden="true">→</span></a>
+            </div>
 
-        <div class="card">
-            <h2>PDF Sıkıştır</h2>
-            <p>Dosya boyutunu azalt</p>
-            <a href="/tools/pdf-compress.html">Aç</a>
-        </div>
+            <div class="ticket">
+                <div class="ticket-top">
+                    <span class="badge badge--png">PNG</span>
+                    <span class="route-arrow">→</span>
+                    <span class="badge badge--pdf">PDF</span>
+                </div>
+                <div class="perforation"></div>
+                <h3>PNG → PDF</h3>
+                <p>Resimleri PDF yap</p>
+                <a class="ticket-cta" href="/tools/image-to-pdf.html">Aç <span aria-hidden="true">→</span></a>
+            </div>
 
-        <div class="card">
-            <h2>PDF Döndür</h2>
-            <p>Sayfa döndür</p>
-            <a href="/tools/pdf-rotate.html">Aç</a>
-        </div>
+            <div class="ticket">
+                <div class="ticket-top">
+                    <span class="badge badge--pdf">PDF</span>
+                    <span class="route-arrow">→</span>
+                    <span class="badge badge--jpg">JPG</span>
+                </div>
+                <div class="perforation"></div>
+                <h3>PDF → JPG</h3>
+                <p>Sayfaları görsel yap</p>
+                <a class="ticket-cta" href="/tools/pdf-to-jpg.html">Aç <span aria-hidden="true">→</span></a>
+            </div>
 
-        <div class="card">
-            <h2>Filigran</h2>
-            <p>Watermark ekle</p>
-            <a href="/tools/pdf-watermark.html">Aç</a>
-        </div>
+            <div class="ticket">
+                <div class="ticket-top">
+                    <span class="badge badge--pdf">PDF</span>
+                    <span class="route-arrow">→</span>
+                    <span class="badge badge--sm badge--pdf">PDF</span>
+                </div>
+                <div class="perforation"></div>
+                <h3>PDF Sıkıştır</h3>
+                <p>Dosya boyutunu azalt</p>
+                <a class="ticket-cta" href="/tools/pdf-compress.html">Aç <span aria-hidden="true">→</span></a>
+            </div>
 
-        <div class="card">
-            <h2>JPG → PDF</h2>
-            <p>Görselden PDF</p>
-            <a href="/tools/jpg-to-pdf.html">Aç</a>
-        </div>
+            <div class="ticket">
+                <div class="ticket-top">
+                    <span class="badge badge--pdf badge--rotate">PDF</span>
+                    <span class="route-tag">Yönü değiştir</span>
+                </div>
+                <div class="perforation"></div>
+                <h3>PDF Döndür</h3>
+                <p>Sayfa döndür</p>
+                <a class="ticket-cta" href="/tools/pdf-rotate.html">Aç <span aria-hidden="true">→</span></a>
+            </div>
 
-        <div class="card">
-            <h2>Sayfa Numaralandırma</h2>
-            <p>PDF numaralandır</p>
-            <a href="/tools/pdf-page-numbers.html">Aç</a>
-        </div>
+            <div class="ticket">
+                <div class="ticket-top">
+                    <span class="badge badge--pdf badge--watermark">PDF</span>
+                    <span class="route-tag">Damga ekle</span>
+                </div>
+                <div class="perforation"></div>
+                <h3>Filigran</h3>
+                <p>Watermark ekle</p>
+                <a class="ticket-cta" href="/tools/pdf-watermark.html">Aç <span aria-hidden="true">→</span></a>
+            </div>
 
-    </div>
+            <div class="ticket">
+                <div class="ticket-top">
+                    <span class="badge badge--jpg">JPG</span>
+                    <span class="route-arrow">→</span>
+                    <span class="badge badge--pdf">PDF</span>
+                </div>
+                <div class="perforation"></div>
+                <h3>JPG → PDF</h3>
+                <p>Görselden PDF</p>
+                <a class="ticket-cta" href="/tools/jpg-to-pdf.html">Aç <span aria-hidden="true">→</span></a>
+            </div>
+
+            <div class="ticket">
+                <div class="ticket-top">
+                    <div class="badge-numbered">
+                        <span class="badge badge--pdf">PDF</span>
+                        <span class="numbered-tag">12</span>
+                    </div>
+                    <span class="route-tag">Sırala</span>
+                </div>
+                <div class="perforation"></div>
+                <h3>Sayfa Numaralandırma</h3>
+                <p>PDF numaralandır</p>
+                <a class="ticket-cta" href="/tools/pdf-page-numbers.html">Aç <span aria-hidden="true">→</span></a>
+            </div>
+
+        </div>
+    </section>
 
     <!-- ABOUT -->
-    <section>
-        <h2>Hakkında</h2>
-        <p>PDFQuickTools ücretsiz PDF araçları sunar.</p>
+    <section class="card-block">
+        <h2 style="font-family:var(--display);font-weight:600;font-size:1.4rem;margin:0 0 10px;">Hakkında</h2>
+        <p class="about-text">PDFQuickTools ücretsiz PDF araçları sunar.</p>
     </section>
 
     <!-- FAQ -->
-    <section>
-    <h2>SSS</h2>
+    <section class="card-block faq-list">
+        <h2 style="font-family:var(--display);font-weight:600;font-size:1.4rem;margin:0 0 10px;">SSS</h2>
 
-    <details>
-        <summary>PDFQuickTools ücretsiz mi?</summary>
-        <p>Evet, tüm araçlar tamamen ücretsizdir ve sınırsız kullanılabilir.</p>
-    </details>
+        <details>
+            <summary>PDFQuickTools ücretsiz mi?</summary>
+            <p>Evet, tüm araçlar tamamen ücretsizdir ve sınırsız kullanılabilir.</p>
+        </details>
 
-    <details>
-        <summary>Dosyalar sunucuya yükleniyor mu?</summary>
-        <p>Hayır. Tüm işlemler doğrudan tarayıcınızda gerçekleşir, dosyalarınız cihazınızdan dışarı çıkmaz.</p>
-    </details>
+        <details>
+            <summary>Dosyalar sunucuya yükleniyor mu?</summary>
+            <p>Hayır. Tüm işlemler doğrudan tarayıcınızda gerçekleşir, dosyalarınız cihazınızdan dışarı çıkmaz.</p>
+        </details>
 
-    <details>
-        <summary>Güvenli mi?</summary>
-        <p>Evet. Dosyalarınız hiçbir şekilde saklanmaz veya üçüncü taraflarla paylaşılmaz.</p>
-    </details>
+        <details>
+            <summary>Güvenli mi?</summary>
+            <p>Evet. Dosyalarınız hiçbir şekilde saklanmaz veya üçüncü taraflarla paylaşılmaz.</p>
+        </details>
 
-    <details>
-        <summary>Mobil cihazlarda çalışır mı?</summary>
-        <p>Evet, telefon ve tabletlerde sorunsuz çalışır.</p>
-    </details>
+        <details>
+            <summary>Mobil cihazlarda çalışır mı?</summary>
+            <p>Evet, telefon ve tabletlerde sorunsuz çalışır.</p>
+        </details>
 
-    <details>
-        <summary>Kurulum gerekir mi?</summary>
-        <p>Hayır, hiçbir yazılım indirmenize gerek yoktur. Tamamen web tabanlıdır.</p>
-    </details>
+        <details>
+            <summary>Kurulum gerekir mi?</summary>
+            <p>Hayır, hiçbir yazılım indirmenize gerek yoktur. Tamamen web tabanlıdır.</p>
+        </details>
 
-    <details>
-        <summary>PDF dosyalarıma zarar verir mi?</summary>
-        <p>Hayır. Orijinal dosyanız değiştirilmez, sadece yeni bir çıktı oluşturulur.</p>
-    </details>
+        <details>
+            <summary>PDF dosyalarıma zarar verir mi?</summary>
+            <p>Hayır. Orijinal dosyanız değiştirilmez, sadece yeni bir çıktı oluşturulur.</p>
+        </details>
 
-    <details>
-        <summary>Dosya boyutu sınırı var mı?</summary>
-        <p>Tarayıcı performansına bağlı olarak çok büyük dosyalarda işlem süresi uzayabilir, ancak özel bir limit uygulanmaz.</p>
-    </details>
+        <details>
+            <summary>Dosya boyutu sınırı var mı?</summary>
+            <p>Tarayıcı performansına bağlı olarak çok büyük dosyalarda işlem süresi uzayabilir, ancak özel bir limit uygulanmaz.</p>
+        </details>
 
-    <details>
-        <summary>İnternet olmadan çalışır mı?</summary>
-        <p>Sayfa yüklendikten sonra bazı işlemler çalışabilir, ancak ilk açılış için internet gereklidir.</p>
-    </details>
+        <details>
+            <summary>İnternet olmadan çalışır mı?</summary>
+            <p>Sayfa yüklendikten sonra bazı işlemler çalışabilir, ancak ilk açılış için internet gereklidir.</p>
+        </details>
 
-</section>
+    </section>
 
-</div>
+</main>
 
 <footer>
     PDFQuickTools © 2026
