@@ -6,11 +6,15 @@
 
 <title>PDF Rotate | PDFQuickTools</title>
 
+<!-- ADSENSE -->
 <script async 
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
 crossorigin="anonymous"></script>
 
+<!-- PDF LIB -->
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<!-- PDF.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <script>
@@ -25,17 +29,6 @@ body{
   background:#f3f4f6;
 }
 
-/* FULL WIDTH CONTAINER FIX */
-.container{
-  width:100%;
-  max-width:100%;
-  margin:0;
-  padding:20px;
-  background:white;
-  box-sizing:border-box;
-  text-align:center;
-}
-
 /* TOP BAR */
 .topbar{
   background:#0f172a;
@@ -45,6 +38,19 @@ body{
   color:white;
   text-decoration:none;
   font-weight:600;
+}
+
+/* CONTAINER FULL FIX */
+.container{
+  width:100%;
+  max-width:900px;
+  margin:30px auto;
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  text-align:center;
+  box-sizing:border-box;
 }
 
 /* INPUTS */
@@ -57,7 +63,9 @@ input, select, button{
   box-sizing:border-box;
 }
 
-input{border:2px dashed #ccc}
+input{
+  border:2px dashed #ccc;
+}
 
 button{
   background:#2563eb;
@@ -67,11 +75,17 @@ button{
 }
 button:hover{background:#1d4ed8}
 
-/* 🔥 FULL SCREEN PREVIEW FIX */
-#preview{
-  margin-top:20px;
+/* PREVIEW WRAPPER */
+.preview-box{
   width:100%;
-  height:auto;
+  overflow:auto;
+  display:flex;
+  justify-content:center;
+  margin-top:20px;
+}
+
+/* CANVAS FULL FIX */
+#preview{
   display:block;
   border:1px solid #ddd;
   border-radius:10px;
@@ -107,9 +121,23 @@ button:hover{background:#1d4ed8}
 
 <body>
 
+<!-- TOP -->
 <div class="topbar">
   <a href="/index.html">← Ana Sayfa</a>
 </div>
+
+<!-- ADS TOP -->
+<div class="ad-block">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-6722827238956891"
+       data-ad-slot="1111111111"
+       data-ad-format="auto"></ins>
+</div>
+
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 <div class="container">
 
@@ -127,13 +155,29 @@ button:hover{background:#1d4ed8}
 <button onclick="previewPDF()">Önizle</button>
 <button onclick="rotatePDF()">Döndür & İndir</button>
 
-<canvas id="preview"></canvas>
+<div class="preview-box">
+  <canvas id="preview"></canvas>
+</div>
 
 <p id="status"></p>
 
 <a id="download" style="display:none;"></a>
 
 </div>
+
+<!-- MOBILE ADS -->
+<div class="mobile-ad">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-6722827238956891"
+       data-ad-slot="4444444444"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+</div>
+
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 <script>
 
@@ -151,32 +195,29 @@ async function previewPDF(){
 
   const rotation = parseInt(document.getElementById("rotation").value);
 
-  const viewport = page.getViewport({ scale: 1.8 }); // 🔥 büyütüldü
+  const viewport = page.getViewport({ scale: 1.5, rotation });
 
-  const angle = rotation * Math.PI / 180;
+  // 🔥 container'a göre fit
+  const containerWidth = document.querySelector(".container").clientWidth;
 
-  const sin = Math.abs(Math.sin(angle));
-  const cos = Math.abs(Math.cos(angle));
+  const scale = containerWidth / viewport.width;
+  const scaledViewport = page.getViewport({ scale, rotation });
 
   const dpr = window.devicePixelRatio || 1;
 
-  canvas.width = (viewport.width * cos + viewport.height * sin) * dpr;
-  canvas.height = (viewport.width * sin + viewport.height * cos) * dpr;
+  canvas.width = scaledViewport.width * dpr;
+  canvas.height = scaledViewport.height * dpr;
+
+  canvas.style.width = scaledViewport.width + "px";
+  canvas.style.height = scaledViewport.height + "px";
 
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  ctx.save();
-  ctx.translate(canvas.width/(2*dpr), canvas.height/(2*dpr));
-  ctx.rotate(angle);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   await page.render({
     canvasContext: ctx,
-    viewport: viewport
+    viewport: scaledViewport
   }).promise;
-
-  ctx.restore();
 
   document.getElementById("status").innerText = "Önizleme hazır ✔";
 }
@@ -194,7 +235,9 @@ async function rotatePDF(){
   const pdfDoc = await PDFDocument.load(arrayBuffer);
   const pages = pdfDoc.getPages();
 
-  pages.forEach(page => page.setRotation(degrees(rotation)));
+  pages.forEach(page => {
+    page.setRotation(degrees(rotation));
+  });
 
   const pdfBytes = await pdfDoc.save();
 
@@ -204,8 +247,8 @@ async function rotatePDF(){
   const download = document.getElementById("download");
   download.href = url;
   download.download = "rotated.pdf";
-  download.style.display = "inline-block";
   download.innerText = "Download PDF ✔";
+  download.style.display = "inline-block";
 
   document.getElementById("status").innerText = "Tamamlandı ✔";
 }
