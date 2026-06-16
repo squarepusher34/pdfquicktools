@@ -11,8 +11,16 @@
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
 crossorigin="anonymous"></script>
 
+<!-- PDF LIB -->
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<!-- PDF.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+</script>
 
 <style>
 body{
@@ -77,7 +85,7 @@ button:hover{background:#1d4ed8}
   text-align:center;
 }
 
-/* STICKY MOBILE AD */
+/* MOBILE AD */
 .mobile-ad{
   position:fixed;
   bottom:0;
@@ -137,11 +145,11 @@ button:hover{background:#1d4ed8}
 
 <p id="status"></p>
 
-<a id="download"></a>
+<a id="download" style="display:none;"></a>
 
 </div>
 
-<!-- MOBILE STICKY ADS -->
+<!-- MOBILE ADS -->
 <div class="mobile-ad">
   <ins class="adsbygoogle"
        style="display:block"
@@ -157,16 +165,19 @@ button:hover{background:#1d4ed8}
 
 <script>
 
+let currentPdf = null;
+
 async function previewPDF(){
   const file = document.getElementById("file").files[0];
   if(!file) return alert("PDF seç");
 
   const arrayBuffer = await file.arrayBuffer();
+  currentPdf = arrayBuffer;
 
   const pdf = await pdfjsLib.getDocument({data:arrayBuffer}).promise;
 
   const page = await pdf.getPage(1);
-  const viewport = page.getViewport({scale:1.2});
+  const viewport = page.getViewport({scale:1.3});
 
   const canvas = document.getElementById("preview");
   const ctx = canvas.getContext("2d");
@@ -189,12 +200,15 @@ async function rotatePDF(){
   const rotation = parseInt(document.getElementById("rotation").value);
 
   const arrayBuffer = await file.arrayBuffer();
+
   const { PDFDocument, degrees } = PDFLib;
 
   const pdfDoc = await PDFDocument.load(arrayBuffer);
   const pages = pdfDoc.getPages();
 
-  pages.forEach(p => p.setRotation(degrees(rotation)));
+  pages.forEach(page => {
+    page.setRotation(degrees(rotation));
+  });
 
   const pdfBytes = await pdfDoc.save();
 
@@ -205,6 +219,7 @@ async function rotatePDF(){
   download.href = url;
   download.download = "rotated.pdf";
   download.innerText = "Download PDF ✔";
+  download.style.display = "inline-block";
 
   document.getElementById("status").innerText = "Tamamlandı ✔";
 }
