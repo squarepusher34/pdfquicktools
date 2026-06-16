@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDF Numaralandırma - PDFQuickTools</title>
+<meta name="description" content="PDF sayfalarına numara ekleme aracı">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
+crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#f3f4f6;
+  color:#111;
+}
+
+header{
+  background:#0f172a;
+  color:white;
+  padding:18px;
+  text-align:center;
+  font-weight:600;
+}
+
+.container{
+  max-width:800px;
+  margin:40px auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+h1{
+  margin-top:0;
+}
+
+input{
+  margin:20px 0;
+  padding:15px;
+  width:100%;
+  border:2px dashed #cbd5e1;
+  border-radius:12px;
+  background:#fafafa;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+.note{
+  margin-top:15px;
+  font-size:13px;
+  color:#6b7280;
+}
+
+.back{
+  display:block;
+  margin-top:20px;
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:500;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+PDFQuickTools • PDF Numaralandırma
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h1>PDF Sayfalarını Numaralandır</h1>
+<p>PDF dosyana otomatik sayfa numarası ekle</p>
+
+<input type="file" id="file" accept="application/pdf">
+
+<button onclick="addNumbers()">Numaralandır</button>
+
+<p class="note">Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</p>
+
+<a class="back" href="/">← Ana sayfa</a>
+
+</div>
+
+</div>
+
+<script>
+async function addNumbers(){
+  const { PDFDocument, rgb } = PDFLib;
+
+  const file = document.getElementById("file").files[0];
+  if(!file){
+    alert("PDF seçmelisin");
+    return;
+  }
+
+  const bytes = await file.arrayBuffer();
+  const pdfDoc = await PDFDocument.load(bytes);
+
+  const pages = pdfDoc.getPages();
+
+  pages.forEach((page, index) => {
+    page.drawText(`Sayfa ${index + 1}`, {
+      x: page.getWidth() - 100,
+      y: 20,
+      size: 12,
+      color: rgb(0, 0, 0)
+    });
+  });
+
+  const pdfBytes = await pdfDoc.save();
+
+  const blob = new Blob([pdfBytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "numaralandirilmis.pdf";
+  a.click();
+}
+</script>
+
+</body>
+</html>
