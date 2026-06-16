@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>PDF Rotate | PDFQuickTools</title>
+
+<!-- ADSENSE -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
+crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#f3f4f6;
+}
+
+.topbar{
+  background:#0f172a;
+  padding:12px 20px;
+}
+
+.topbar a{
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.container{
+  max-width:700px;
+  margin:50px auto;
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+input, select, button{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border-radius:10px;
+  font-size:14px;
+}
+
+input{
+  border:2px dashed #ccc;
+}
+
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+#status{
+  margin-top:15px;
+}
+
+#download{
+  display:none;
+  margin-top:15px;
+  color:green;
+  font-weight:bold;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP -->
+<div class="topbar">
+  <a href="/index.html">← Ana Sayfa</a>
+</div>
+
+<div class="container">
+
+<h2>PDF Rotate</h2>
+
+<input type="file" id="file" accept="application/pdf"/>
+
+<select id="rotation">
+  <option value="90">90° Döndür</option>
+  <option value="180">180° Döndür</option>
+  <option value="270">270° Döndür</option>
+</select>
+
+<button onclick="rotatePDF()">Döndür</button>
+
+<p id="status"></p>
+
+<a id="download">Download PDF</a>
+
+</div>
+
+<script>
+
+async function rotatePDF() {
+  const file = document.getElementById("file").files[0];
+  if (!file) return alert("PDF seç");
+
+  const rotation = parseInt(document.getElementById("rotation").value);
+  const status = document.getElementById("status");
+  const download = document.getElementById("download");
+
+  status.innerText = "İşleniyor...";
+  download.style.display = "none";
+
+  const arrayBuffer = await file.arrayBuffer();
+  const { PDFDocument, degrees } = PDFLib;
+
+  const pdfDoc = await PDFDocument.load(arrayBuffer);
+  const pages = pdfDoc.getPages();
+
+  pages.forEach(page => {
+    page.setRotation(degrees(rotation));
+  });
+
+  const pdfBytes = await pdfDoc.save();
+
+  const blob = new Blob([pdfBytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+
+  download.href = url;
+  download.download = "rotated.pdf";
+  download.style.display = "inline-block";
+  download.innerText = "Download PDF ✔";
+
+  status.innerText = "Tamamlandı ✔";
+}
+
+</script>
+
+</body>
+</html>
