@@ -1,49 +1,57 @@
-import { PDFDocument } from "pdf-lib";
+import fetch from "node-fetch";
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "10mb",
+async function getToken() {
+  const res = await fetch("https://ims-na1.adobelogin.com/ims/token/v3", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-  },
-};
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      client_id: process.env.ADOBE_CLIENT_ID,
+      client_secret: process.env.ADOBE_CLIENT_SECRET,
+      scope: "openid,AdobeID,DCAPI",
+    }),
+  });
+
+  const data = await res.json();
+  return data.access_token;
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).send("Only POST allowed");
+    return res.status(405).json({ error: "Only POST" });
   }
 
   try {
     const { file } = req.body;
+    if (!file) return res.status(400).json({ error: "No file" });
 
-    if (!file) {
-      return res.status(400).json({ error: "No file received" });
-    }
+    const token = await getToken();
 
-    // base64 -> buffer
-    const pdfBytes = Buffer.from(file, "base64");
+    const pdfBuffer = Buffer.from(file, "base64");
 
-    // load pdf
-    const pdfDoc = await PDFDocument.load(pdfBytes);
+    // 1. Upload + compress job başlat
+    const response = await fetch(
+      "https://cpf-ue1.adobe.io/operation/compresspdf",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/pdf",
+        },
+        body: pdfBuffer,
+      }
+    );
 
-    // optimize
-    const compressed = await pdfDoc.save({
-      useObjectStreams: true,
-      addDefaultPage: false,
-      objectsPerTick: 50,
+    const data = await response.json();
+
+    // 🔥 BURASI ÖNEMLİ
+    return res.status(200).json({
+      jobId: data.jobId,
     });
-
-    const output = Buffer.from(compressed);
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", "attachment; filename=compressed.pdf");
-
-    return res.send(output);
 
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      error: err.message,
-    });
+    return res.status(500).json({ error: err.message });
   }
 }
