@@ -3,7 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PDF Compressor</title>
+<title>PDF Compressor | PDFQuickTools</title>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+</script>
+
+<!-- pdf-lib -->
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
 <style>
 body {
@@ -12,16 +22,25 @@ body {
   background: #f3f4f6;
 }
 
-/* TOP BAR */
+/* TOPBAR (IMAGE → PDF İLE AYNI) */
 .topbar {
   background: #0f172a;
   padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .topbar a {
   color: white;
   text-decoration: none;
   font-weight: 600;
+  margin-left: 12px;
+}
+
+.menu {
+  display: flex;
+  gap: 12px;
 }
 
 /* CONTAINER */
@@ -42,6 +61,15 @@ input[type="file"] {
   margin: 20px 0;
 }
 
+/* QUALITY */
+.quality-box {
+  margin: 15px 0;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
 button {
   width: 100%;
   padding: 14px;
@@ -55,15 +83,6 @@ button {
 
 button:hover {
   background: #1d4ed8;
-}
-
-/* QUALITY */
-.quality-box {
-  margin: 15px 0;
-}
-
-input[type="range"] {
-  width: 100%;
 }
 
 #status {
@@ -82,11 +101,18 @@ a#download {
 
 <body>
 
-<!-- TOP BAR -->
+<!-- TOPBAR -->
 <div class="topbar">
-  <a href="/index.html">← Ana Sayfa</a>
+  <a href="/index.html">← Home</a>
+
+  <div class="menu">
+    <a href="/tools/merge.html">Merge</a>
+    <a href="/tools/pdf-to-jpg.html">PDF → JPG</a>
+    <a href="/tools/pdf-compress.html">Compress</a>
+  </div>
 </div>
 
+<!-- CONTENT -->
 <div class="container">
 
 <h2>PDF Compressor</h2>
@@ -102,19 +128,9 @@ a#download {
 
 <p id="status"></p>
 
-<a id="download">Download PDF</a>
+<a id="download">Download PDF ✔</a>
 
 </div>
-
-<!-- PDF.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-</script>
-
-<!-- pdf-lib -->
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
 <script>
 
@@ -186,7 +202,6 @@ async function compressPDF() {
   download.href = url;
   download.download = "compressed.pdf";
   download.style.display = "inline-block";
-  download.innerText = "Download PDF ✔";
 
   status.innerText = "Tamamlandı ✔";
 }
