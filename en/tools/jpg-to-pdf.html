@@ -1,1 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+<title>JPG → PDF | PDFQuickTools</title>
+
+<!-- ADSENSE -->
+<script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
+crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#f3f4f6;
+}
+
+.topbar{
+  background:#0f172a;
+  padding:12px 20px;
+}
+.topbar a{color:white;text-decoration:none;font-weight:600;}
+
+.container{
+  max-width:800px;
+  margin:40px auto;
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h2{text-align:center;}
+
+input{
+  width:100%;
+  margin-top:15px;
+}
+
+button{
+  width:100%;
+  margin-top:15px;
+  padding:12px;
+  border:none;
+  background:#2563eb;
+  color:white;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+button:hover{background:#1d4ed8;}
+
+#preview{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:15px;
+}
+
+#preview img{
+  width:100px;
+  height:100px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+#download{
+  display:none;
+  margin-top:15px;
+  text-align:center;
+  font-weight:600;
+  color:green;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a href="/index.html">← Home</a>
+</div>
+
+<div class="container">
+
+<h2>JPG → PDF Converter</h2>
+
+<input type="file" id="images" accept="image/*" multiple />
+
+<div id="preview"></div>
+
+<button onclick="convert()">Create PDF</button>
+
+<a id="download">Download PDF</a>
+
+</div>
+
+<script>
+const imagesInput = document.getElementById("images");
+const preview = document.getElementById("preview");
+
+imagesInput.addEventListener("change", () => {
+  preview.innerHTML = "";
+
+  Array.from(imagesInput.files).forEach(file => {
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    preview.appendChild(img);
+  });
+});
+
+async function convert(){
+  const files = imagesInput.files;
+  if(!files.length) return alert("Select images");
+
+  const { PDFDocument } = PDFLib;
+  const pdfDoc = await PDFDocument.create();
+
+  for(const file of files){
+    const bytes = await file.arrayBuffer();
+    const image = await pdfDoc.embedJpg(bytes).catch(async () => {
+      return await pdfDoc.embedPng(bytes);
+    });
+
+    const page = pdfDoc.addPage([image.width, image.height]);
+
+    page.drawImage(image, {
+      x:0,
+      y:0,
+      width:image.width,
+      height:image.height
+    });
+  }
+
+  const pdfBytes = await pdfDoc.save();
+
+  const blob = new Blob([pdfBytes], {type:"application/pdf"});
+  const url = URL.createObjectURL(blob);
+
+  const download = document.getElementById("download");
+  download.href = url;
+  download.download = "images.pdf";
+  download.innerText = "Download PDF ✔";
+  download.style.display = "block";
+}
+</script>
+
+</body>
+</html>
