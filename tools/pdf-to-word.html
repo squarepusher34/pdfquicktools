@@ -93,7 +93,7 @@ function setStatus(t){
   document.getElementById("status").innerText = t;
 }
 
-// 🔑 PERSONAL ACCESS TOKEN (BURAYA KENDİ KEYİNİ KOY)
+// 🔑 PERSONAL ACCESS TOKEN
 const API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNWQyOWEyNzk2MWUwNzNkZmViYjZhN2ZmOTQyMTU1NWQ1ZDUzOTFkMzg5M2U5ZDQyYmY2YTRjNWVjNmQ4NTlhZGU0ZWNlMTg0NzcyMWVlY2IiLCJpYXQiOjE3ODE2OTA4MDEuNTkwNDc5LCJuYmYiOjE3ODE2OTA4MDEuNTkwNDgxLCJleHAiOjQ5MzczNjQ0MDEuNTY3OTIxLCJzdWIiOiI3NjAwNTkyOSIsInNjb3BlcyI6WyJ0YXNrLnJlYWQiLCJ0YXNrLndyaXRlIl19.VDQdFLXNgfF0xM31UMDkWCJfC7zIITcSXCmhvXVk1wehlkQBKyZfFOHzQkKzUTzTgBN-oMdGUU9wSRZmw5LivyLH3MTqmlrdKjcEx-xv_YycVk6pqI6i-3b9Ms8N-e9z5pG2WsiKP5cS3d5fZB8UMJr1Ur6kmJgGZ4TUccwvvr_4btZd1HMG6KY2LK6y0DXrhmssiEuz5k7uvKCqWHLktC7Ww5-GXUda-IOSdePFbMsHB13bxcCf6QxTSAVUwxlrwZSmJUV1CUTLDfetZi0bBGS_g71BmLSv2pZBI6ekO6fEGs91ASQR8iJzM1NtR0ZeQeQT8ZbnnH6nyj8Gy1KQyh2RP6hT6dl2iyoEsp8VIkO62PXTbpI9DF1IzPZgVa80oEoKy11UZTjVP9hnoiuGwnQOOPXlOjZhT1JnsQWjEb1vuWpG3soZGR66rsN1mdsYg5Sk61JWOm596stuxVU4AHtb7Mdc3Yt9UL-T1dhF7Ky8xz9S2_jaeeVQsa89G72MpgLWIWwhmDmr7kbYD1W29tRjIvU-cBrqa9DyWaHC7I0LJB3u0evVlndU6Ml2DKzDe0xa5raLtQMEMvAnJSqWg9RwaM8ftwWY60PuxJT9okDMRI_H5BwJoayLX75qVz7l2Z-keRY40ZLeuOx8FWnjN4dmdF7jTo8uiX2hEiKzNvs";
 
 async function convert(){
@@ -147,38 +147,38 @@ async function convert(){
 
     const uploadTask = job.data.tasks.find(t => t.name === "import-1");
 
-    if(!uploadTask || !uploadTask.result || !uploadTask.result.form){
+    if(!uploadTask?.result?.form){
       console.log(uploadTask);
-      setStatus("Upload URL alınamadı (console bak)");
+      setStatus("Upload form yok (console bak)");
       return;
     }
 
     setStatus("Dosya yükleniyor...");
 
-    setStatus("Dosya yükleniyor...");
+    // 2) UPLOAD (FIXED - PARAMETERS INCLUDED)
+    const formData = new FormData();
 
-const formData = new FormData();
+    const fields = uploadTask.result.form.parameters;
 
-// ⚠️ SADECE file DEĞİL, tüm form fields lazım
-Object.keys(uploadTask.result.form.parameters).forEach(key => {
-  formData.append(key, uploadTask.result.form.parameters[key]);
-});
+    for(const key in fields){
+      formData.append(key, fields[key]);
+    }
 
-formData.append("file", file);
+    formData.append("file", file);
 
-const uploadRes = await fetch(uploadTask.result.form.url, {
-  method: "POST",
-  body: formData
-});
+    const uploadRes = await fetch(uploadTask.result.form.url, {
+      method: "POST",
+      body: formData
+    });
 
-console.log("UPLOAD STATUS:", uploadRes.status);
+    console.log("UPLOAD STATUS:", uploadRes.status);
 
-if(!uploadRes.ok){
-  const text = await uploadRes.text();
-  console.log("UPLOAD ERROR:", text);
-  setStatus("Upload başarısız (console bak)");
-  return;
-}
+    if(!uploadRes.ok){
+      const errText = await uploadRes.text();
+      console.log("UPLOAD ERROR:", errText);
+      setStatus("Upload başarısız (console bak)");
+      return;
+    }
 
     setStatus("Dönüştürülüyor...");
 
@@ -220,7 +220,7 @@ if(!uploadRes.ok){
     console.error(err);
     setStatus("HATA oluştu (console bak)");
   }
-
+}
 
 </script>
 
