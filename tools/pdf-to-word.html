@@ -93,6 +93,9 @@ function setStatus(t){
   document.getElementById("status").innerText = t;
 }
 
+// 🔑 CLOUDCONVERT PERSONAL ACCESS TOKEN
+const API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmZiYWU4YzM0OTMwYWQ4ZWJmMjhhN2M4NTYzMjMzNzEzOTAxZjk1MDgwYjdiYjVhZDNhYmE1ZGQ1ZTFjNTUyZDQ1ZDJlMzBiMmZiZmEzYTciLCJpYXQiOjE3ODE2ODk5NDMuMzQyMDM1LCJuYmYiOjE3ODE2ODk5NDMuMzQyMDM3LCJleHAiOjQ5MzczNjM1NDMuMzM2MjA0LCJzdWIiOiI3NjAwNTkyOSIsInNjb3BlcyI6WyJ0YXNrLnJlYWQiLCJ0YXNrLndyaXRlIl19.TEF_1c6elIB_zLjy1sKHmw4g_uVDZ3C_JwlS0obSIBUecl0Zcn3_tU1I7Y3gD57v2tV1N3b8RdrF_Kd-XN61po9jPaj_kbChaUgtkOVPR2jd1a__V23EV-Sy9mRQHIJWNyLB2uGv0s4jeqD4yqKp0kOqXV9MB39bYa2Rh0XoGXPl_K9D7C9bSKsBaNKXfR1kVfT_V8gcsAyK2eMkBFCKYsOa3K31pmGJoOF02P2laCcVPJgjmCfejj2IODeiI8RA_nDkW4sqrSHBj8DFvfIOOleNvssWxtcSkgaFMoBQVrHA58rhNLlQ7nETHj90osVumMoFrX8ehA2mPbjCe0HPJHaUoKejE8s-OgDGAVGaGKNUg2o2Zb76ns3glIM1sgsvBN21vQdWaQqngiU3U4dmXf1pd0Fm-aE83yjV9w3wWh17CfDI1bi0ZcbDfck7QT_Vwrj9POqVybdIClxnnf0ZK9iy3J2yeoOp2LGl65T7NmUvltoyDxBVHbdiyUQUggMwb7L1pakeLTM-Uqow7Qi5KpTu48ZbILNC1F12A9rL8wHvkoD9ECi8CK0BFmctbD4xIkAcSNlpapWvM3uhzjEbcfvkh29q3gMAKfCASM0jfbJvIJUcKH_M74izsWKolUcZ-uqc4dOtdpBYGQd3yG4fNCbVzCJWvoUvzgD5zgEwduA";
+
 async function convert(){
 
   const file = document.getElementById("file").files[0];
@@ -101,9 +104,6 @@ async function convert(){
     alert("PDF seçmelisin");
     return;
   }
-
-  // 🔑 BURAYA GERÇEK CLOUDCONVERT API KEY
-  const API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmZiYWU4YzM0OTMwYWQ4ZWJmMjhhN2M4NTYzMjMzNzEzOTAxZjk1MDgwYjdiYjVhZDNhYmE1ZGQ1ZTFjNTUyZDQ1ZDJlMzBiMmZiZmEzYTciLCJpYXQiOjE3ODE2ODk5NDMuMzQyMDM1LCJuYmYiOjE3ODE2ODk5NDMuMzQyMDM3LCJleHAiOjQ5MzczNjM1NDMuMzM2MjA0LCJzdWIiOiI3NjAwNTkyOSIsInNjb3BlcyI6WyJ0YXNrLnJlYWQiLCJ0YXNrLndyaXRlIl19.TEF_1c6elIB_zLjy1sKHmw4g_uVDZ3C_JwlS0obSIBUecl0Zcn3_tU1I7Y3gD57v2tV1N3b8RdrF_Kd-XN61po9jPaj_kbChaUgtkOVPR2jd1a__V23EV-Sy9mRQHIJWNyLB2uGv0s4jeqD4yqKp0kOqXV9MB39bYa2Rh0XoGXPl_K9D7C9bSKsBaNKXfR1kVfT_V8gcsAyK2eMkBFCKYsOa3K31pmGJoOF02P2laCcVPJgjmCfejj2IODeiI8RA_nDkW4sqrSHBj8DFvfIOOleNvssWxtcSkgaFMoBQVrHA58rhNLlQ7nETHj90osVumMoFrX8ehA2mPbjCe0HPJHaUoKejE8s-OgDGAVGaGKNUg2o2Zb76ns3glIM1sgsvBN21vQdWaQqngiU3U4dmXf1pd0Fm-aE83yjV9w3wWh17CfDI1bi0ZcbDfck7QT_Vwrj9POqVybdIClxnnf0ZK9iy3J2yeoOp2LGl65T7NmUvltoyDxBVHbdiyUQUggMwb7L1pakeLTM-Uqow7Qi5KpTu48ZbILNC1F12A9rL8wHvkoD9ECi8CK0BFmctbD4xIkAcSNlpapWvM3uhzjEbcfvkh29q3gMAKfCASM0jfbJvIJUcKH_M74izsWKolUcZ-uqc4dOtdpBYGQd3yG4fNCbVzCJWvoUvzgD5zgEwduA";
 
   try {
 
@@ -136,10 +136,10 @@ async function convert(){
 
     const job = await jobRes.json();
 
-    console.log("JOB:", job);
+    console.log("JOB RESPONSE:", job);
 
     if(!job.data){
-      setStatus("Job oluşturulamadı (console bak)");
+      setStatus("Job oluşmadı (console bak)");
       return;
     }
 
