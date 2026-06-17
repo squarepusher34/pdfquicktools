@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       "https://api.cloudconvert.com/v2/jobs/" + id,
       {
         headers: {
-          Authorization: "Bearer " + process.env.CLOUDCONVERT_KEY,
+          Authorization: "Bearer " + process.env.cloude,
         },
       }
     );
