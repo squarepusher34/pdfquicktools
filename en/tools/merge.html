@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,7 @@
     <title>Merge PDF - PDFQuickTools</title>
     <meta name="description" content="Free PDF merge tool" />
 
-    <!-- GOOGLE FONTS CDN DÜZELTİLDİ -->
+    <!-- GOOGLE FONTS CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,13 +16,15 @@
       rel="stylesheet"
     />
 
-    <!-- ADSENSE & PDF-LIB KÜTÜPHANELERİ DÜZELTİLDİ -->
+    <!-- ADSENSE -->
     <script
       async
-      src="https://googlesyndication.com"
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891"
       crossorigin="anonymous"
     ></script>
-    <script src="https://unpkg.com"></script>
+
+    <!-- pdf-lib -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
     <style>
       /* ---------- tokens ---------- */
@@ -320,11 +322,10 @@
 
         <button onclick="mergePDF()">Merge PDFs</button>
 
-        <!-- EKSİK OLAN ALT KISIM VE JAVASCRIPT MANTIĞI EKLENDİ -->
         <div class="perforation"></div>
 
         <p class="note">Files are processed in your browser, nothing is uploaded to a server.</p>
-        
+
         <a class="back" href="/">← Home</a>
       </div>
     </div>
