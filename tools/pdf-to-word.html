@@ -154,11 +154,86 @@ async function convert(){
     let resultUrl = null;
 
     while(!resultUrl){
-      const res = await fetch("/api/job", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: jobId, action: "check" })
-      });
+          const job = await jobRes.json();
+
+    if(!job.data){
+      throw new Error(job.error?.message || "Job oluşturulamadı");
+    }
+
+    const jobId = job.data.id;
+    const uploadTask = job.data.tasks.find(t => t.name === "import-1");
+
+    setStatus("Dosya yükleniyor...");
+
+    // 2) UPLOAD
+    const formData = new FormData();
+
+    Object.entries(uploadTask.result.form.parameters).forEach(([k,v])=>{
+      formData.append(k,v);
+    });
+
+    formData.append("file", file);
+
+    const uploadRes = await fetch(uploadTask.result.form.url, {
+      method: "POST",
+      body: formData
+    });
+
+    if(!uploadRes.ok){
+      throw new Error("Upload failed");
+    }
+
+    setStatus("Dönüştürülüyor...");
+
+    // 3) WAIT RESULT
+    let resultUrl = null;
+
+  while (!resultUrl) {
+  const res = await fetch("/api/job-check?jobId=" + jobId);
+  const data = await res.json();
+
+  const exportTask = data?.data?.tasks?.find(
+    (t) => t.name === "export-1"
+  );
+
+  if (
+    exportTask?.status === "finished" &&
+    exportTask?.result?.files?.length
+  ) {
+    resultUrl = exportTask.result.files[0].url;
+  }
+
+  await new Promise((r) => setTimeout(r, 2000));
+}
+
+      const data = await res.json();
+
+      const exportTask = data.data.tasks.find(t => t.name === "export-1");
+
+      if(exportTask?.status === "finished"){
+        resultUrl = exportTask.result.files[0].url;
+      }
+
+      await new Promise(r => setTimeout(r, 2000));
+    }
+
+    setStatus("İndiriliyor...");
+
+    const a = document.createElement("a");
+    a.href = resultUrl;
+    a.download = "donusturuldu.docx";
+    a.click();
+
+    setStatus("Tamamlandı ✔");
+    btn.disabled = false;
+
+  } catch(err){
+    console.error(err);
+    setStatus("Hata: " + err.message);
+    btn.disabled = false;
+  }
+}
+</script>
 
       const data = await res.json();
 
