@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDF to Word - PDFQuickTools</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#f3f4f6;
+  color:#111;
+}
+
+header{
+  background:#0f172a;
+  color:white;
+  padding:18px;
+  text-align:center;
+  font-weight:600;
+}
+
+.container{
+  max-width:800px;
+  margin:40px auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+h1{
+  margin-top:0;
+}
+
+input{
+  margin:20px 0;
+  padding:15px;
+  width:100%;
+  border:2px dashed #cbd5e1;
+  border-radius:12px;
+  background:#fafafa;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+.note{
+  margin-top:15px;
+  font-size:13px;
+  color:#6b7280;
+}
+
+.back{
+  display:block;
+  margin-top:20px;
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:500;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+PDFQuickTools • PDF to Word
+</header>
+
+<div class="container">
+  <div class="card">
+
+    <h1>PDF → Word Dönüştürücü</h1>
+    <p>PDF dosyanı Word formatına çevir (metin bazlı)</p>
+
+    <input type="file" id="file" accept="application/pdf">
+
+    <button onclick="convert()">Word'e Dönüştür</button>
+
+    <p class="note">Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</p>
+
+    <a class="back" href="/">← Ana sayfa</a>
+
+  </div>
+</div>
+
+<script>
+async function convert(){
+
+  const file = document.getElementById("file").files[0];
+  if(!file){
+    alert("PDF seçmelisin");
+    return;
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+  let text = "";
+
+  for(let i = 1; i <= pdf.numPages; i++){
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const strings = content.items.map(item => item.str).join(" ");
+    text += strings + "\n\n";
+  }
+
+  const doc = new docx.Document({
+    sections: [{
+      children: [
+        new docx.Paragraph({
+          children: [new docx.TextRun(text)]
+        })
+      ]
+    }]
+  });
+
+  const blob = await docx.Packer.toBlob(doc);
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "pdf-to-word.docx";
+  a.click();
+}
+</script>
+
+</body>
+</html>
