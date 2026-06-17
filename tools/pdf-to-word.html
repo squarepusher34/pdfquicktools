@@ -116,109 +116,93 @@ function setStatus(t){
 //
 // 🔥 SMART LAYOUT EXTRACTOR (ASIL FIX)
 //
-async function extractSmart(pdf){
+async function convert(){
 
-  let finalText = "";
-
-  for(let p = 1; p <= pdf.numPages; p++){
-
-    const page = await pdf.getPage(p);
-    const content = await page.getTextContent();
-
-    // sort by Y then X (critical)
-    const items = content.items
-      .map(i => ({
-        text: i.str,
-        x: i.transform[4],
-        y: i.transform[5]
-      }))
-      .sort((a,b) => {
-        if (Math.abs(a.y - b.y) > 5) return b.y - a.y;
-        return a.x - b.x;
-      });
-
-    let lastY = null;
-    let line = "";
-
-    for(const item of items){
-
-      if(lastY !== null && Math.abs(item.y - lastY) > 6){
-        finalText += line.trim() + "\n";
-        line = "";
-      }
-
-      line += item.text + " ";
-      lastY = item.y;
-    }
-
-    finalText += line.trim() + "\n\n";
+  const file = document.getElementById("file").files[0];
+  if(!file){
+    alert("PDF seçmelisin");
+    return;
   }
 
-  return finalText.trim();
-}
-
-//
-// 🔥 WORD BUILDER
-//
-function buildDoc(text){
-
-  const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
-
-  return lines.map(line => {
-
-    const isHeading =
-      line.length < 60 &&
-      /^[A-ZÇĞİÖŞÜ0-9 ]+$/.test(line);
-
-    return new Paragraph({
-      children: [
-        new TextRun({
-          text: line,
-          bold: isHeading
-        })
-      ]
-    });
-
-  });
-}
-
-async function convert(){
+  const API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmZiYWU4YzM0OTMwYWQ4ZWJmMjhhN2M4NTYzMjMzNzEzOTAxZjk1MDgwYjdiYjVhZDNhYmE1ZGQ1ZTFjNTUyZDQ1ZDJlMzBiMmZiZmEzYTciLCJpYXQiOjE3ODE2ODk5NDMuMzQyMDM1LCJuYmYiOjE3ODE2ODk5NDMuMzQyMDM3LCJleHAiOjQ5MzczNjM1NDMuMzM2MjA0LCJzdWIiOiI3NjAwNTkyOSIsInNjb3BlcyI6WyJ0YXNrLnJlYWQiLCJ0YXNrLndyaXRlIl19.TEF_1c6elIB_zLjy1sKHmw4g_uVDZ3C_JwlS0obSIBUecl0Zcn3_tU1I7Y3gD57v2tV1N3b8RdrF_Kd-XN61po9jPaj_kbChaUgtkOVPR2jd1a__V23EV-Sy9mRQHIJWNyLB2uGv0s4jeqD4yqKp0kOqXV9MB39bYa2Rh0XoGXPl_K9D7C9bSKsBaNKXfR1kVfT_V8gcsAyK2eMkBFCKYsOa3K31pmGJoOF02P2laCcVPJgjmCfejj2IODeiI8RA_nDkW4sqrSHBj8DFvfIOOleNvssWxtcSkgaFMoBQVrHA58rhNLlQ7nETHj90osVumMoFrX8ehA2mPbjCe0HPJHaUoKejE8s-OgDGAVGaGKNUg2o2Zb76ns3glIM1sgsvBN21vQdWaQqngiU3U4dmXf1pd0Fm-aE83yjV9w3wWh17CfDI1bi0ZcbDfck7QT_Vwrj9POqVybdIClxnnf0ZK9iy3J2yeoOp2LGl65T7NmUvltoyDxBVHbdiyUQUggMwb7L1pakeLTM-Uqow7Qi5KpTu48ZbILNC1F12A9rL8wHvkoD9ECi8CK0BFmctbD4xIkAcSNlpapWvM3uhzjEbcfvkh29q3gMAKfCASM0jfbJvIJUcKH_M74izsWKolUcZ-uqc4dOtdpBYGQd3yG4fNCbVzCJWvoUvzgD5zgEwduA";
 
   try {
 
-    const file = document.getElementById("file").files[0];
+    setStatus("Job oluşturuluyor...");
 
-    if(!file){
-      alert("PDF seçmelisin");
-      return;
-    }
-
-    setStatus("PDF analiz ediliyor...");
-
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-
-    let text = await extractSmart(pdf);
-
-    if(!text || text.length < 10){
-      setStatus("Metin zayıf çıktı (PDF image olabilir)");
-    }
-
-    setStatus("Word oluşturuluyor...");
-
-    const paragraphs = buildDoc(text);
-
-    const doc = new Document({
-      sections: [{
-        children: paragraphs
-      }]
+    // 1) JOB CREATE
+    const jobRes = await fetch("https://api.cloudconvert.com/v2/jobs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + API_KEY
+      },
+      body: JSON.stringify({
+        tasks: {
+          "import-1": {
+            operation: "import/upload"
+          },
+          "convert-1": {
+            operation: "convert",
+            input: "import-1",
+            output_format: "docx"
+          },
+          "export-1": {
+            operation: "export/url",
+            input: "convert-1"
+          }
+        }
+      })
     });
 
-    const blob = await Packer.toBlob(doc);
+    const job = await jobRes.json();
+    const jobId = job.data.id;
 
-    const url = URL.createObjectURL(blob);
+    // upload task al
+    const uploadTask = job.data.tasks.find(t => t.name === "import-1");
+
+    setStatus("Dosya yükleniyor...");
+
+    // 2) UPLOAD FILE
+    const form = new FormData();
+    form.append("file", file);
+
+    await fetch(uploadTask.result.form.url, {
+      method: "POST",
+      body: form
+    });
+
+    setStatus("Dönüştürülüyor...");
+
+    // 3) WAIT JOB
+    let resultUrl = null;
+
+    while(!resultUrl){
+
+      const check = await fetch(
+        "https://api.cloudconvert.com/v2/jobs/" + jobId,
+        {
+          headers: {
+            "Authorization": "Bearer " + API_KEY
+          }
+        }
+      );
+
+      const data = await check.json();
+
+      const exportTask = data.data.tasks.find(t => t.name === "export-1");
+
+      if(exportTask.status === "finished"){
+        resultUrl = exportTask.result.files[0].url;
+      }
+
+      await new Promise(r => setTimeout(r, 2000));
+    }
+
+    setStatus("İndiriliyor...");
+
     const a = document.createElement("a");
-    a.href = url;
+    a.href = resultUrl;
     a.download = "pdf-to-word.docx";
     a.click();
 
@@ -226,8 +210,9 @@ async function convert(){
 
   } catch(err){
     console.error(err);
-    setStatus("Hata oluştu (console bak)");
+    setStatus("Hata oluştu");
   }
+}
 }
 </script>
 
