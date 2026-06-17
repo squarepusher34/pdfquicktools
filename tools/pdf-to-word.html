@@ -155,14 +155,30 @@ async function convert(){
 
     setStatus("Dosya yükleniyor...");
 
-    // 2) UPLOAD FILE
-    const form = new FormData();
-    form.append("file", file);
+    setStatus("Dosya yükleniyor...");
 
-    await fetch(uploadTask.result.form.url, {
-      method: "POST",
-      body: form
-    });
+const formData = new FormData();
+
+// ⚠️ SADECE file DEĞİL, tüm form fields lazım
+Object.keys(uploadTask.result.form.parameters).forEach(key => {
+  formData.append(key, uploadTask.result.form.parameters[key]);
+});
+
+formData.append("file", file);
+
+const uploadRes = await fetch(uploadTask.result.form.url, {
+  method: "POST",
+  body: formData
+});
+
+console.log("UPLOAD STATUS:", uploadRes.status);
+
+if(!uploadRes.ok){
+  const text = await uploadRes.text();
+  console.log("UPLOAD ERROR:", text);
+  setStatus("Upload başarısız (console bak)");
+  return;
+}
 
     setStatus("Dönüştürülüyor...");
 
