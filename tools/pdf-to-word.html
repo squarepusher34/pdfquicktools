@@ -6,8 +6,11 @@
 
 <title>PDF to Word - PDFQuickTools</title>
 
+<!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
+
+<!-- DOCX -->
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
 
 <style>
 body{
@@ -37,10 +40,6 @@ header{
   border-radius:16px;
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
   text-align:center;
-}
-
-h1{
-  margin-top:0;
 }
 
 input{
@@ -93,14 +92,13 @@ PDFQuickTools • PDF to Word
 <div class="container">
   <div class="card">
 
-    <h1>PDF → Word Dönüştürücü</h1>
-    <p>PDF dosyanı Word formatına çevir (metin bazlı)</p>
+    <h1>PDF → Word</h1>
 
     <input type="file" id="file" accept="application/pdf">
 
     <button onclick="convert()">Word'e Dönüştür</button>
 
-    <p class="note">Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</p>
+    <p class="note">Sadece metin çevirir (layout korunmaz)</p>
 
     <a class="back" href="/">← Ana sayfa</a>
 
@@ -108,9 +106,14 @@ PDFQuickTools • PDF to Word
 </div>
 
 <script>
+// PDF worker fix
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
 async function convert(){
 
   const file = document.getElementById("file").files[0];
+
   if(!file){
     alert("PDF seçmelisin");
     return;
@@ -128,17 +131,20 @@ async function convert(){
     text += strings + "\n\n";
   }
 
-  const doc = new docx.Document({
+  // docx namespace fix
+  const { Document, Packer, Paragraph, TextRun } = window.docx;
+
+  const doc = new Document({
     sections: [{
       children: [
-        new docx.Paragraph({
-          children: [new docx.TextRun(text)]
+        new Paragraph({
+          children: [new TextRun(text)]
         })
       ]
     }]
   });
 
-  const blob = await docx.Packer.toBlob(doc);
+  const blob = await Packer.toBlob(doc);
 
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
