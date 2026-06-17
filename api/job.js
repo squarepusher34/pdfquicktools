@@ -8,7 +8,7 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + process.env.CLOUDCONVERT_KEY
+        "Authorization: "Bearer " + process.env.cloude
       },
       body: JSON.stringify(req.body)
     });
