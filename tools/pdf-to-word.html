@@ -12,6 +12,9 @@
 <!-- DOCX -->
 <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
 
+<!-- OCR -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
 <style>
 body{
   margin:0;
@@ -60,7 +63,6 @@ button{
   border-radius:12px;
   font-size:16px;
   cursor:pointer;
-  transition:0.2s;
 }
 
 button:hover{
@@ -73,12 +75,10 @@ button:hover{
   color:#6b7280;
 }
 
-.back{
-  display:block;
-  margin-top:20px;
-  text-decoration:none;
+.status{
+  margin-top:10px;
+  font-size:13px;
   color:#2563eb;
-  font-weight:500;
 }
 </style>
 </head>
@@ -86,59 +86,106 @@ button:hover{
 <body>
 
 <header>
-PDFQuickTools • PDF to Word
+PDFQuickTools • Smart PDF to Word
 </header>
 
 <div class="container">
   <div class="card">
 
-    <h1>PDF → Word</h1>
+    <h1>PDF → Word (Smart)</h1>
 
     <input type="file" id="file" accept="application/pdf">
 
-    <button onclick="convert()">Word'e Dönüştür</button>
+    <button onclick="convert()">Dönüştür</button>
 
-    <p class="note">Sadece metin çevirir (layout korunmaz)</p>
+    <div class="status" id="status"></div>
 
-    <a class="back" href="/">← Ana sayfa</a>
+    <p class="note">
+      Metin varsa direkt çevirir, yoksa OCR kullanır
+    </p>
 
   </div>
 </div>
 
 <script>
-// PDF worker fix
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-async function convert(){
+const { Document, Packer, Paragraph, TextRun } = window.docx;
 
-  const file = document.getElementById("file").files[0];
+function setStatus(t){
+  document.getElementById("status").innerText = t;
+}
 
-  if(!file){
-    alert("PDF seçmelisin");
-    return;
-  }
-
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-
+async function extractText(pdf){
   let text = "";
 
-  for(let i = 1; i <= pdf.numPages; i++){
+  for(let i=1;i<=pdf.numPages;i++){
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
     const strings = content.items.map(item => item.str).join(" ");
     text += strings + "\n\n";
   }
 
-  // docx namespace fix
-  const { Document, Packer, Paragraph, TextRun } = window.docx;
+  return text.trim();
+}
+
+async function ocrPage(page){
+  const viewport = page.getViewport({ scale: 2 });
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+
+  await page.render({
+    canvasContext: ctx,
+    viewport: viewport
+  }).promise;
+
+  const img = canvas.toDataURL("image/png");
+
+  const result = await Tesseract.recognize(img, "eng+tur");
+
+  return result.data.text;
+}
+
+async function convert(){
+
+  const file = document.getElementById("file").files[0];
+  if(!file){
+    alert("PDF seçmelisin");
+    return;
+  }
+
+  setStatus("PDF okunuyor...");
+
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+  let text = await extractText(pdf);
+
+  // 🔥 fallback OCR
+  if(!text || text.length < 10){
+    setStatus("OCR çalışıyor... (tarama PDF)");
+
+    text = "";
+
+    for(let i=1;i<=pdf.numPages;i++){
+      const page = await pdf.getPage(i);
+      const pageText = await ocrPage(page);
+      text += pageText + "\n\n";
+    }
+  }
+
+  setStatus("Word oluşturuluyor...");
 
   const doc = new Document({
     sections: [{
       children: [
         new Paragraph({
-          children: [new TextRun(text)]
+          children: [new TextRun(text || "Metin bulunamadı")]
         })
       ]
     }]
@@ -151,6 +198,8 @@ async function convert(){
   a.href = url;
   a.download = "pdf-to-word.docx";
   a.click();
+
+  setStatus("Bitti ✔");
 }
 </script>
 
