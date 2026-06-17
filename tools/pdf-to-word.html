@@ -2,124 +2,102 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#15172b" />
-
-<title>PDF'ten Word'e - PDFQuickTools</title>
-<meta name="description" content="PDF dosyanı ücretsiz Word'e çevir" />
-
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PDF → Word</title>
 
 <style>
-:root {
-  --ink:#15172b;
-  --paper:#faf7f2;
-  --card:#fff;
-  --coral:#ff5a4e;
-  --coral-deep:#df4538;
-  --muted:#716c63;
-  --border:#e8e2d8;
-  --display:"Fraunces",serif;
-  --body:"Inter",sans-serif;
-  --mono:"IBM Plex Mono",monospace;
-  --container:680px;
-}
-
 body{
   margin:0;
-  font-family:var(--body);
-  background:var(--paper);
-  color:var(--ink);
+  font-family:system-ui;
+  background:#faf7f2;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-header{
-  position:sticky;
-  top:0;
-  background:rgba(21,23,43,.95);
-  color:#fff;
-  padding:14px 24px;
-}
-
-.container{
-  max-width:var(--container);
-  margin:40px auto;
-  padding:0 24px;
-}
-
-.ticket{
-  background:var(--card);
-  padding:40px 30px;
-  border-radius:12px;
+.box{
+  width:420px;
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.1);
 }
 
 h1{
-  font-family:var(--display);
-  text-align:center;
+  font-size:22px;
+  margin-bottom:10px;
+}
+
+p{
+  color:#666;
+  font-size:14px;
 }
 
 input{
   width:100%;
-  padding:40px;
-  border:2px dashed var(--border);
-  border-radius:12px;
-  margin-top:20px;
+  margin:15px 0;
 }
 
 button{
   width:100%;
-  padding:16px;
-  margin-top:20px;
-  background:linear-gradient(160deg,var(--coral),var(--coral-deep));
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  background:#ff5a4e;
   color:#fff;
-  border:none;
-  border-radius:12px;
+  font-weight:600;
   cursor:pointer;
 }
 
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
 .status{
-  margin-top:16px;
-  text-align:center;
-  font-family:var(--mono);
+  margin-top:15px;
+  font-size:13px;
+  color:#333;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  PDFQuickTools
-</header>
+<div class="box">
+  <h1>PDF → Word</h1>
+  <p>PDF seç ve Word’e çevir</p>
 
-<div class="container">
-  <div class="ticket">
+  <input type="file" id="file" accept="application/pdf"/>
 
-    <h1>PDF → Word</h1>
+  <button id="btn" onclick="convert()">Dönüştür</button>
 
-    <input type="file" id="file" accept="application/pdf" />
-
-    <button onclick="convert()">Dönüştür</button>
-
-    <div class="status" id="status"></div>
-
-  </div>
+  <div class="status" id="status"></div>
 </div>
 
 <script>
+const statusEl = document.getElementById("status");
+const btn = document.getElementById("btn");
+
 function setStatus(t){
-  document.getElementById("status").innerText = t;
+  statusEl.innerText = t;
 }
 
-async function convert() {
-
+async function convert(){
   const file = document.getElementById("file").files[0];
-  if (!file) return alert("PDF seç");
+
+  if(!file){
+    alert("PDF seç");
+    return;
+  }
+
+  btn.disabled = true;
 
   try {
-    setStatus("İşlem başlıyor...");
+    setStatus("Job oluşturuluyor...");
 
-    // 1) VERCEL API CALL
+    // 1) CREATE JOB (Vercel API)
     const jobRes = await fetch("/api/job", {
       method: "POST",
       headers: {
@@ -142,11 +120,9 @@ async function convert() {
     });
 
     const job = await jobRes.json();
-    console.log(job);
 
-    if (!job.data) {
-      setStatus("Job hatası");
-      return;
+    if(!job.data){
+      throw new Error(job.error?.message || "Job oluşturulamadı");
     }
 
     const jobId = job.data.id;
@@ -155,66 +131,60 @@ async function convert() {
     setStatus("Dosya yükleniyor...");
 
     // 2) UPLOAD
-    const form = new FormData();
-    const params = uploadTask.result.form.parameters || {};
+    const formData = new FormData();
 
-    Object.entries(params).forEach(([k,v])=>{
-      form.append(k,v);
+    Object.entries(uploadTask.result.form.parameters).forEach(([k,v])=>{
+      formData.append(k,v);
     });
 
-    form.append("file", file);
+    formData.append("file", file);
 
     const uploadRes = await fetch(uploadTask.result.form.url, {
       method: "POST",
-      body: form
+      body: formData
     });
 
-    if (!uploadRes.ok) {
-      setStatus("Upload hata");
-      return;
+    if(!uploadRes.ok){
+      throw new Error("Upload failed");
     }
 
     setStatus("Dönüştürülüyor...");
 
-    // 3) WAIT
+    // 3) WAIT RESULT
     let resultUrl = null;
 
     while(!resultUrl){
-      const check = await fetch("/api/job", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({}) // (sadece placeholder)
+      const res = await fetch("/api/job", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: jobId, action: "check" })
       });
 
-      const r = await fetch("https://api.cloudconvert.com/v2/jobs/" + jobId, {
-        headers:{
-          Authorization:"Bearer " + "USE_SERVER_SIDE_ONLY"
-        }
-      });
+      const data = await res.json();
 
-      const data = await r.json();
+      const exportTask = data.data.tasks.find(t => t.name === "export-1");
 
-      const exp = data.data.tasks.find(t => t.name === "export-1");
-
-      if(exp && exp.status === "finished"){
-        resultUrl = exp.result.files[0].url;
+      if(exportTask?.status === "finished"){
+        resultUrl = exportTask.result.files[0].url;
       }
 
-      await new Promise(r => setTimeout(r,2000));
+      await new Promise(r => setTimeout(r, 2000));
     }
 
     setStatus("İndiriliyor...");
 
     const a = document.createElement("a");
     a.href = resultUrl;
-    a.download = "converted.docx";
+    a.download = "donusturuldu.docx";
     a.click();
 
-    setStatus("Bitti ✔");
+    setStatus("Tamamlandı ✔");
+    btn.disabled = false;
 
-  } catch(e){
-    console.error(e);
-    setStatus("HATA");
+  } catch(err){
+    console.error(err);
+    setStatus("Hata: " + err.message);
+    btn.disabled = false;
   }
 }
 </script>
