@@ -6,12 +6,6 @@
 
 <title>PDF to Word - PDFQuickTools</title>
 
-<!-- PDF.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
-<!-- DOCX -->
-<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
-
 <style>
 body{
   margin:0;
@@ -70,19 +64,13 @@ button:hover{
   font-size:13px;
   color:#2563eb;
 }
-
-.note{
-  margin-top:15px;
-  font-size:13px;
-  color:#6b7280;
-}
 </style>
 </head>
 
 <body>
 
 <header>
-PDFQuickTools • PDF to Word (Smart)
+PDFQuickTools • PDF → Word PRO
 </header>
 
 <div class="container">
@@ -96,41 +84,32 @@ PDFQuickTools • PDF to Word (Smart)
 
     <div class="status" id="status"></div>
 
-    <p class="note">
-      Layout-aware conversion (daha düzgün Word çıktısı)
-    </p>
-
   </div>
 </div>
 
 <script>
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-const { Document, Packer, Paragraph, TextRun } = window.docx;
 
 function setStatus(t){
   document.getElementById("status").innerText = t;
 }
 
-//
-// 🔥 SMART LAYOUT EXTRACTOR (ASIL FIX)
-//
 async function convert(){
 
   const file = document.getElementById("file").files[0];
+
   if(!file){
     alert("PDF seçmelisin");
     return;
   }
 
-  const API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmZiYWU4YzM0OTMwYWQ4ZWJmMjhhN2M4NTYzMjMzNzEzOTAxZjk1MDgwYjdiYjVhZDNhYmE1ZGQ1ZTFjNTUyZDQ1ZDJlMzBiMmZiZmEzYTciLCJpYXQiOjE3ODE2ODk5NDMuMzQyMDM1LCJuYmYiOjE3ODE2ODk5NDMuMzQyMDM3LCJleHAiOjQ5MzczNjM1NDMuMzM2MjA0LCJzdWIiOiI3NjAwNTkyOSIsInNjb3BlcyI6WyJ0YXNrLnJlYWQiLCJ0YXNrLndyaXRlIl19.TEF_1c6elIB_zLjy1sKHmw4g_uVDZ3C_JwlS0obSIBUecl0Zcn3_tU1I7Y3gD57v2tV1N3b8RdrF_Kd-XN61po9jPaj_kbChaUgtkOVPR2jd1a__V23EV-Sy9mRQHIJWNyLB2uGv0s4jeqD4yqKp0kOqXV9MB39bYa2Rh0XoGXPl_K9D7C9bSKsBaNKXfR1kVfT_V8gcsAyK2eMkBFCKYsOa3K31pmGJoOF02P2laCcVPJgjmCfejj2IODeiI8RA_nDkW4sqrSHBj8DFvfIOOleNvssWxtcSkgaFMoBQVrHA58rhNLlQ7nETHj90osVumMoFrX8ehA2mPbjCe0HPJHaUoKejE8s-OgDGAVGaGKNUg2o2Zb76ns3glIM1sgsvBN21vQdWaQqngiU3U4dmXf1pd0Fm-aE83yjV9w3wWh17CfDI1bi0ZcbDfck7QT_Vwrj9POqVybdIClxnnf0ZK9iy3J2yeoOp2LGl65T7NmUvltoyDxBVHbdiyUQUggMwb7L1pakeLTM-Uqow7Qi5KpTu48ZbILNC1F12A9rL8wHvkoD9ECi8CK0BFmctbD4xIkAcSNlpapWvM3uhzjEbcfvkh29q3gMAKfCASM0jfbJvIJUcKH_M74izsWKolUcZ-uqc4dOtdpBYGQd3yG4fNCbVzCJWvoUvzgD5zgEwduA";
+  // 🔑 BURAYA GERÇEK CLOUDCONVERT API KEY
+  const API_KEY = "BURAYA_API_KEY";
 
   try {
 
     setStatus("Job oluşturuluyor...");
 
-    // 1) JOB CREATE
+    // 1) CREATE JOB
     const jobRes = await fetch("https://api.cloudconvert.com/v2/jobs", {
       method: "POST",
       headers: {
@@ -156,10 +135,22 @@ async function convert(){
     });
 
     const job = await jobRes.json();
+
+    console.log("JOB:", job);
+
+    if(!job.data){
+      setStatus("Job oluşturulamadı (console bak)");
+      return;
+    }
+
     const jobId = job.data.id;
 
-    // upload task al
     const uploadTask = job.data.tasks.find(t => t.name === "import-1");
+
+    if(!uploadTask){
+      setStatus("Upload task bulunamadı");
+      return;
+    }
 
     setStatus("Dosya yükleniyor...");
 
@@ -174,7 +165,7 @@ async function convert(){
 
     setStatus("Dönüştürülüyor...");
 
-    // 3) WAIT JOB
+    // 3) WAIT RESULT
     let resultUrl = null;
 
     while(!resultUrl){
@@ -192,7 +183,7 @@ async function convert(){
 
       const exportTask = data.data.tasks.find(t => t.name === "export-1");
 
-      if(exportTask.status === "finished"){
+      if(exportTask && exportTask.status === "finished"){
         resultUrl = exportTask.result.files[0].url;
       }
 
@@ -203,17 +194,17 @@ async function convert(){
 
     const a = document.createElement("a");
     a.href = resultUrl;
-    a.download = "pdf-to-word.docx";
+    a.download = "converted.docx";
     a.click();
 
     setStatus("Bitti ✔");
 
   } catch(err){
     console.error(err);
-    setStatus("Hata oluştu");
+    setStatus("HATA oluştu (console bak)");
   }
 }
-}
+
 </script>
 
 </body>
