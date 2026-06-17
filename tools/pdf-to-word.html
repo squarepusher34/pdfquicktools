@@ -12,15 +12,11 @@
 <!-- DOCX -->
 <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
 
-<!-- OCR -->
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-
 <style>
 body{
   margin:0;
   font-family:system-ui;
   background:#f3f4f6;
-  color:#111;
 }
 
 header{
@@ -63,17 +59,10 @@ button{
   border-radius:12px;
   font-size:16px;
   cursor:pointer;
-  transition:0.2s;
 }
 
 button:hover{
   background:#1d4ed8;
-}
-
-.note{
-  margin-top:15px;
-  font-size:13px;
-  color:#6b7280;
 }
 
 .status{
@@ -81,13 +70,19 @@ button:hover{
   font-size:13px;
   color:#2563eb;
 }
+
+.note{
+  margin-top:15px;
+  font-size:13px;
+  color:#6b7280;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-PDFQuickTools • Smart PDF to Word
+PDFQuickTools • PDF to Word (Smart)
 </header>
 
 <div class="container">
@@ -102,14 +97,13 @@ PDFQuickTools • Smart PDF to Word
     <div class="status" id="status"></div>
 
     <p class="note">
-      Metin varsa direkt çevirir, yoksa OCR kullanır. Format korunur.
+      Layout-aware conversion (daha düzgün Word çıktısı)
     </p>
 
   </div>
 </div>
 
 <script>
-// PDF worker fix
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
@@ -119,104 +113,100 @@ function setStatus(t){
   document.getElementById("status").innerText = t;
 }
 
-async function extractText(pdf){
-  let text = "";
+//
+// 🔥 SMART LAYOUT EXTRACTOR (ASIL FIX)
+//
+async function extractSmart(pdf){
 
-  for(let i = 1; i <= pdf.numPages; i++){
-    const page = await pdf.getPage(i);
+  let finalText = "";
+
+  for(let p = 1; p <= pdf.numPages; p++){
+
+    const page = await pdf.getPage(p);
     const content = await page.getTextContent();
 
-    const strings = content.items.map(item => item.str).join(" ");
-
-    text += strings + "\n\n";
-  }
-
-  return text.trim();
-}
-
-// OCR fallback
-async function ocrPage(page){
-
-  const viewport = page.getViewport({ scale: 2 });
-
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
-
-  await page.render({
-    canvasContext: ctx,
-    viewport: viewport
-  }).promise;
-
-  const img = canvas.toDataURL("image/png");
-
-  const result = await Tesseract.recognize(img, "eng+tur");
-
-  return result.data.text;
-}
-
-// SMART PARAGRAPH BUILDER
-function buildParagraphs(text){
-
-  return text
-    .split("\n")
-    .map(l => l.trim())
-    .filter(l => l.length > 0)
-    .map(line => {
-
-      const isHeading =
-        line.length < 60 &&
-        line === line.toUpperCase();
-
-      return new Paragraph({
-        children: [
-          new TextRun({
-            text: line,
-            bold: isHeading
-          })
-        ]
+    // sort by Y then X (critical)
+    const items = content.items
+      .map(i => ({
+        text: i.str,
+        x: i.transform[4],
+        y: i.transform[5]
+      }))
+      .sort((a,b) => {
+        if (Math.abs(a.y - b.y) > 5) return b.y - a.y;
+        return a.x - b.x;
       });
 
+    let lastY = null;
+    let line = "";
+
+    for(const item of items){
+
+      if(lastY !== null && Math.abs(item.y - lastY) > 6){
+        finalText += line.trim() + "\n";
+        line = "";
+      }
+
+      line += item.text + " ";
+      lastY = item.y;
+    }
+
+    finalText += line.trim() + "\n\n";
+  }
+
+  return finalText.trim();
+}
+
+//
+// 🔥 WORD BUILDER
+//
+function buildDoc(text){
+
+  const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
+
+  return lines.map(line => {
+
+    const isHeading =
+      line.length < 60 &&
+      /^[A-ZÇĞİÖŞÜ0-9 ]+$/.test(line);
+
+    return new Paragraph({
+      children: [
+        new TextRun({
+          text: line,
+          bold: isHeading
+        })
+      ]
     });
+
+  });
 }
 
 async function convert(){
 
-  const file = document.getElementById("file").files[0];
-
-  if(!file){
-    alert("PDF seçmelisin");
-    return;
-  }
-
   try {
 
-    setStatus("PDF okunuyor...");
+    const file = document.getElementById("file").files[0];
+
+    if(!file){
+      alert("PDF seçmelisin");
+      return;
+    }
+
+    setStatus("PDF analiz ediliyor...");
 
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
-    let text = await extractText(pdf);
+    let text = await extractSmart(pdf);
 
-    // OCR fallback
     if(!text || text.length < 10){
-
-      setStatus("OCR çalışıyor... (tarama PDF)");
-
-      text = "";
-
-      for(let i = 1; i <= pdf.numPages; i++){
-        const page = await pdf.getPage(i);
-        const pageText = await ocrPage(page);
-        text += pageText + "\n\n";
-      }
+      setStatus("Metin zayıf çıktı (PDF image olabilir)");
     }
 
-    setStatus("Word hazırlanıyor...");
+    setStatus("Word oluşturuluyor...");
 
-    const paragraphs = buildParagraphs(text);
+    const paragraphs = buildDoc(text);
 
     const doc = new Document({
       sections: [{
@@ -236,7 +226,7 @@ async function convert(){
 
   } catch(err){
     console.error(err);
-    setStatus("Hata oluştu (console kontrol et)");
+    setStatus("Hata oluştu (console bak)");
   }
 }
 </script>
