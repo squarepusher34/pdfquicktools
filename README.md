@@ -58,5 +58,7 @@ Built by PDFQuickTools team.
 ⭐ Future Plans
 OCR PDF text recognition
 AI PDF summarizer
+
+![PDFQuickTools Logo](assets/logo.png)
 Batch processing tools
 Cloud storage integration
