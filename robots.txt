@@ -4,19 +4,16 @@ Allow: /
 # Sitemap
 Sitemap: https://pdfquicktools.net/sitemap.xml
 
-# Admin / gereksiz dosyalar (varsa)
+# Admin / system
 Disallow: /admin/
 Disallow: /config/
 Disallow: /.git/
 Disallow: /tmp/
 Disallow: /logs/
-
-# Duplicate / test sayfalar (ileride kullanırsan)
 Disallow: /test/
 Disallow: /dev/
 
-# İsteğe bağlı: parametreli URL'ler (SEO temizliği)
-Disallow: /*?*
-
-# Crawl gecikmesi (Google için şart değil ama nazik davranır)
-Crawl-delay: 1
+# (opsiyonel tracking protection)
+Disallow: /*utm_
+Disallow: /*session=
+Disallow: /*token=
