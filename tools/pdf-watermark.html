@@ -7,17 +7,17 @@
     <title>PDF Filigran Ekle - PDFQuickTools</title>
     <meta name="description" content="PDF'ine ücretsiz filigran ekle" />
     <!-- GOOGLE FONTS CDN -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://googleapis.com" />
+    <link rel="preconnect" href="https://gstatic.com" crossorigin />
+    <link href="https://googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
     <!-- ADSENSE -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722827238956891" crossorigin="anonymous"></script>
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
     <!-- pdf-lib -->
-    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com"></script>
     <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cloudflare.com"></script>
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cloudflare.com";
     </script>
     <style>
         /* ---------- tokens ---------- */
@@ -56,7 +56,7 @@
         
         /* ---------- header ---------- */
         header { position: sticky; top: 0; z-index: 50; background: rgba(21, 23, 43, 0.94); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-        .header-inner { max-width: 1180px; margin: 0 auto; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+        .header-inner { max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
         .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 600; font-size: 18px; color: #fff; letter-spacing: -0.01em; }
         .brand-mark { font-family: var(--mono); font-size: 10px; font-weight: 600; color: #fff; background: linear-gradient(160deg, var(--coral), var(--coral-deep)); padding: 6px 7px 5px; border-radius: 5px; letter-spacing: 0.03em; clip-path: polygon(0 0, 75% 0, 100% 35%, 100% 100%, 0 100%); }
         .nav-links { display: flex; align-items: center; gap: 4px; }
@@ -64,42 +64,42 @@
         .nav-links a:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
         
         /* ---------- ad block ---------- */
-        .ad-block { max-width: 1180px; margin: 12px auto 0; padding-inline: 24px; text-align: center; }
+        .ad-block { max-width: 1180px; margin: 4px auto 0; padding-inline: 24px; text-align: center; }
         
         /* ---------- main container ---------- */
-        .container { max-width: var(--container); margin: 20px auto 60px; padding-inline: 24px; box-sizing: border-box; }
+        .container { max-width: var(--container); margin: 8px auto 40px; padding-inline: 24px; box-sizing: border-box; }
         
         /* ---------- ticket card ---------- */
         .ticket {
-            position: relative; background: var(--card); border-radius: 0 0 10px 10px; padding: 40px 32px 32px; box-shadow: var(--shadow-soft); box-sizing: border-box;
+            position: relative; background: var(--card); border-radius: 0 0 10px 10px; padding: 24px 32px 32px; box-shadow: var(--shadow-soft); box-sizing: border-box;
             clip-path: polygon( 0% 0%, 100% 0%, 100% 98%, 96% 100%, 92% 98%, 88% 100%, 84% 98%, 80% 100%, 76% 98%, 72% 100%, 68% 98%, 64% 100%, 60% 98%, 56% 100%, 52% 98%, 48% 100%, 44% 98%, 40% 100%, 36% 98%, 32% 100%, 28% 98%, 24% 100%, 20% 98%, 16% 100%, 12% 98%, 8% 100%, 4% 98%, 0% 100% );
         }
-        .eyebrow { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin: 0 0 12px; text-align: center; }
-        h1 { font-family: var(--display); font-weight: 600; font-size: clamp(1.8rem, 4vw, 2.4rem); letter-spacing: -0.01em; margin: 0 0 8px; text-align: center; }
-        .lede { color: var(--muted); font-size: 1rem; margin: 0 0 28px; text-align: center; }
+        .eyebrow { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin: 0 0 8px; text-align: center; }
+        h1 { font-family: var(--display); font-weight: 600; font-size: clamp(1.6rem, 4vw, 2.2rem); letter-spacing: -0.01em; margin: 0 0 6px; text-align: center; }
+        .lede { color: var(--muted); font-size: 0.95rem; margin: 0 0 20px; text-align: center; }
         
         /* ---------- upload zone ---------- */
-        .file-input-wrapper { position: relative; margin-bottom: 18px; }
-        input[type="file"] { width: 100%; padding: 36px 20px; border: 2px dashed var(--border); border-radius: 12px; background: var(--paper); font-family: var(--body); font-size: 14px; color: var(--muted); cursor: pointer; transition: border-color 0.2s, background 0.2s; box-sizing: border-box; }
+        .file-input-wrapper { position: relative; margin-bottom: 16px; }
+        input[type="file"] { width: 100%; padding: 28px 20px; border: 2px dashed var(--border); border-radius: 12px; background: var(--paper); font-family: var(--body); font-size: 14px; color: var(--muted); cursor: pointer; transition: border-color 0.2s, background 0.2s; box-sizing: border-box; }
         input[type="file"]:hover { border-color: var(--coral); background: rgba(255, 90, 78, 0.02); }
         
         /* ---------- text input ---------- */
-        .field { margin-bottom: 16px; text-align: left; }
-        .field label { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 8px; }
+        .field { margin-bottom: 14px; text-align: left; }
+        .field label { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
         .field label span { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--coral-deep); }
-        input[type="text"] { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--paper); font-family: var(--body); font-size: 14px; color: var(--ink); box-sizing: border-box; }
+        input[type="text"] { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--paper); font-family: var(--body); font-size: 14px; color: var(--ink); box-sizing: border-box; }
         input[type="text"]:focus { border-color: var(--blue); outline: none; }
         
         /* ---------- color + sliders row ---------- */
         .color-row { display: flex; align-items: center; gap: 12px; }
-        input[type="color"] { width: 52px; height: 44px; padding: 2px; border: 1px solid var(--border); border-radius: 10px; background: var(--paper); cursor: pointer; flex-shrink: 0; }
+        input[type="color"] { width: 52px; height: 40px; padding: 2px; border: 1px solid var(--border); border-radius: 10px; background: var(--paper); cursor: pointer; flex-shrink: 0; }
         input[type="range"] { width: 100%; height: 6px; border-radius: 999px; background: var(--border); appearance: none; -webkit-appearance: none; cursor: pointer; margin: 0; }
         input[type="range"]::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--coral); border: 3px solid white; box-shadow: 0 2px 6px rgba(223, 69, 56, 0.35); cursor: pointer; }
         input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--coral); border: 3px solid white; box-shadow: 0 2px 6px rgba(223, 69, 56, 0.35); cursor: pointer; }
         
         /* ---------- buttons ---------- */
-        .button-row { display: flex; gap: 12px; margin-top: 22px; margin-bottom: 8px; }
-        button { width: 100%; padding: 16px; border: none; border-radius: 12px; font-family: var(--body); font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .button-row { display: flex; gap: 12px; margin-top: 18px; margin-bottom: 8px; }
+        button { width: 100%; padding: 14px; border: none; border-radius: 12px; font-family: var(--body); font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
         button.primary { background: linear-gradient(160deg, var(--coral), var(--coral-deep)); color: white; box-shadow: 0 4px 12px rgba(223, 69, 56, 0.2); }
         button.primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(223, 69, 56, 0.3); }
         button.secondary { background: var(--paper); color: var(--ink); border: 1px solid var(--border); }
@@ -108,19 +108,19 @@
         button:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; box-shadow: none; transform: none; }
         
         /* ---------- preview ---------- */
-        .preview-box { width: 100%; overflow: auto; display: flex; justify-content: center; margin-top: 22px; border: 1px dashed var(--border); border-radius: 12px; padding: 10px; background: var(--paper); min-height: 200px; align-items: center; }
+        .preview-box { width: 100%; overflow: auto; display: flex; justify-content: center; margin-top: 18px; border: 1px dashed var(--border); border-radius: 12px; padding: 10px; background: var(--paper); min-height: 180px; align-items: center; }
         #preview-canvas { max-width: 100%; height: auto; display: block; border: 1px solid var(--border); border-radius: 10px; background: white; }
         
         /* ---------- perforation ---------- */
-        .perforation { height: 3px; margin: 28px 0 24px; background-image: radial-gradient( circle, var(--paper) 1.6px, transparent 1.7px ); background-size: 11px 100%; background-repeat: repeat-x; }
+        .perforation { height: 3px; margin: 20px 0 16px; background-image: radial-gradient( circle, var(--paper) 1.6px, transparent 1.7px ); background-size: 11px 100%; background-repeat: repeat-x; }
         
         /* ---------- footer elements ---------- */
-        .note { font-size: 13px; color: var(--muted); text-align: center; margin: 0 0 24px; }
+        .note { font-size: 13px; color: var(--muted); text-align: center; margin: 0 0 16px; }
         .back { display: inline-flex; align-items: center; justify-content: center; width: 100%; font-size: 14px; color: var(--muted); font-weight: 500; transition: color 0.2s; }
         .back:hover { color: var(--ink); }
         
         /* ---------- status & download ---------- */
-        #status { margin-top: 16px; font-family: var(--mono); font-size: 13px; text-align: center; font-weight: 500; }
+        #status { margin-top: 12px; font-family: var(--mono); font-size: 13px; text-align: center; font-weight: 500; }
         .status-success { color: var(--green); }
         .status-error { color: var(--coral-deep); }
         .status-loading { color: var(--amber-deep); }
@@ -134,3 +134,4 @@
                 <span class="brand-mark">PDF</span> PDFQuickTools
             </a>
             <nav class="nav-links">
+                <a href="#">Ana Sayfa</a>
