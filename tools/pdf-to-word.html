@@ -63,6 +63,7 @@ button{
   border-radius:12px;
   font-size:16px;
   cursor:pointer;
+  transition:0.2s;
 }
 
 button:hover{
@@ -92,7 +93,7 @@ PDFQuickTools • Smart PDF to Word
 <div class="container">
   <div class="card">
 
-    <h1>PDF → Word (Smart)</h1>
+    <h1>PDF → Word</h1>
 
     <input type="file" id="file" accept="application/pdf">
 
@@ -101,13 +102,14 @@ PDFQuickTools • Smart PDF to Word
     <div class="status" id="status"></div>
 
     <p class="note">
-      Metin varsa direkt çevirir, yoksa OCR kullanır
+      Metin varsa direkt çevirir, yoksa OCR kullanır. Format korunur.
     </p>
 
   </div>
 </div>
 
 <script>
+// PDF worker fix
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
@@ -120,17 +122,21 @@ function setStatus(t){
 async function extractText(pdf){
   let text = "";
 
-  for(let i=1;i<=pdf.numPages;i++){
+  for(let i = 1; i <= pdf.numPages; i++){
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
+
     const strings = content.items.map(item => item.str).join(" ");
+
     text += strings + "\n\n";
   }
 
   return text.trim();
 }
 
+// OCR fallback
 async function ocrPage(page){
+
   const viewport = page.getViewport({ scale: 2 });
 
   const canvas = document.createElement("canvas");
@@ -151,55 +157,87 @@ async function ocrPage(page){
   return result.data.text;
 }
 
+// SMART PARAGRAPH BUILDER
+function buildParagraphs(text){
+
+  return text
+    .split("\n")
+    .map(l => l.trim())
+    .filter(l => l.length > 0)
+    .map(line => {
+
+      const isHeading =
+        line.length < 60 &&
+        line === line.toUpperCase();
+
+      return new Paragraph({
+        children: [
+          new TextRun({
+            text: line,
+            bold: isHeading
+          })
+        ]
+      });
+
+    });
+}
+
 async function convert(){
 
   const file = document.getElementById("file").files[0];
+
   if(!file){
     alert("PDF seçmelisin");
     return;
   }
 
-  setStatus("PDF okunuyor...");
+  try {
 
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    setStatus("PDF okunuyor...");
 
-  let text = await extractText(pdf);
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
-  // 🔥 fallback OCR
-  if(!text || text.length < 10){
-    setStatus("OCR çalışıyor... (tarama PDF)");
+    let text = await extractText(pdf);
 
-    text = "";
+    // OCR fallback
+    if(!text || text.length < 10){
 
-    for(let i=1;i<=pdf.numPages;i++){
-      const page = await pdf.getPage(i);
-      const pageText = await ocrPage(page);
-      text += pageText + "\n\n";
+      setStatus("OCR çalışıyor... (tarama PDF)");
+
+      text = "";
+
+      for(let i = 1; i <= pdf.numPages; i++){
+        const page = await pdf.getPage(i);
+        const pageText = await ocrPage(page);
+        text += pageText + "\n\n";
+      }
     }
+
+    setStatus("Word hazırlanıyor...");
+
+    const paragraphs = buildParagraphs(text);
+
+    const doc = new Document({
+      sections: [{
+        children: paragraphs
+      }]
+    });
+
+    const blob = await Packer.toBlob(doc);
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "pdf-to-word.docx";
+    a.click();
+
+    setStatus("Bitti ✔");
+
+  } catch(err){
+    console.error(err);
+    setStatus("Hata oluştu (console kontrol et)");
   }
-
-  setStatus("Word oluşturuluyor...");
-
-  const doc = new Document({
-    sections: [{
-      children: [
-        new Paragraph({
-          children: [new TextRun(text || "Metin bulunamadı")]
-        })
-      ]
-    }]
-  });
-
-  const blob = await Packer.toBlob(doc);
-
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "pdf-to-word.docx";
-  a.click();
-
-  setStatus("Bitti ✔");
 }
 </script>
 
