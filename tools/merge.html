@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#15172b" />
 
-    <title>Merge PDF - PDFQuickTools</title>
-    <meta name="description" content="Free PDF merge tool" />
+    <title>PDF Birleştir - PDFQuickTools</title>
+    <meta name="description" content="Ücretsiz PDF birleştirme aracı" />
 
     <!-- GOOGLE FONTS CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -305,28 +305,28 @@
           <span class="brand-mark">PDF</span> PDFQuickTools
         </a>
         <div class="nav-links">
-          <a href="/">Home</a>
+          <a href="/">Ana Sayfa</a>
         </div>
       </div>
     </header>
 
     <div class="container">
       <div class="ticket">
-        <div class="eyebrow">PDF TOOLS</div>
-        <h1>Merge PDF Files</h1>
-        <p class="lede">Select multiple PDFs and download as one file</p>
+        <div class="eyebrow">PDF ARAÇLARI</div>
+        <h1>PDF Dosyalarını Birleştir</h1>
+        <p class="lede">Birden fazla PDF seç, tek dosya indir</p>
 
         <div class="file-input-wrapper">
           <input type="file" id="files" multiple accept="application/pdf" />
         </div>
 
-        <button onclick="mergePDF()">Merge PDFs</button>
+        <button onclick="mergePDF()">PDF'leri Birleştir</button>
 
         <div class="perforation"></div>
 
-        <p class="note">Files are processed in your browser, nothing is uploaded to a server.</p>
+        <p class="note">Dosyalar tarayıcı içinde işlenir, sunucuya yüklenmez.</p>
 
-        <a class="back" href="/">← Home</a>
+        <a class="back" href="/">← Ana sayfa</a>
       </div>
     </div>
 
@@ -336,7 +336,7 @@
         const files = document.getElementById("files").files;
 
         if (files.length < 2) {
-          alert("Select at least 2 PDF files");
+          alert("En az 2 PDF seçmelisin");
           return;
         }
 
