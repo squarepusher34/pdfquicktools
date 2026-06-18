@@ -94,6 +94,7 @@ header{
 .nav-links a.lang:hover{background:var(--coral);}
 
 /* ---------- hero ---------- */
+/* ---------- hero ---------- */
 .hero{
     display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;
     padding:88px 0 64px;
@@ -123,33 +124,46 @@ header{
 .trust-row span{font-size:.875rem;color:var(--muted);font-weight:500;}
 
 /* page stack visual */
-<!-- page stack visual -->
-<div class="stack-wrap">
-    <div class="page-stack">
-        <div class="page page--1"></div>
-        <div class="page page--2"></div>
-        <div class="page page--3">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            
-            <!-- Pandayı tam çizdiğiniz kırmızı dairenin olduğu sayfaya yerleştiren kod -->
-            <img src="logo.png" alt="Panda Maskot" style="
-                position: absolute;
-                bottom: 10px;
-                right: 10px;
-                width: 140px;
-                height: auto;
-                z-index: 5;
-            ">
-        </div>
-        <div class="trust-chip">
-            <div class="status-dot"></div>
-            <span>10 araç, tek sayfa</span>
-        </div>
-    </div>
-</div>
+.stack-wrap{position:relative;height:340px;}
+.page-stack{position:relative;width:100%;height:100%;}
+.page{
+    position:absolute;left:50%;top:50%;width:230px;height:290px;
+    background:var(--card);border-radius:4px;
+    box-shadow:var(--shadow-soft);
+    clip-path:polygon(0 0,82% 0,100% 16%,100% 100%,0 100%);
+    animation:float 5s ease-in-out infinite alternate;
+}
+.page--1{--tx:-65%;--ty:-58%;--r:-9deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:1;animation-delay:.2s;}
+.page--2{--tx:-50%;--ty:-50%;--r:3deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:2;animation-delay:.5s;}
+.page--3{
+    --tx:-38%;--ty:-44%;--r:11deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:3;animation-delay:0s;
+    padding:26px 22px;
+    position:relative; /* İçindeki pandayı hizalamak için önemli */
+}
+.page--3 .line{height:6px;border-radius:3px;background:var(--border);margin-bottom:10px;}
+.page--3 .line:nth-child(1){width:70%;background:var(--coral);opacity:.5;}
+.page--3 .line:nth-child(4){width:45%;}
+
+/* Pandanın en üstte ve sayfa hareketleriyle birlikte sallanması için CSS sınıfı */
+.panda-maskot {
+    position: absolute;
+    bottom: -15px;
+    right: -25px;
+    width: 170px;
+    height: auto;
+    z-index: 10;
+    filter: drop-shadow(0 8px 16px rgba(21,23,43,0.12));
+}
+
+.trust-chip{
+    position:absolute;left:6%;bottom:6%;z-index:15; /* Pandanın altında kalmaması için artırıldı */
+    background:var(--ink);color:#fff;font-size:.78rem;font-weight:500;
+    padding:9px 14px;border-radius:30px;display:flex;align-items:center;gap:8px;
+    box-shadow:var(--shadow-lift);
+}
+.trust-chip .status-dot{background:#7CF29C;}
+.trust-chip .status-dot::after{border-color:#7CF29C;}
+
 
 
 /* ---------- chip row ---------- */
@@ -329,30 +343,27 @@ footer{
 <main class="wrap">
 
     <!-- HERO -->
-    <section class="hero">
-        <div>
-            <p class="eyebrow">Ücretsiz • Tarayıcı Tabanlı</p>
-            <h1>Ücretsiz <em>PDF</em> Araçları</h1>
-            <p class="lede">PDF dosyalarını birleştir, böl, sıkıştır ve dönüştür.</p>
-            <div class="trust-row">
-                <span class="status-dot"></span>
-                <span>Dosyalarınız cihazınızdan dışarı çıkmaz</span>
-            </div>
+    <!-- Giriş (Hero) Alanı Görsel Bölümü -->
+<div class="stack-wrap">
+    <div class="page-stack">
+        <div class="page page--1"></div>
+        <div class="page page--2"></div>
+        <div class="page page--3">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            
+            <!-- Tam çizdiğiniz yere oturan ve sayfayla birlikte hareket eden panda -->
+            <img src="logo.png" alt="PDFQuickTools Panda" class="panda-maskot">
         </div>
-        <div class="stack-wrap">
-            <div class="page-stack">
-                <div class="page page--1"></div>
-                <div class="page page--2"></div>
-                <div class="page page--3">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-                <div class="trust-chip"><span class="status-dot"></span>10 araç, tek sayfa</div>
-            </div>
+        <div class="trust-chip">
+            <div class="status-dot"></div>
+            <span>10 araç, tek sayfa</span>
         </div>
-    </section>
+    </div>
+</div>
+
 
     <!-- QUICK CHIPS -->
     <nav class="chip-row" aria-label="Hızlı araç erişimi">
