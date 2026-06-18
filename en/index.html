@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#15172b">
 
-<title>PDFQuickTools - Free PDF Tools</title>
-<meta name="description" content="Merge, split, compress, and convert PDF files">
+<title>PDFQuickTools - Free Online PDF Tools</title>
+<meta name="description" content="Merge, split, compress and convert PDF files directly in your browser.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -122,35 +122,37 @@ header{
 }
 .trust-row span{font-size:.875rem;color:var(--muted);font-weight:500;}
 
-/* page stack visual */
-.stack-wrap{position:relative;height:340px;}
-.page-stack{position:relative;width:100%;height:100%;}
-.page{
-    position:absolute;left:50%;top:50%;width:230px;height:290px;
-    background:var(--card);border-radius:4px;
-    box-shadow:var(--shadow-soft);
-    clip-path:polygon(0 0,82% 0,100% 16%,100% 100%,0 100%);
-    animation:float 5s ease-in-out infinite alternate;
+/* LOGO ALANI YENİ CSS DÜZENLEMESİ */
+.logo-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 340px;
 }
-.page--1{--tx:-65%;--ty:-58%;--r:-9deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:1;animation-delay:.2s;}
-.page--2{--tx:-50%;--ty:-50%;--r:3deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:2;animation-delay:.5s;}
-.page--3{
-    --tx:-38%;--ty:-44%;--r:11deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:3;animation-delay:0s;
-    padding:26px 22px;
+.hero-logo {
+    max-width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    animation: logoFloat 5s ease-in-out infinite alternate; 
 }
-.page--3 .line{height:6px;border-radius:3px;background:var(--border);margin-bottom:10px;}
-.page--3 .line:nth-child(1){width:70%;background:var(--coral);opacity:.5;}
-.page--3 .line:nth-child(4){width:45%;}
-.trust-chip{
-    position:absolute;left:6%;bottom:6%;z-index:4;
+.logo-wrap .trust-chip {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 4;
     background:var(--ink);color:#fff;font-size:.78rem;font-weight:500;
     padding:9px 14px;border-radius:30px;display:flex;align-items:center;gap:8px;
     box-shadow:var(--shadow-lift);
 }
-.trust-chip .status-dot{background:#7CF29C;}
-.trust-chip .status-dot::after{border-color:#7CF29C;}
+.logo-wrap .trust-chip .status-dot { background:#7CF29C; }
+.logo-wrap .trust-chip .status-dot::after { border-color:#7CF29C; }
 
-@keyframes float{from{transform:translate(var(--tx),var(--ty)) rotate(var(--r));}to{transform:translate(var(--tx),calc(var(--ty) - 10px)) rotate(var(--r));}}
+@keyframes logoFloat {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+}
 @keyframes pulse{0%{transform:scale(.6);opacity:.7;}100%{transform:scale(1.8);opacity:0;}}
 
 /* ---------- chip row ---------- */
@@ -160,7 +162,7 @@ header{
 }
 .chip-row::-webkit-scrollbar{display:none;}
 .chip{
-    flex:none;display:flex;align-items:center;gap:7px;
+    flex:none;display:flex;align-items:center;gap:8px;
     background:var(--card);border:1px solid var(--border);border-radius:30px;
     padding:9px 16px;font-size:.875rem;font-weight:500;text-decoration:none;color:var(--ink);
     transition:border-color .2s,transform .2s,box-shadow .2s;
@@ -287,16 +289,22 @@ footer{
 
 /* ---------- motion / accessibility ---------- */
 @media (prefers-reduced-motion:reduce){
-    .page,.status-dot::after{animation:none !important;}
+    .hero-logo,.status-dot::after{animation:none !important;}
     .ticket,.chip,.badge,.badge--rotate,.ticket-cta{transition:none !important;}
 }
 
 /* ---------- responsive ---------- */
 @media (max-width:880px){
     .hero{grid-template-columns:1fr;padding:56px 0 40px;text-align:left;}
-    .stack-wrap{height:240px;order:-1;margin-bottom:8px;}
-    .page{width:170px;height:215px;}
-    .page--3{padding:18px 16px;}
+    .logo-wrap {
+        height: auto;
+        min-height: 200px;
+        order: -1;
+        margin-bottom: 24px;
+    }
+    .hero-logo {
+        max-height: 180px;
+    }
 }
 @media (max-width:560px){
     .header-inner{padding:12px 16px;}
@@ -309,65 +317,52 @@ footer{
 
 <body>
 
-<!-- HEADER -->
 <header>
     <div class="header-inner">
-        <a href="/en/index.html" class="brand"><span class="brand-mark">PDF</span>QuickTools</a>
+        <a href="/en/" class="brand"><span class="brand-mark">PDF</span>QuickTools</a>
         <nav class="nav-links">
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            <a href="../index.html" class="lang">TR</a>
+            <a href="/en/about.html">About</a>
+            <a href="/en/contact.html">Contact</a>
+            <a href="/" class="lang">TR</a>
         </nav>
     </div>
 </header>
 
 <main class="wrap">
 
-    <!-- HERO -->
     <section class="hero">
         <div>
             <p class="eyebrow">Free • Browser-Based</p>
             <h1>Free <em>PDF</em> Tools</h1>
-            <p class="lede">Merge, split, compress, convert, delete, rotate and more...</p>
+            <p class="lede">Merge, split, compress and convert PDF files instantly.</p>
             <div class="trust-row">
                 <span class="status-dot"></span>
                 <span>Your files never leave your device</span>
             </div>
         </div>
-        <div class="stack-wrap">
-            <div class="page-stack">
-                <div class="page page--1"></div>
-                <div class="page page--2"></div>
-                <div class="page page--3">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-                <div class="trust-chip"><span class="status-dot"></span>10 tools, one page</div>
-            </div>
+        <div class="logo-wrap">
+            <img src="logo.png" alt="PDFQuickTools Logo" class="hero-logo">
+            <div class="trust-chip"><span class="status-dot"></span>10 tools, single page</div>
         </div>
     </section>
 
-    <!-- QUICK CHIPS -->
     <nav class="chip-row" aria-label="Quick tool access">
-        <a class="chip" href="tools/merge.html"><span class="dot dot--coral"></span>Merge</a>
-        <a class="chip" href="tools/split.html"><span class="dot dot--coral"></span>Split</a>
-        <a class="chip" href="tools/image-to-pdf.html"><span class="dot dot--blue"></span>PNG→PDF</a>
-        <a class="chip" href="tools/pdf-to-jpg.html"><span class="dot dot--amber"></span>PDF→JPG</a>
-        <a class="chip" href="tools/pdf-compress.html"><span class="dot dot--coral"></span>Compress</a>
-        <a class="chip" href="tools/pdf-rotate.html"><span class="dot dot--coral"></span>Rotate</a>
-        <a class="chip" href="tools/pdf-watermark.html"><span class="dot dot--coral"></span>Watermark</a>
-        <a class="chip" href="tools/jpg-to-pdf.html"><span class="dot dot--amber"></span>JPG→PDF</a>
-        <a class="chip" href="tools/pdf-page-numbers.html"><span class="dot dot--coral"></span>Page Numbers</a>
-        <a class="chip" href="tools/delete-pages.html"><span class="dot dot--coral"></span>Delete Pages</a>
+        <a class="chip" href="/en/tools/merge.html"><span class="dot dot--coral"></span>Merge</a>
+        <a class="chip" href="/en/tools/split.html"><span class="dot dot--coral"></span>Split</a>
+        <a class="chip" href="/en/tools/image-to-pdf.html"><span class="dot dot--blue"></span>PNG→PDF</a>
+        <a class="chip" href="/en/tools/pdf-to-jpg.html"><span class="dot dot--amber"></span>PDF→JPG</a>
+        <a class="chip" href="/en/tools/pdf-compress.html"><span class="dot dot--coral"></span>Compress</a>
+        <a class="chip" href="/en/tools/pdf-rotate.html"><span class="dot dot--coral"></span>Rotate</a>
+        <a class="chip" href="/en/tools/pdf-watermark.html"><span class="dot dot--coral"></span>Watermark</a>
+        <a class="chip" href="/en/tools/jpg-to-pdf.html"><span class="dot dot--amber"></span>JPG→PDF</a>
+        <a class="chip" href="/en/tools/pdf-page-numbers.html"><span class="dot dot--coral"></span>Page Numbers</a>
+        <a class="chip" href="/en/tools/remove-page.html"><span class="dot dot--coral"></span>Delete Pages</a>
     </nav>
 
-    <!-- TOOLS -->
     <section class="tools" id="tools">
         <div class="section-head">
             <p class="eyebrow">Tools</p>
-            <h2>Pick what you need, open it, use it</h2>
+            <h2>Choose, launch, and use what you need</h2>
         </div>
 
         <div class="tools-grid">
@@ -379,8 +374,8 @@ footer{
                 </div>
                 <div class="perforation"></div>
                 <h3>Merge PDF</h3>
-                <p>Combine multiple PDFs into one</p>
-                <a class="ticket-cta" href="tools/merge.html">Open <span aria-hidden="true">→</span></a>
+                <p>Combine multiple PDFs into a single file</p>
+                <a class="ticket-cta" href="/en/tools/merge.html">Open <span aria-hidden="true">→</span></a>
             </div>
 
             <div class="ticket">
@@ -391,8 +386,8 @@ footer{
                 </div>
                 <div class="perforation"></div>
                 <h3>Split PDF</h3>
-                <p>Separate into individual pages</p>
-                <a class="ticket-cta" href="tools/split.html">Open <span aria-hidden="true">→</span></a>
+                <p>Separate or extract individual pages</p>
+                <a class="ticket-cta" href="/en/tools/split.html">Open <span aria-hidden="true">→</span></a>
             </div>
 
             <div class="ticket">
@@ -402,9 +397,9 @@ footer{
                     <span class="badge badge--pdf">PDF</span>
                 </div>
                 <div class="perforation"></div>
-                <h3>PNG to PDF</h3>
-                <p>Turn images into a PDF</p>
-                <a class="ticket-cta" href="tools/image-to-pdf.html">Open <span aria-hidden="true">→</span></a>
+                <h3>PNG → PDF</h3>
+                <p>Convert your PNG images into a PDF document</p>
+                <a class="ticket-cta" href="/en/tools/image-to-pdf.html">Open <span aria-hidden="true">→</span></a>
             </div>
 
             <div class="ticket">
@@ -414,9 +409,9 @@ footer{
                     <span class="badge badge--jpg">JPG</span>
                 </div>
                 <div class="perforation"></div>
-                <h3>PDF to JPG</h3>
-                <p>Turn pages into images</p>
-                <a class="ticket-cta" href="tools/pdf-to-jpg.html">Open <span aria-hidden="true">→</span></a>
+                <h3>PDF → JPG</h3>
+                <p>Extract and save PDF pages as images</p>
+                <a class="ticket-cta" href="/en/tools/pdf-to-jpg.html">Open <span aria-hidden="true">→</span></a>
             </div>
 
             <div class="ticket">
@@ -427,30 +422,30 @@ footer{
                 </div>
                 <div class="perforation"></div>
                 <h3>Compress PDF</h3>
-                <p>Reduce the file size</p>
-                <a class="ticket-cta" href="tools/pdf-compress.html">Open <span aria-hidden="true">→</span></a>
+                <p>Reduce file size without reducing quality</p>
+                <a class="ticket-cta" href="/en/tools/pdf-compress.html">Open <span aria-hidden="true">→</span></a>
             </div>
 
             <div class="ticket">
                 <div class="ticket-top">
                     <span class="badge badge--pdf badge--rotate">PDF</span>
-                    <span class="route-tag">Change orientation</span>
+                    <span class="route-tag">Change Orientation</span>
                 </div>
                 <div class="perforation"></div>
                 <h3>Rotate PDF</h3>
-                <p>Rotate pages</p>
-                <a class="ticket-cta" href="tools/pdf-rotate.html">Open <span aria-hidden="true">→</span></a>
+                <p>Turn upside down or sideways pages correctly</p>
+                <a class="ticket-cta" href="/en/tools/pdf-rotate.html">Open <span aria-hidden="true">→</span></a>
             </div>
 
             <div class="ticket">
                 <div class="ticket-top">
                     <span class="badge badge--pdf badge--watermark">PDF</span>
-                    <span class="route-tag">Add a stamp</span>
+                    <span class="route-tag">Add Stamp</span>
                 </div>
                 <div class="perforation"></div>
                 <h3>Watermark</h3>
-                <p>Add a watermark</p>
-                <a class="ticket-cta" href="tools/pdf-watermark.html">Open <span aria-hidden="true">→</span></a>
+                <p>Overlay a clean text or logo watermark</p>
+                <a class="ticket-cta" href="/en/tools/pdf-watermark.html">Open <span aria-hidden="true">→</span></a>
             </div>
 
             <div class="ticket">
@@ -460,90 +455,88 @@ footer{
                     <span class="badge badge--pdf">PDF</span>
                 </div>
                 <div class="perforation"></div>
-                <h3>JPG to PDF</h3>
-                <p>Turn photos into a PDF</p>
-                <a class="ticket-cta" href="tools/jpg-to-pdf.html">Open <span aria-hidden="true">→</span></a>
+                <h3>JPG → PDF</h3>
+                <p>Convert JPG photos to an ordered PDF</p>
+                <a class="ticket-cta" href="/en/tools/jpg-to-pdf.html">Open <span aria-hidden="true">→</span></a>
             </div>
 
             <div class="ticket">
                 <div class="ticket-top">
                     <div class="badge-numbered">
                         <span class="badge badge--pdf">PDF</span>
-                        <span class="numbered-tag">12</span>
+                        <span class="numbered-tag"></span>
                     </div>
-                    <span class="route-tag">Numbering Pages</span>
+                    <span class="route-tag">Add Page Numbers</span>
                 </div>
                 <div class="perforation"></div>
                 <h3>Page Numbers</h3>
-                <p>Add page numbers to a PDF</p>
-                <a class="ticket-cta" href="tools/pdf-page-numbers.html">Open <span aria-hidden="true">→</span></a>
+                <p>Quickly add page numbers to your document</p>
+                <a class="ticket-cta" href="/en/tools/pdf-page-numbers.html">Open <span aria-hidden="true">→</span></a>
             </div>
 
             <div class="ticket">
                 <div class="ticket-top">
                     <div class="badge-numbered">
-                        <span class="badge badge--pdf">Delete Pages</span>
+                        <span class="badge badge--pdf">PDF</span>
                         <span class="numbered-tag"></span>
                     </div>
                     <span class="route-tag">Remove Pages</span>
                 </div>
                 <div class="perforation"></div>
                 <h3>Delete Pages</h3>
-                <p>Delete PDF pages</p>
-                <a class="ticket-cta" href="tools/delete-pages.html">Open <span aria-hidden="true">→</span></a>
+                <p>Select and permanently discard unwanted pages</p>
+                <a class="ticket-cta" href="/en/tools/remove-page.html">Open <span aria-hidden="true">→</span></a>
             </div>
-
+            
         </div>
     </section>
 
-    <!-- ABOUT -->
     <section class="card-block">
         <h2 style="font-family:var(--display);font-weight:600;font-size:1.4rem;margin:0 0 10px;">About</h2>
-        <p class="about-text">PDFQuickTools offers free PDF tools.</p>
+        <p class="about-text">PDFQuickTools provides completely free, unlimited, and privacy-oriented PDF processing utilities.</p>
     </section>
 
-    <!-- FAQ -->
     <section class="card-block faq-list">
         <h2 style="font-family:var(--display);font-weight:600;font-size:1.4rem;margin:0 0 10px;">FAQ</h2>
 
         <details>
-            <summary>Is PDFQuickTools free?</summary>
-            <p>Yes, every tool is completely free with no limits.</p>
+            <summary>Is PDFQuickTools completely free?</summary>
+            <p>Yes, all features are entirely free with no hidden fees or daily limitations.</p>
         </details>
 
         <details>
-            <summary>Are files uploaded to a server?</summary>
-            <p>No. Everything runs right in your browser — your files never leave your device.</p>
+            <summary>Are my files uploaded to a server?</summary>
+            <p>No. All processing happens locally within your web browser. Your confidential files never leave your computer or device.</p>
         </details>
 
         <details>
-            <summary>Is it safe?</summary>
-            <p>Yes. Your files are never stored or shared with third parties.</p>
+            <summary>Is it secure?</summary>
+            <p>Absolutely. Because files are handled client-side, your data cannot be stored, viewed, or harvested by anyone.</p>
         </details>
 
         <details>
             <summary>Does it work on mobile?</summary>
-            <p>Yes, it works smoothly on phones and tablets.</p>
+            <p>Yes, the responsive framework ensures smooth performance on both smartphones and tablets.</p>
         </details>
 
         <details>
-            <summary>Do I need to install anything?</summary>
-            <p>No, there's nothing to download. It's entirely web-based.</p>
+            <summary>Do I need to install any software?</summary>
+            <p>No installation required. It is completely web-based and runs in any modern browser.</p>
         </details>
 
         <details>
-            <summary>Will it damage my PDF files?</summary>
-            <p>No. Your original file stays untouched — only a new output is created.</p>
+            <summary>Will it damage my original PDF?</summary>
+            <p>No. Your original file remains untouched. The browser simply generates a modified new copy for you to download.</p>
         </details>
 
         <details>
             <summary>Is there a file size limit?</summary>
-            <p>Very large files may take longer depending on your browser's performance, but no specific limit is enforced.</p>
+            <p>There is no hard limit imposed, though extremely massive files might take a little longer depending on your hardware's capabilities.</p>
         </details>
 
         <details>
-            <summary>Does it work without internet?</summary>
-            <p>Some steps can keep running once the page has loaded, but an internet connection is required the first time you open it.</p>
+            <summary>Does it work offline?</summary>
+            <p>Once the webpage is fully loaded, many tasks can run without an active network connection, but you need internet to load it initially.</p>
         </details>
 
     </section>
