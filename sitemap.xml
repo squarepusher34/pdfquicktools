@@ -1,66 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <url>
-    <loc>https://pdfquicktools.net/</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <!-- ROOT -->
+  <url><loc>https://pdfquicktools.net/</loc></url>
 
-  <url>
-    <loc>https://pdfquicktools.net/en/index.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
+  <!-- PAGES -->
+  <url><loc>https://pdfquicktools.net/about.html</loc></url>
+  <url><loc>https://pdfquicktools.net/contact.html</loc></url>
+  <url><loc>https://pdfquicktools.net/privacy.html</loc></url>
+  <url><loc>https://pdfquicktools.net/ads.txt</loc></url>
 
-  <url>
-    <loc>https://pdfquicktools.net/tools/merge.html</loc>
-    <priority>0.8</priority>
-  </url>
+  <!-- TR TOOLS -->
+  <url><loc>https://pdfquicktools.net/tools/delete-pages.html</loc></url>
+  <url><loc>https://pdfquicktools.net/tools/image-to-pdf.html</loc></url>
+  <url><loc>https://pdfquicktools.net/tools/jpg-to-pdf.html</loc></url>
+  <url><loc>https://pdfquicktools.net/tools/merge.html</loc></url>
+  <url><loc>https://pdfquicktools.net/tools/pdf-compress.html</loc></url>
+  <url><loc>https://pdfquicktools.net/tools/pdf-page-numbers.html</loc></url>
+  <url><loc>https://pdfquicktools.net/tools/pdf-rotate.html</loc></url>
+  <url><loc>https://pdfquicktools.net/tools/pdf-to-jpg.html</loc></url>
+  <url><loc>https://pdfquicktools.net/tools/pdf-watermark.html</loc></url>
+  <url><loc>https://pdfquicktools.net/tools/split.html</loc></url>
 
-  <url>
-    <loc>https://pdfquicktools.net/tools/split.html</loc>
-    <priority>0.8</priority>
-  </url>
+  <!-- EN -->
+  <url><loc>https://pdfquicktools.net/en/</loc></url>
+  <url><loc>https://pdfquicktools.net/en/index.html</loc></url>
 
-  <url>
-    <loc>https://pdfquicktools.net/tools/image-to-pdf.html</loc>
-    <priority>0.9</priority>
-  </url>
+  <!-- EN TOOLS -->
+  <url><loc>https://pdfquicktools.net/en/tools/delete-pages.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/image-to-pdf.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/jpg-to-pdf.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/merge.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/pdf-compress.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/pdf-page-numbers.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/pdf-rotate.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/pdf-to-jpg.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/pdf-to-word.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/pdf-watermark.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/remove-page.html</loc></url>
+  <url><loc>https://pdfquicktools.net/en/tools/split.html</loc></url>
 
-  <url>
-    <loc>https://pdfquicktools.net/tools/pdf-to-jpg.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://pdfquicktools.net/tools/pdf-compress.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://pdfquicktools.net/tools/pdf-rotate.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://pdfquicktools.net/tools/pdf-watermark.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://pdfquicktools.net/about.html</loc>
-    <priority>0.4</priority>
-  </url>
-
-  <url>
-    <loc>https://pdfquicktools.net/privacy.html</loc>
-    <priority>0.4</priority>
-  </url>
-
-  <url>
-    <loc>https://pdfquicktools.net/contact.html</loc>
-    <priority>0.4</priority>
-  </url>
+  <!-- SEO FOLDER -->
+  <url><loc>https://pdfquicktools.net/seo/</loc></url>
 
 </urlset>
