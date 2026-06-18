@@ -122,35 +122,37 @@ header{
 }
 .trust-row span{font-size:.875rem;color:var(--muted);font-weight:500;}
 
-/* page stack visual */
-.stack-wrap{position:relative;height:340px;}
-.page-stack{position:relative;width:100%;height:100%;}
-.page{
-    position:absolute;left:50%;top:50%;width:230px;height:290px;
-    background:var(--card);border-radius:4px;
-    box-shadow:var(--shadow-soft);
-    clip-path:polygon(0 0,82% 0,100% 16%,100% 100%,0 100%);
-    animation:float 5s ease-in-out infinite alternate;
+/* LOGO ALANI YENİ CSS DÜZENLEMESİ */
+.logo-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 340px;
 }
-.page--1{--tx:-65%;--ty:-58%;--r:-9deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:1;animation-delay:.2s;}
-.page--2{--tx:-50%;--ty:-50%;--r:3deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:2;animation-delay:.5s;}
-.page--3{
-    --tx:-38%;--ty:-44%;--r:11deg;transform:translate(var(--tx),var(--ty)) rotate(var(--r));z-index:3;animation-delay:0s;
-    padding:26px 22px;
+.hero-logo {
+    max-width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    animation: logoFloat 5s ease-in-out infinite alternate; 
 }
-.page--3 .line{height:6px;border-radius:3px;background:var(--border);margin-bottom:10px;}
-.page--3 .line:nth-child(1){width:70%;background:var(--coral);opacity:.5;}
-.page--3 .line:nth-child(4){width:45%;}
-.trust-chip{
-    position:absolute;left:6%;bottom:6%;z-index:4;
+.logo-wrap .trust-chip {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 4;
     background:var(--ink);color:#fff;font-size:.78rem;font-weight:500;
     padding:9px 14px;border-radius:30px;display:flex;align-items:center;gap:8px;
     box-shadow:var(--shadow-lift);
 }
-.trust-chip .status-dot{background:#7CF29C;}
-.trust-chip .status-dot::after{border-color:#7CF29C;}
+.logo-wrap .trust-chip .status-dot { background:#7CF29C; }
+.logo-wrap .trust-chip .status-dot::after { border-color:#7CF29C; }
 
-@keyframes float{from{transform:translate(var(--tx),var(--ty)) rotate(var(--r));}to{transform:translate(var(--tx),calc(var(--ty) - 10px)) rotate(var(--r));}}
+@keyframes logoFloat {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+}
 @keyframes pulse{0%{transform:scale(.6);opacity:.7;}100%{transform:scale(1.8);opacity:0;}}
 
 /* ---------- chip row ---------- */
@@ -287,16 +289,22 @@ footer{
 
 /* ---------- motion / accessibility ---------- */
 @media (prefers-reduced-motion:reduce){
-    .page,.status-dot::after{animation:none !important;}
+    .hero-logo,.status-dot::after{animation:none !important;}
     .ticket,.chip,.badge,.badge--rotate,.ticket-cta{transition:none !important;}
 }
 
 /* ---------- responsive ---------- */
 @media (max-width:880px){
     .hero{grid-template-columns:1fr;padding:56px 0 40px;text-align:left;}
-    .stack-wrap{height:240px;order:-1;margin-bottom:8px;}
-    .page{width:170px;height:215px;}
-    .page--3{padding:18px 16px;}
+    .logo-wrap {
+        height: auto;
+        min-height: 200px;
+        order: -1;
+        margin-bottom: 24px;
+    }
+    .hero-logo {
+        max-height: 180px;
+    }
 }
 @media (max-width:560px){
     .header-inner{padding:12px 16px;}
@@ -309,7 +317,6 @@ footer{
 
 <body>
 
-<!-- HEADER -->
 <header>
     <div class="header-inner">
         <a href="/" class="brand"><span class="brand-mark">PDF</span>QuickTools</a>
@@ -323,7 +330,6 @@ footer{
 
 <main class="wrap">
 
-    <!-- HERO -->
     <section class="hero">
         <div>
             <p class="eyebrow">Ücretsiz • Tarayıcı Tabanlı</p>
@@ -334,22 +340,12 @@ footer{
                 <span>Dosyalarınız cihazınızdan dışarı çıkmaz</span>
             </div>
         </div>
-        <div class="stack-wrap">
-            <div class="page-stack">
-                <div class="page page--1"></div>
-                <div class="page page--2"></div>
-                <div class="page page--3">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-                <div class="trust-chip"><span class="status-dot"></span>10 araç, tek sayfa</div>
-            </div>
+        <div class="logo-wrap">
+            <img src="logo.png" alt="PDFQuickTools Logo" class="hero-logo">
+            <div class="trust-chip"><span class="status-dot"></span>10 araç, tek sayfa</div>
         </div>
     </section>
 
-    <!-- QUICK CHIPS -->
     <nav class="chip-row" aria-label="Hızlı araç erişimi">
         <a class="chip" href="/tools/merge.html"><span class="dot dot--coral"></span>Birleştir</a>
         <a class="chip" href="/tools/split.html"><span class="dot dot--coral"></span>Böl</a>
@@ -364,7 +360,6 @@ footer{
         <a class="chip" href="/remove-page.html"><span class="dot dot--coral"></span>PDF→WORD</a>
     </nav>
 
-    <!-- TOOLS -->
     <section class="tools" id="araclar">
         <div class="section-head">
             <p class="eyebrow">Araçlar</p>
@@ -493,21 +488,15 @@ footer{
                 <p>PDF sayfa sil</p>
                 <a class="ticket-cta" href="/tools/remove-page.html">Aç <span aria-hidden="true">→</span></a>
             </div>
-
-          
-
-           
-
-        
+            
+        </div>
     </section>
 
-    <!-- ABOUT -->
     <section class="card-block">
         <h2 style="font-family:var(--display);font-weight:600;font-size:1.4rem;margin:0 0 10px;">Hakkında</h2>
         <p class="about-text">PDFQuickTools ücretsiz PDF araçları sunar.</p>
     </section>
 
-    <!-- FAQ -->
     <section class="card-block faq-list">
         <h2 style="font-family:var(--display);font-weight:600;font-size:1.4rem;margin:0 0 10px;">SSS</h2>
 
