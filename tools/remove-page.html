@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>PDF Sayfa Sil - PDFQuickTools</title>
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+
+body{
+
+margin:0;
+font-family:Arial,sans-serif;
+background:#faf7f2;
+color:#15172b;
+
+}
+
+header{
+
+background:#15172b;
+padding:18px;
+color:white;
+font-size:22px;
+font-weight:bold;
+text-align:center;
+
+}
+
+.container{
+
+max-width:700px;
+margin:40px auto;
+padding:25px;
+background:white;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+
+}
+
+h1{
+
+margin-top:0;
+text-align:center;
+
+}
+
+p{
+
+text-align:center;
+color:#666;
+
+}
+
+input[type=file]{
+
+width:100%;
+padding:20px;
+border:2px dashed #ddd;
+border-radius:10px;
+margin-top:25px;
+
+}
+
+input[type=text]{
+
+width:100%;
+padding:14px;
+margin-top:20px;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:16px;
+
+}
+
+button{
+
+margin-top:20px;
+width:100%;
+padding:16px;
+background:#ff5a4e;
+border:none;
+color:white;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#df4538;
+
+}
+
+#status{
+
+margin-top:20px;
+text-align:center;
+font-weight:bold;
+
+}
+
+#download{
+
+display:none;
+margin-top:20px;
+padding:15px;
+background:#3b6fed;
+color:white;
+text-align:center;
+border-radius:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+PDFQuickTools
+
+</header>
+
+<div class="container">
+
+<h1>PDF Sayfa Sil</h1>
+
+<p>
+
+Silmek istediğin sayfaları yaz.<br>
+
+Örnek:
+
+<b>2</b>
+
+veya
+
+<b>2,5,8</b>
+
+veya
+
+<b>3-10</b>
+
+veya
+
+<b>2,4,7-12</b>
+
+</p>
+
+<input type="file" id="file" accept="application/pdf">
+
+<input
+type="text"
+id="pages"
+placeholder="2,5,8-10">
+
+<button onclick="deletePages()">
+
+Sayfaları Sil
+
+</button>
+
+<div id="status"></div>
+
+<a id="download">
+
+PDF'yi İndir
+
+</a>
+
+</div>
+
+<script>
+
+function status(x){
+
+document.getElementById("status").innerHTML=x;
+
+}
+
+async function deletePages(){
+
+const file=document.getElementById("file").files[0];
+
+if(!file){
+
+alert("PDF seç.");
+
+return;
+
+}
+
+const txt=document.getElementById("pages").value.trim();
+
+if(txt==""){
+
+alert("Sayfa gir.");
+
+return;
+
+}
+
+status("PDF yükleniyor...");
+
+const bytes=await file.arrayBuffer();
+
+const pdf=await PDFLib.PDFDocument.load(bytes);
+
+const total=pdf.getPageCount();
+
+let remove=[];
+
+txt.split(",")
+
+.forEach(part=>{
+
+part=part.trim();
+
+if(part.includes("-")){
+
+const a=parseInt(part.split("-")[0]);
+
+const b=parseInt(part.split("-")[1]);
+
+for(let i=a;i<=b;i++){
+
+remove.push(i);
+
+}
+
+}
+
+else{
+
+remove.push(parseInt(part));
+
+}
+
+});
+
+remove=[...new Set(remove)];
+
+remove.sort((a,b)=>b-a);
+
+status("Sayfalar siliniyor...");
+
+remove.forEach(p=>{
+
+if(p>=1 && p<=total){
+
+pdf.removePage(p-1);
+
+}
+
+});
+
+const out=await pdf.save();
+
+const blob=new Blob(
+
+[out],
+
+{
+
+type:"application/pdf"
+
+}
+
+);
+
+const url=URL.createObjectURL(blob);
+
+const d=document.getElementById("download");
+
+d.href=url;
+
+d.download="pages-deleted.pdf";
+
+d.style.display="block";
+
+status("Tamamlandı ✔");
+
+}
+
+</script>
+
+</body>
+</html>
