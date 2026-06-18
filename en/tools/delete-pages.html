@@ -141,8 +141,8 @@ button:hover{
 <body>
 
 <header>
-  <a class="brand" href="/en/index.html">PDFQuickTools</a>
-  <a href="/en/index.html">Home</a>
+  <a class="brand" href="../en/index.html">PDFQuickTools</a>
+  <a href="../en/index.html">Home</a>
 </header>
 
 <div class="container">
@@ -157,8 +157,7 @@ button:hover{
 
     <button onclick="deletePages()">Delete Pages</button>
 
-    <!-- HOME -->
-    <a href="/en/index.html" class="home-btn">Home</a>
+    <a href="../en/index.html" class="home-btn">Home</a>
 
     <p id="status"></p>
 
@@ -174,10 +173,10 @@ function status(x){
 async function deletePages(){
 
   const file=document.getElementById("file").files[0];
-  if(!file) return alert("Select a PDF");
+  if(!file) return alert("Please select a PDF file.");
 
   const txt=document.getElementById("pages").value.trim();
-  if(!txt) return alert("Enter page numbers");
+  if(!txt) return alert("Please enter the page numbers to delete.");
 
   status("Loading...");
 
@@ -199,7 +198,7 @@ async function deletePages(){
 
   remove=[...new Set(remove)].sort((a,b)=>b-a);
 
-  status("Processing...");
+  status("Deleting pages...");
 
   remove.forEach(p=>{
     if(p>=1 && p<=total){
@@ -216,7 +215,7 @@ async function deletePages(){
   a.download="pages-deleted.pdf";
   a.click();
 
-  status("Done ✔");
+  status("Completed ✔");
 }
 </script>
 
