@@ -1,19 +1,15 @@
 User-agent: *
 Allow: /
 
-# Sitemap
 Sitemap: https://pdfquicktools.net/sitemap.xml
 
-# Admin / system
 Disallow: /admin/
 Disallow: /config/
 Disallow: /.git/
 Disallow: /tmp/
 Disallow: /logs/
-Disallow: /test/
-Disallow: /dev/
 
-# (opsiyonel tracking protection)
+# tracking temizliği
 Disallow: /*utm_
 Disallow: /*session=
 Disallow: /*token=
