@@ -141,8 +141,8 @@ button:hover{
 <body>
 
 <header>
-  <a class="brand" href="index.html">PDFQuickTools</a>
-  <a href="index.html">Home</a>
+  <a class="brand" href="../index.html">PDFQuickTools</a>
+  <a href="../index.html">Home</a>
 </header>
 
 <div class="container">
@@ -157,7 +157,7 @@ button:hover{
 
     <button onclick="deletePages()">Delete Pages</button>
 
-    <a href="index.html" class="home-btn">Home</a>
+    <a href="../index.html" class="home-btn">Home</a>
 
     <p id="status"></p>
 
@@ -200,6 +200,7 @@ async function deletePages(){
       }
     });
 
+    // Sayısal olarak kesin doğrulamak için Number dönüşümü yaptık ve büyükten küçüğe sıraladık
     remove = [...new Set(remove)]
               .map(Number)
               .filter(p => p >= 1 && p <= total)
@@ -217,6 +218,7 @@ async function deletePages(){
 
     status("Deleting pages...");
 
+    // İndis kaymasını önlemek için tersten (büyük sayfadan küçüğe) siliyoruz
     remove.forEach(p => {
       pdf.removePage(p - 1);
     });
