@@ -429,11 +429,11 @@
   <body>
     <header>
       <div class="header-inner">
-        <a href="/" class="brand">
+        <a href="index.html" class="brand">
           <span class="brand-mark">PDF</span> PDFQuickTools
         </a>
         <div class="nav-links">
-          <a href="../index.html">Home</a>
+          <a href="index.html">Home</a>
         </div>
       </div>
     </header>
@@ -474,7 +474,7 @@
 
         <p class="note">Files are processed in your browser, nothing is uploaded to a server.</p>
 
-        <a class="back" href="../index.html">← Home</a>
+        <a class="back" href="index.html">← Home</a>
       </div>
     </div>
 
@@ -484,7 +484,6 @@
       const dragHint = document.getElementById("dragHint");
       const saveBtn = document.getElementById("saveBtn");
 
-      // Birden fazla dosyayı hafızada tutmak için array yapısına geçildi
       let filesStorage = []; 
       let draggedEl = null;
       let draggedGroup = [];
@@ -501,7 +500,6 @@
         filesStorage = [];
         let globalPageIndex = 0;
 
-        // Seçilen her dosyayı sırayla işleme alıyoruz
         for (let fIdx = 0; fIdx < files.length; fIdx++) {
           const file = files[fIdx];
           const arrayBuffer = await file.arrayBuffer();
@@ -531,13 +529,11 @@
               thumb.className = "page-thumb";
               thumb.draggable = true;
               
-              // Sayfanın hangi dosyaya ve dosya içi kaçıncı sayfaya ait olduğunu dataset ile bağlıyoruz
               thumb.dataset.fileIndex = fIdx;
               thumb.dataset.pageIndex = i - 1;
 
               const pageBadge = document.createElement("div");
               pageBadge.className = "page-badge";
-              // Çoklu dosya varsa hangi dosya olduğunu belirtmek için F1 p.1 formatına getirildi
               pageBadge.innerText = files.length > 1 ? `F${fIdx + 1} p.${i}` : `p.${i}`;
 
               const orderBadge = document.createElement("div");
@@ -652,7 +648,6 @@
           const { PDFDocument } = PDFLib;
           const newDoc = await PDFDocument.create();
 
-          // Yüklenen dökümanları pdf-lib için önbelleğe alıyoruz
           const loadedDocs = [];
           for (let i = 0; i < filesStorage.length; i++) {
             const pdfLibCopy = new Uint8Array(filesStorage[i].bytes).slice();
@@ -660,7 +655,6 @@
             loadedDocs.push(srcDoc);
           }
 
-          // Grid üzerindeki sürükle-bırak sonrası oluşan yeni dizilimi okuyoruz
           const children = Array.from(pageGrid.children);
           
           for (const child of children) {
