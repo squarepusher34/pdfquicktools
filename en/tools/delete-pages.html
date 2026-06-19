@@ -141,8 +141,8 @@ button:hover{
 <body>
 
 <header>
-  <a class="brand" href="../index.html">PDFQuickTools</a>
-  <a href="../index.html">Home</a>
+  <a class="brand" href="index.html">PDFQuickTools</a>
+  <a href="index.html">Home</a>
 </header>
 
 <div class="container">
@@ -157,7 +157,7 @@ button:hover{
 
     <button onclick="deletePages()">Delete Pages</button>
 
-    <a href="../index.html" class="home-btn">Home</a>
+    <a href="index.html" class="home-btn">Home</a>
 
     <p id="status"></p>
 
@@ -171,51 +171,70 @@ function status(x){
 }
 
 async function deletePages(){
-
-  const file=document.getElementById("file").files[0];
+  const file = document.getElementById("file").files[0];
   if(!file) return alert("Please select a PDF file.");
 
-  const txt=document.getElementById("pages").value.trim();
+  const txt = document.getElementById("pages").value.trim();
   if(!txt) return alert("Please enter the page numbers to delete.");
 
   status("Loading...");
 
-  const pdf=await PDFLib.PDFDocument.load(await file.arrayBuffer());
-  const total=pdf.getPageCount();
+  try {
+    const pdf = await PDFLib.PDFDocument.load(await file.arrayBuffer());
+    const total = pdf.getPageCount();
 
-  let remove=[];
+    let remove = [];
 
-  txt.split(",").forEach(p=>{
-    p=p.trim();
+    txt.split(",").forEach(p => {
+      p = p.trim();
+      if (!p) return;
 
-    if(p.includes("-")){
-      let [a,b]=p.split("-").map(Number);
-      for(let i=a;i<=b;i++) remove.push(i);
-    } else {
-      remove.push(Number(p));
+      if(p.includes("-")){
+        let [a, b] = p.split("-").map(num => parseInt(num.trim(), 10));
+        if(!isNaN(a) && !isNaN(b)) {
+          for(let i = a; i <= b; i++) remove.push(i);
+        }
+      } else {
+        let num = parseInt(p, 10);
+        if(!isNaN(num)) remove.push(num);
+      }
+    });
+
+    remove = [...new Set(remove)]
+              .map(Number)
+              .filter(p => p >= 1 && p <= total)
+              .sort((a, b) => b - a);
+
+    if (remove.length === 0) {
+      status("");
+      return alert("No valid page numbers found within the PDF's range.");
     }
-  });
-
-  remove=[...new Set(remove)].sort((a,b)=>b-a);
-
-  status("Deleting pages...");
-
-  remove.forEach(p=>{
-    if(p>=1 && p<=total){
-      pdf.removePage(p-1);
+    
+    if (remove.length === total) {
+      status("");
+      return alert("You cannot delete all pages from the PDF.");
     }
-  });
 
-  const bytes=await pdf.save();
-  const blob=new Blob([bytes],{type:"application/pdf"});
-  const url=URL.createObjectURL(blob);
+    status("Deleting pages...");
 
-  const a=document.createElement("a");
-  a.href=url;
-  a.download="pages-deleted.pdf";
-  a.click();
+    remove.forEach(p => {
+      pdf.removePage(p - 1);
+    });
 
-  status("Completed ✔");
+    const bytes = await pdf.save();
+    const blob = new Blob([bytes], {type:"application/pdf"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "pages-deleted.pdf";
+    a.click();
+
+    status("Completed ✔");
+  } catch (err) {
+    console.error(err);
+    status("Error processing PDF");
+  }
 }
 </script>
 
